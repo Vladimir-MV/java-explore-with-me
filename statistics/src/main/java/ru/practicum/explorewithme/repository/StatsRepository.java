@@ -1,0 +1,17 @@
+    package ru.practicum.explorewithme.repository;
+
+    import org.springframework.data.jpa.repository.JpaRepository;
+    import org.springframework.data.jpa.repository.Query;
+    import ru.practicum.explorewithme.model.EndpointHit;
+    import java.time.LocalDateTime;
+    import java.util.Optional;
+
+    public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
+
+        @Query("select e from EndpointHit e where e.uri = ?1 and e.timestamp between ?2 and ?3")
+        Optional<EndpointHit> findEndpointHitByUriUniqueFalse(String uri, LocalDateTime start, LocalDateTime end);
+
+        @Query("select distinct(e.ip), e.app, e.uri, e.hits from EndpointHit e where e.uri = ?1 and e.timestamp between ?2 and ?3")
+        Optional<EndpointHit> findEndpointHitByUriUniqueTrue(String uri, LocalDateTime start, LocalDateTime end);
+
+    }

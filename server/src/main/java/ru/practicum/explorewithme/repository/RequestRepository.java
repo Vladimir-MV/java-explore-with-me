@@ -1,0 +1,23 @@
+    package ru.practicum.explorewithme.repository;
+
+    import org.springframework.data.jpa.repository.JpaRepository;
+    import org.springframework.data.jpa.repository.Query;
+    import ru.practicum.explorewithme.model.ParticipationRequest;
+
+    import java.util.List;
+    import java.util.Optional;
+
+    public interface RequestRepository extends JpaRepository<ParticipationRequest, Long> {
+        @Query("select r from ParticipationRequest r where r.requester.id = ?1 and r.event.id = ?2")
+        Optional<ParticipationRequest> findRequestUserByIdAndEventById(Long userId, Long eventId);
+
+        @Query("select r from ParticipationRequest r where r.requester.id = ?1")
+        Optional<List<ParticipationRequest>> findAllRequestUserById(Long id);
+
+        @Query("select r from ParticipationRequest r where r.id = ?1 and r.status <> 'CONFIRMED'")
+        Optional<ParticipationRequest> findRequestById(Long id);
+
+    //    @Query("select r from ParticipationRequest r where r.status = 'REJECTED' ")
+    //    Optional<List<ParticipationRequest>> participationRequestReject ();
+
+    }
