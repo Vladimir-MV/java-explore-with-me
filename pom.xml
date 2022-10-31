@@ -1,32 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>server</module>
-        <module>statistics</module>
-    </modules>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>5.3.22</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-        </dependency>
-    </dependencies>
 
-    <parent>
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<name>ExploreWithMe</name>
+	<name>Explore With Me</name>
 
 	<groupId>ru.practicum</groupId>
 	<artifactId>explore-with-me</artifactId>
@@ -37,6 +21,11 @@
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<modules>
+		<module>server</module>
+		<module>statistics</module>
+	</modules>
 
 	<build>
 		<pluginManagement>
@@ -72,7 +61,7 @@
 <!--						<dependency>-->
 <!--							<groupId>com.puppycrawl.tools</groupId>-->
 <!--							<artifactId>checkstyle</artifactId>-->
-<!--&lt;!&ndash;							<version>10.3</version>&ndash;&gt;-->
+<!--							<version>10.3</version>-->
 <!--						</dependency>-->
 <!--					</dependencies>-->
 				</plugin>
@@ -169,20 +158,20 @@
 			<build>
 				<plugins>
 <!--					<plugin>-->
-<!--&lt;!&ndash;						<groupId>org.apache.maven.plugins</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;						<artifactId>maven-checkstyle-plugin</artifactId>&ndash;&gt;-->
+<!--						<groupId>org.apache.maven.plugins</groupId>-->
+<!--						<artifactId>maven-checkstyle-plugin</artifactId>-->
 <!--					</plugin>-->
 <!--					<plugin>-->
-<!--&lt;!&ndash;						<groupId>com.github.spotbugs</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;						<artifactId>spotbugs-maven-plugin</artifactId>&ndash;&gt;-->
+<!--						<groupId>com.github.spotbugs</groupId>-->
+<!--						<artifactId>spotbugs-maven-plugin</artifactId>-->
 <!--					</plugin>-->
 				</plugins>
 			</build>
 			<reporting>
 				<plugins>
 <!--					<plugin>-->
-<!--&lt;!&ndash;						<groupId>com.github.spotbugs</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;						<artifactId>spotbugs-maven-plugin</artifactId>&ndash;&gt;-->
+<!--						<groupId>com.github.spotbugs</groupId>-->
+<!--						<artifactId>spotbugs-maven-plugin</artifactId>-->
 <!--					</plugin>-->
 				</plugins>
 			</reporting>
@@ -192,8 +181,8 @@
 			<build>
 				<plugins>
 <!--					<plugin>-->
-<!--&lt;!&ndash;						<groupId>org.jacoco</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;						<artifactId>jacoco-maven-plugin</artifactId>&ndash;&gt;-->
+<!--						<groupId>org.jacoco</groupId>-->
+<!--						<artifactId>jacoco-maven-plugin</artifactId>-->
 <!--					</plugin>-->
 				</plugins>
 			</build>

@@ -11,8 +11,9 @@ import lombok.Getter;
     @NoArgsConstructor
     @AllArgsConstructor
     public class CompilationDto {
-        private List<EventShortDto> event;
         private Long id;
+        private List<EventShortDto> events;
         private Boolean pinned;
         private String title;
+
     }

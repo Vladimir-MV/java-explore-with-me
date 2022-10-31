@@ -18,8 +18,8 @@ public class StatsController {
     StatsService statsService;
 
     @Autowired
-    public StatsController (StatsServiceImpl statsServiceImpl) {
-        this.statsService = statsServiceImpl;
+    public StatsController (StatsService statsService) {
+        this.statsService = statsService;
     }
 
     @PostMapping("/hit")
@@ -32,7 +32,7 @@ public class StatsController {
     public List<ViewStats> getViewStats(
             @RequestParam(name = "start") String start,
             @RequestParam(name = "end") String end,
-            @RequestParam(name = "uris") Optional<String[]> uris,
+            @RequestParam(name = "uris") Optional<List<String>> uris,
             @RequestParam(name = "unique", defaultValue = "false") Boolean unique) throws UnsupportedEncodingException {
         log.info("getViewStats, get view stats start={}, end={}, uris {}, unique={}", start, end, uris, unique);
         return statsService.getListViewStats(start, end, uris, unique);

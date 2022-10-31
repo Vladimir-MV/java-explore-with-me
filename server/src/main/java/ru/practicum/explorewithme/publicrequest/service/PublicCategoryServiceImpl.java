@@ -6,6 +6,8 @@
     import org.springframework.stereotype.Service;
     import ru.practicum.explorewithme.dto.CategoryDto;
     import ru.practicum.explorewithme.exceptions.MethodExceptions;
+    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.CategoryMapper;
     import ru.practicum.explorewithme.model.Category;
     import ru.practicum.explorewithme.repository.CategoryRepository;
@@ -24,29 +26,26 @@
         }
 
         @Override
-        public List<CategoryDto> getCategories(Integer from, Integer size) throws MethodExceptions {
+        public List<CategoryDto> getCategories(Integer from, Integer size) throws ObjectNotFoundException {
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<Category> listCategory = categoryRepository.findAllCategory(pageable).getContent();
             if (!listCategory.isEmpty()) {
                 return CategoryMapper.toListCategoryDto(listCategory);
             }
-            throw new MethodExceptions(String.format("Compilation with id={} was not found."),
-                    404, "The required object was not found.");
+            throw new ObjectNotFoundException(String.format("Compilation with id={} was not found."));
         }
 
         @Override
-        public CategoryDto getCategoryById(Optional<Long> catId) throws MethodExceptions {
+        public CategoryDto getCategoryById(Optional<Long> catId) throws RequestErrorException, ObjectNotFoundException {
             if (catId.isPresent()) {
                 Optional<Category> category = categoryRepository.findCategoryById(catId.get());
                 if (category.isPresent()) {
                     return CategoryMapper.toCategoryDto(category.get());
                 } else {
-                    throw new MethodExceptions(String.format("Compilation with id={} was not found.", catId),
-                        404, "The required object was not found.");
+                    throw new ObjectNotFoundException(String.format("Compilation with id={} was not found.", catId));
                 }
             } else {
-                throw new MethodExceptions(String.format("Only pending or canceled events can be changed"),
-                        400, "For the requested operation the conditions are not met.");
+                throw new RequestErrorException();
             }
         }
     }

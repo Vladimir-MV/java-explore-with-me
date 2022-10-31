@@ -5,6 +5,7 @@
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.CompilationDto;
     import ru.practicum.explorewithme.exceptions.MethodExceptions;
+    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.publicrequest.service.PublicCompilationService;
     import ru.practicum.explorewithme.publicrequest.service.PublicCompilationServiceImpl;
 
@@ -26,7 +27,7 @@
         public List<CompilationDto> publicGetCompilation(
                 @RequestParam(name = "pinned", required = false) Boolean pinned,
                 @RequestParam(name = "from", defaultValue = "0") Integer from,
-                @RequestParam(name = "size", defaultValue = "10") Integer size) throws MethodExceptions {
+                @RequestParam(name = "size", defaultValue = "10") Integer size) throws ObjectNotFoundException {
 
             log.info("publicGetCompilation, get events with pinned={}, from={}, size={}",
                     pinned, from, size);
@@ -35,7 +36,7 @@
 
         @GetMapping("/{compId}")
         public CompilationDto publicGetCompilationById(
-                @PathVariable Optional<Long> compId) throws MethodExceptions {
+                @PathVariable Optional<Long> compId) throws ObjectNotFoundException {
             log.info("publicGetCompilationById get compilation by compId={}", compId);
             return publicCompilationService.getCompilationById(compId);
         }

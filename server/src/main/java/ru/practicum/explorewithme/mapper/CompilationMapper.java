@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.mapper;
 
 import ru.practicum.explorewithme.dto.CompilationDto;
+import ru.practicum.explorewithme.dto.NewCompilationDto;
 import ru.practicum.explorewithme.model.Compilation;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +9,21 @@ import java.util.List;
 public class CompilationMapper {
     public static CompilationDto toCompilationDto(Compilation compilation) {
         return new CompilationDto(
-                EventMapper.toListEventShortDto(compilation.getEvent()),
                 compilation.getId(),
+                EventMapper.toListEventShortDto(compilation.getEvents()),
                 compilation.getPinned(),
                 compilation.getTitle()
         );
+    }
+    public static Compilation toCompilation (NewCompilationDto compilationNew) {
+        Compilation compilation = new Compilation();
+        compilation.setTitle(compilationNew.getTitle());
+        if (compilationNew.getPinned() != null) {
+            compilation.setPinned(compilationNew.getPinned());
+        } else {
+            compilation.setPinned(false);
+        }
+        return compilation;
     }
 
     public static List<CompilationDto> toListCompilationDto(List<Compilation> list) {

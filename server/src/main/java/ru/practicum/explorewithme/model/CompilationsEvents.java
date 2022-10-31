@@ -8,19 +8,18 @@
     import javax.persistence.*;
 
     @Entity
-    @Table(name = "categories")
+    @Table(name = "compilations_events")
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public class Category {
-        public Category(String name) {
-            this.name = name;
-        }
+    public class CompilationsEvents {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        private String name;
-
+        @ManyToOne
+        private Event event;
+        @ManyToOne
+        private Compilation compilation;
 
     }

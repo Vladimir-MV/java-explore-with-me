@@ -2,6 +2,7 @@
 
     import ru.practicum.explorewithme.dto.CategoryDto;
     import ru.practicum.explorewithme.dto.CompilationDto;
+    import ru.practicum.explorewithme.dto.NewCategoryDto;
     import ru.practicum.explorewithme.model.Category;
     import ru.practicum.explorewithme.model.Compilation;
 
@@ -14,12 +15,15 @@
                     category.getId(),
                     category.getName());
         }
-
-        public static Category toCategory (CategoryDto categoryDto) {
+        public static Category toCategory (NewCategoryDto categoryDto) {
             return new Category (
-                    categoryDto.getId(),
                     categoryDto.getName());
         }
+//        public static Category toCategory (CategoryDto categoryDto) {
+//            return new Category (
+//                    categoryDto.getId(),
+//                    categoryDto.getName());
+//        }
         public static List<CategoryDto> toListCategoryDto(List<Category> list) {
             List<CategoryDto> listDto = new ArrayList<>();
             for (Category category : list) {

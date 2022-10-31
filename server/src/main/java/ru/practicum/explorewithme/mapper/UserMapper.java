@@ -1,8 +1,14 @@
     package ru.practicum.explorewithme.mapper;
 
+    import ru.practicum.explorewithme.dto.EventShortDto;
     import ru.practicum.explorewithme.dto.UserDto;
     import ru.practicum.explorewithme.dto.UserShortDto;
+    import ru.practicum.explorewithme.model.Event;
+    import ru.practicum.explorewithme.model.NewUserRequest;
     import ru.practicum.explorewithme.model.User;
+
+    import java.util.ArrayList;
+    import java.util.List;
 
     public class UserMapper {
         public static UserDto toUserDto (User user) {
@@ -17,12 +23,23 @@
                     user.getName());
         }
 
-
-        public static User toUser (UserDto userDto) {
+//        public static User toUser (UserDto userDto) {
+//            return new User (
+//                    userDto.getId(),
+//                    userDto.getEmail(),
+//                    userDto.getName());
+//        }
+        public static User toUser (NewUserRequest userRequest) {
             return new User (
-                    userDto.getId(),
-                    userDto.getEmail(),
-                    userDto.getName());
+                    userRequest.getEmail(),
+                    userRequest.getName());
+        }
+        public static List<UserDto> toListUserDto(List<User> list) {
+            List<UserDto> listDto = new ArrayList<>();
+            for (User user : list) {
+                listDto.add(toUserDto(user));
+            }
+            return listDto;
         }
 
     }

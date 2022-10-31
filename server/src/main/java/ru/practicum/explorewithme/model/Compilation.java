@@ -5,6 +5,7 @@
     import lombok.NoArgsConstructor;
     import lombok.Setter;
     import javax.persistence.*;
+    import java.util.ArrayList;
     import java.util.List;
 
     @Entity
@@ -14,13 +15,22 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class Compilation {
+        public Compilation(Boolean pinned, String title) {
+            this.pinned = pinned;
+            this.title = title;
+        }
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+        @ManyToMany(cascade=CascadeType.ALL)
+        @JoinTable(name="compilations_events",
+        joinColumns =@JoinColumn(name="compilation_id"),
+        inverseJoinColumns = @JoinColumn(name="event_id"))
+        private List<Event> events = new ArrayList<>();
+        @Column(name="is_pinned")
         private Boolean pinned;
         private String title;
-        @ManyToMany(fetch=FetchType.EAGER,
-                cascade=CascadeType.ALL)
-        @JoinColumn(name="event_id")
-        private List<Event> event;
+
+
+
     }

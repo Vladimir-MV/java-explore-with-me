@@ -5,7 +5,10 @@
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.dto.ParticipationRequestDto;
+    import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.MethodExceptions;
+    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.privaterequest.service.PrivateUserRequestService;
     import ru.practicum.explorewithme.privaterequest.service.PrivateUserRequestServiceImpl;
 
@@ -26,7 +29,7 @@
 
         @GetMapping()
         public List<ParticipationRequestDto> privateUserRequests(
-                @PathVariable Optional<Long> userId) throws MethodExceptions {
+                @PathVariable Optional<Long> userId) throws ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequests get user request by userId={}", userId);
             return privateUserRequestService.getUserUserRequests(userId);
         }
@@ -34,7 +37,7 @@
         @PostMapping()
         public ParticipationRequestDto privateUserRequest(
                 @PathVariable Optional<Long> userId,
-                @RequestParam Optional<Long> eventId) throws MethodExceptions {
+                @RequestParam Optional<Long> eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequest, create request userId={}, eventId={}", userId, eventId);
             return privateUserRequestService.createUserRequest(userId, eventId);
         }
@@ -42,7 +45,7 @@
         @PatchMapping("/{requestId}/cancel")
         public ParticipationRequestDto privateCancelUserRequest(
                 @PathVariable Optional<Long> userId,
-                @PathVariable Optional<Long> requestId) {
+                @PathVariable Optional<Long> requestId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateCancelUserRequest, cancel user request userId={}, requestId={}", userId, requestId);
             return privateUserRequestService.cancelUserRequestById(userId, requestId);
         }

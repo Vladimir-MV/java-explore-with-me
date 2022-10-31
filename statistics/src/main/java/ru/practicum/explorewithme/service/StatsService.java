@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface StatsService {
     void createNewEndpointHit(Optional<EndpointHit> endpointHit);
 
-    List<ViewStats> getListViewStats(String start, String end, Optional<String[]> uris, Boolean unique) throws UnsupportedEncodingException;
+    List<ViewStats> getListViewStats(String start, String end, Optional<List<String>> uris, Boolean unique) throws UnsupportedEncodingException;
 }

@@ -31,17 +31,19 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        @Column(name = "is_available", nullable = false)
         private String annotation;
         @ManyToOne(fetch=FetchType.EAGER,
-                cascade=CascadeType.ALL)
+                cascade = CascadeType.ALL)
         @JoinColumn(name="category_id")
         private Category category;
+        @Column(name="confirmed_requests")
         private Long confirmedRequests;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @Column(name="created_on")
         private LocalDateTime createdOn;
         private String description;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @Column(name="event_date")
         private LocalDateTime eventDate;
         @ManyToOne(fetch=FetchType.EAGER,
                 cascade=CascadeType.ALL)
@@ -51,13 +53,16 @@
                 cascade=CascadeType.ALL)
         @JoinColumn(name="location_id")
         private Location location;
-        @Column(name = "is_paid", nullable = false)
+        @Column(name = "is_paid")
         private Boolean paid;
+        @Column(name="participant_limit")
         private Integer participantLimit;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @Column(name="published_on")
         private LocalDateTime publishedOn;
-        @Column(name = "is_requestModeration", nullable = false)
+        @Column(name = "is_request_moderation")
         private Boolean requestModeration;
+        @Enumerated(EnumType.STRING)
         private State state;
         private String title;
         private Long views;

@@ -4,6 +4,9 @@
     import ru.practicum.explorewithme.dto.EventShortDto;
     import ru.practicum.explorewithme.dto.NewEventDto;
     import ru.practicum.explorewithme.model.Event;
+    import ru.practicum.explorewithme.model.State;
+
+    import java.time.LocalDateTime;
     import java.util.ArrayList;
     import java.util.List;
 
@@ -28,16 +31,34 @@
                     event.getViews());
         }
 
-        public static Event toEvent(NewEventDto event) {
-            return new Event(
-                    event.getAnnotation(),
-                    event.getDescription(),
-                    event.getEventDate(),
-                    event.getLocation(),
-                    event.getPaid(),
-                    event.getParticipantLimit(),
-                    event.getRequestModeration(),
-                    event.getTitle());
+        public static Event toEvent(NewEventDto eventDto) {
+            Event event = new Event();
+            event.setAnnotation(eventDto.getAnnotation());
+            event.setDescription(eventDto.getDescription());
+            event.setEventDate(eventDto.getEventDate());
+            event.setEventDate(eventDto.getEventDate());
+            event.setLocation(eventDto.getLocation());
+            event.setTitle(eventDto.getTitle());
+            event.setConfirmedRequests(0L);
+            if (event.getPaid() == null) {
+                event.setPaid(false);
+            } else {
+                event.setPaid(eventDto.getPaid());
+            }
+            if (event.getParticipantLimit() == null) {
+                event.setParticipantLimit(0);
+            } else {
+                event.setParticipantLimit(eventDto.getParticipantLimit());
+            }
+            if (event.getRequestModeration() == null) {
+                event.setRequestModeration(true);
+            } else {
+                event.setRequestModeration(eventDto.getRequestModeration());
+            }
+            event.setState(State.PENDING);
+            event.setCreatedOn(LocalDateTime.now());
+            event.setViews(0L);
+            return event;
         }
 
 

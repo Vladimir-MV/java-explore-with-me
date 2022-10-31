@@ -5,19 +5,21 @@
     import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
     import ru.practicum.explorewithme.client.RestTemplateClientStat;
-    import ru.practicum.explorewithme.dto.CategoryDto;
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.dto.EventShortDto;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
+    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.EventMapper;
-    import ru.practicum.explorewithme.model.EndpointHit;
-    import ru.practicum.explorewithme.model.Event;
+    import ru.practicum.explorewithme.model.*;
+    import ru.practicum.explorewithme.repository.CategoryRepository;
     import ru.practicum.explorewithme.repository.EventRepository;
     import ru.practicum.explorewithme.repository.FromSizeRequest;
+    import ru.practicum.explorewithme.repository.UserRepository;
 
     import javax.servlet.http.HttpServletRequest;
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
+    import java.util.ArrayList;
     import java.util.List;
     import java.util.Optional;
 
@@ -26,48 +28,60 @@
     public class PublicEventServiceImpl implements PublicEventService{
         private RestTemplateClientStat restTemplateClientStat;
         private EventRepository eventRepository;
+        private UserRepository userRepository;
+        private CategoryRepository categoryRepository;
 
         @Autowired
-        public PublicEventServiceImpl (EventRepository eventRepository, RestTemplateClientStat restTemplateClientStat) {
+        public PublicEventServiceImpl (EventRepository eventRepository,  UserRepository userRepository,
+                      RestTemplateClientStat restTemplateClientStat, CategoryRepository categoryRepository) {
             this.restTemplateClientStat =restTemplateClientStat;
             this.eventRepository = eventRepository;
+            this.userRepository = userRepository;
+            this.categoryRepository = categoryRepository;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
       //  LocalDateTime anotherDateTime = LocalDateTime.parse("22.02.2022, 22:22", formatter);
         @Override
-        public EventShortDto[] getEventsByTextAndCategory(String text, CategoryDto[] categories, Boolean paid,
-            String rangeStart, String rangeEnd, Boolean onlyAvailable, String sort, Integer from, Integer size, HttpServletRequest request){
+        public List<EventShortDto> getEventsByTextAndCategory(String text, List<Long> categories,
+                                                              Boolean paid, String rangeStart, String rangeEnd, Boolean onlyAvailable, String sort,
+                                                              Integer from, Integer size, HttpServletRequest request) throws ObjectNotFoundException {
+            if (sort.equals("EVENT_DATE")) {
+                sort = "e.eventDate";
+            } else {
+                sort = "e.views";
+            }
+            List<Event> listEvent = new ArrayList<>();
             final Pageable pageable = FromSizeRequest.of(from, size);
-            for (CategoryDto cat: categories) {
-                if (rangeStart) {
-
-                    rangeStart = LocalDateTime.now().format(formatter);
-                }
+            if (rangeStart == null) rangeStart = LocalDateTime.now().format(formatter);
+            if (rangeStart != null) {
+                if (onlyAvailable) listEvent = (eventRepository.searchEventByFilterAvailable(text, categories, paid,
+                            LocalDateTime.parse(rangeStart), LocalDateTime.parse(rangeEnd), sort,  pageable).getContent());
+            } else {
+                listEvent = (eventRepository.searchEventByFilter(text, categories, paid,
+                        LocalDateTime.parse(rangeStart), LocalDateTime.parse(rangeEnd), sort,  pageable).getContent());
             }
 
-//            List<Event> listEvent = eventRepository
-//            Optional<List<Event>> listEvent = eventRepository.findByEvent_IdAndState(id.get());
-//            if (listEvent.isPresent()) {
-//                EndpointHit endpointHit = new EndpointHit();
-//                endpointHit.setUri(request.getRequestURI());
-//                endpointHit.setIp(request.getRemoteAddr());
-//                endpointHit.setTimestamp(LocalDateTime.now().format(formatter));
-//                restTemplateClientStat.createEndpointHitStatistics(endpointHit);
-//                return EventMapper.toListEventFullDto(listEvent.get());
-//            } else {
-//                throw new MethodExceptions(String.format("Event with id={} was not found.", id.get()),
-//                        404, "The required object was not found.");
-//            }
-    //                .findAllEventsByTextAndCategory(idUser.get(), pageable).getContent();
-    //        log.info("Вся бронь пользователя {}, со статусом ALL", user.getName());
-    //        return BookingMapper.toListBookingDto(listBooking);
-            return null;
+          if (listEvent.isEmpty()) throw new ObjectNotFoundException(String.format("User with id={} was not found."));
+            return EventMapper.toListEventShortDto(listEvent);
         }
 
+//        private Event eventValidation (Optional<Long> eventId) throws ObjectNotFoundException, RequestErrorException {
+//            if (!eventId.isPresent()) throw new RequestErrorException();
+//            Optional<Event> event = eventRepository.findEventById(eventId.get());
+//            if (!event.isPresent())
+//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event.get()));
+//            return event.get();
+//        }
+//        private User userValidation (Optional<Long> userId) throws ObjectNotFoundException, RequestErrorException {
+//            if (!userId.isPresent()) throw new RequestErrorException();
+//            Optional<User> user = userRepository.findUserById(userId.get());
+//            if (!user.isPresent())
+//                throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
+//            return user.get() ;
+//        }
         @Override
-        public List<EventFullDto> getEventById(Optional<Long> id, HttpServletRequest request) throws MethodExceptions {
-            if (!id.isPresent())  throw new MethodExceptions("For the requested operation the conditions are not met.",
-                                                              400, "The required object was not found.");
+        public List<EventFullDto> getEventById(Optional<Long> id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException {
+            if (!id.isPresent())  throw new RequestErrorException();
             Optional<List<Event>> listEvent = eventRepository.findByEvent_IdAndState(id.get());
             if (listEvent.isPresent()) {
                 List<Event> list = listEvent.get();
@@ -82,8 +96,7 @@
                 restTemplateClientStat.createEndpointHitStatistics(endpointHit);
                 return EventMapper.toListEventFullDto(list);
             } else {
-                throw new MethodExceptions(String.format("Event with id={} was not found.", id.get()),
-                                     404, "The required object was not found.");
+                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", id.get()));
             }
         }
     }
