@@ -18,11 +18,7 @@ public class CompilationMapper {
     public static Compilation toCompilation (NewCompilationDto compilationNew) {
         Compilation compilation = new Compilation();
         compilation.setTitle(compilationNew.getTitle());
-        if (compilationNew.getPinned() != null) {
-            compilation.setPinned(compilationNew.getPinned());
-        } else {
-            compilation.setPinned(false);
-        }
+        compilation.setPinned(compilationNew.getPinned());
         return compilation;
     }
 

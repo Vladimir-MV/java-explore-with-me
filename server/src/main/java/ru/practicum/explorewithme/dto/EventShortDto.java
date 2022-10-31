@@ -6,6 +6,7 @@
     import lombok.NoArgsConstructor;
     import lombok.Setter;
 
+    import javax.validation.constraints.NotNull;
     import java.time.LocalDateTime;
 
     @Getter
@@ -13,14 +14,19 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class EventShortDto {
+        @NotNull
         private String annotation;
+        @NotNull
         private CategoryDto category;
         private Long confirmedRequests;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @NotNull
         private LocalDateTime eventDate;
         private Long id;
+        @NotNull
         private UserShortDto initiator;
+        @NotNull
         private Boolean paid;
+        @NotNull
         private String title;
         private Long views;
 

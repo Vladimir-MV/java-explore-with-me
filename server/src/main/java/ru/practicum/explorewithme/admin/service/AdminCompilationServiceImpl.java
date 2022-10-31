@@ -42,13 +42,12 @@ public class AdminCompilationServiceImpl implements AdminCompilationService{
     public CompilationDto createCompilation (Optional<NewCompilationDto> newCompilationDto) throws ConditionsOperationNotMetException {
         if (!newCompilationDto.isPresent()) throw new ConditionsOperationNotMetException();
         Compilation compilation = CompilationMapper.toCompilation(newCompilationDto.get());
-        if (!newCompilationDto.get().getEvents().isEmpty()) {
+        //if (!newCompilationDto.get().getEvents().isEmpty()) {
            // Optional<Event> event;
             for (Long id: newCompilationDto.get().getEvents()){
-                System.out.println(eventRepository.findEventById(id).get());
                  compilation.getEvents().add(eventRepository.findEventById(id).get());
             }
-        }
+        //}
         compilationRepository.save(compilation);
         log.info("Добавлена новая подборка id={}", compilation.getId());
         return CompilationMapper.toCompilationDto(compilation);

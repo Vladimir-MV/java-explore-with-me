@@ -64,6 +64,25 @@
                     LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         }
 
+//        @ExceptionHandler(MethodArgumentNotValidException.class)
+//        @ResponseStatus(HttpStatus.BAD_REQUEST)
+//        public ApiError handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+//            final List<FieldError> errors = e.getBindingResult().getFieldErrors();
+//            StringBuilder sb = new StringBuilder();
+//            for (FieldError error : errors) {
+//                sb.append(error.getField()).append(" ").append(error.getDefaultMessage());
+//            }
+//            ApiError apiError = ApiError.builder()
+//                    .errors(List.of())
+//                    .message(sb.toString())
+//                    .reason("Ошибка валидации аргументов")
+//                    .status(HttpStatus.BAD_REQUEST)
+//                    .build();
+//            apiError.setEventDate(LocalDateTime.now());
+//            return apiError;
+//
+//        }
+
 //        @ResponseStatus(HttpStatus.BAD_REQUEST)
 //        @ExceptionHandler(MethodExceptions.class)
 //        public ApiError exceptionResponse(MethodExceptions e) {

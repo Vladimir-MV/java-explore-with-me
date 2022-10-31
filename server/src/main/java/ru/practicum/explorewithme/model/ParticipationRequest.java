@@ -27,5 +27,7 @@
                 cascade=CascadeType.ALL)
         @JoinColumn(name="requester_id")
         private User requester;
-        private String status;
+        @JoinColumn(name = "status")
+        @Enumerated(EnumType.STRING)
+        private Status status;
     }

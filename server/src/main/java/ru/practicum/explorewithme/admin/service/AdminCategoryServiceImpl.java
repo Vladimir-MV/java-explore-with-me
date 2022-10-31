@@ -52,7 +52,7 @@
             if (!category.isPresent()) throw new RequestErrorException();
             Optional<List<Event>> listEvent = eventRepository.findEventByCategoryId(catId.get());
             if (listEvent.isPresent()) throw new RequestErrorException();
-            categoryRepository.delete(category.get());
+            categoryRepository.deleteById(category.get().getId());
             log.info("Удалена категория category={}", category.get().getName());
             return CategoryMapper.toCategoryDto(category.get());
         }

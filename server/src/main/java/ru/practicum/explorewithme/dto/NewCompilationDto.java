@@ -1,21 +1,21 @@
     package ru.practicum.explorewithme.dto;
 
-    import lombok.AllArgsConstructor;
-    import lombok.Getter;
-    import lombok.NoArgsConstructor;
-    import lombok.Setter;
+    import lombok.*;
 
     import javax.validation.constraints.NotBlank;
+    import javax.validation.constraints.NotNull;
     import java.util.List;
 
     @Getter
     @Setter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewCompilationDto {
         private List<Long> events;
-        private Boolean pinned;
-        @NotBlank
+        @Builder.Default
+        private Boolean pinned = false;
+        @NotNull
         private String title;
 
     }

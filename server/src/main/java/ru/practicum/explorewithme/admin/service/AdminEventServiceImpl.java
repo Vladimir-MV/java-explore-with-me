@@ -56,12 +56,11 @@
         public EventFullDto putEventById(Long eventId,
             AdminUpdateEventRequest adminUpdateEventRequest) throws ObjectNotFoundException {
             Event event = eventRepository.findEventById(eventId).get();
-            System.out.println(event);
             if (event == null)
                 throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
             event.setAnnotation(adminUpdateEventRequest.getAnnotation());
             event.setCategory(categoryRepository.findCategoryById(adminUpdateEventRequest.getCategory()).get());
-            event.setEventDate(LocalDateTime.parse(adminUpdateEventRequest.getEventDate()));
+            event.setEventDate(LocalDateTime.parse(adminUpdateEventRequest.getEventDate(), formatter));
             event.setLocation(adminUpdateEventRequest.getLocation());
             event.setPaid(adminUpdateEventRequest.getPaid());
             event.setParticipantLimit(adminUpdateEventRequest.getParticipantLimit());

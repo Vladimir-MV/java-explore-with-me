@@ -9,6 +9,7 @@
     import ru.practicum.explorewithme.model.Location;
     import ru.practicum.explorewithme.model.State;
 
+    import javax.validation.constraints.NotNull;
     import java.time.LocalDateTime;
 
     @Getter
@@ -16,23 +17,26 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class EventFullDto {
+        @NotNull
         private String annotation;
+        @NotNull
         private CategoryDto category;
         private Long confirmedRequests;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime createdOn;
         private String description;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @NotNull
         private LocalDateTime eventDate;
         private Long id;
         private UserShortDto initiator;
         private Location location;
+        @NotNull
         private Boolean paid;
-        private Integer participantLimit;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        private Long participantLimit;
+        @NotNull
         private LocalDateTime publishedOn;
         private Boolean requestModeration;
         private State state;
+        @NotNull
         private String title;
         private Long views;
 

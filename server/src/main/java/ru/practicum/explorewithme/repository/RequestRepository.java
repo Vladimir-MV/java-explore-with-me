@@ -2,11 +2,12 @@
 
     import org.springframework.data.jpa.repository.JpaRepository;
     import org.springframework.data.jpa.repository.Query;
+    import org.springframework.stereotype.Repository;
     import ru.practicum.explorewithme.model.ParticipationRequest;
 
     import java.util.List;
     import java.util.Optional;
-
+    @Repository
     public interface RequestRepository extends JpaRepository<ParticipationRequest, Long> {
         @Query("select r from ParticipationRequest r where r.requester.id = ?1 and r.event.id = ?2")
         Optional<ParticipationRequest> findRequestUserByIdAndEventById(Long userId, Long eventId);

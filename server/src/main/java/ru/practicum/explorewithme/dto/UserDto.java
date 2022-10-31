@@ -3,6 +3,8 @@
 
     import lombok.*;
 
+    import javax.validation.constraints.NotNull;
+
     //import javax.validation.constraints.NotNull;
 
     @NonNull
@@ -12,8 +14,8 @@
     @AllArgsConstructor
     public class UserDto {
         private Long id;
-        @NonNull
+        @NotNull
         private String email;
-        @NonNull
+        @NotNull
         private String name;
     }

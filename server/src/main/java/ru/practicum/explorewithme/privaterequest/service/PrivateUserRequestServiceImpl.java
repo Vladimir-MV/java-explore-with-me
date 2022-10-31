@@ -9,10 +9,7 @@
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.ParticipationRequestMapper;
-    import ru.practicum.explorewithme.model.Event;
-    import ru.practicum.explorewithme.model.ParticipationRequest;
-    import ru.practicum.explorewithme.model.State;
-    import ru.practicum.explorewithme.model.User;
+    import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.CategoryRepository;
     import ru.practicum.explorewithme.repository.EventRepository;
     import ru.practicum.explorewithme.repository.RequestRepository;
@@ -81,9 +78,9 @@
                 throw new ConditionsOperationNotMetException();
             ParticipationRequest participationRequest = new ParticipationRequest();
             if (event.getRequestModeration() == false) {
-                participationRequest.setStatus("CONFIRMED");
+                participationRequest.setStatus(Status.CONFIRMED);
             } else {
-                participationRequest.setStatus("PENDING");
+                participationRequest.setStatus(Status.PENDING.CONFIRMED);
             }
             participationRequest.setRequester(user);
             participationRequest.setCreated(LocalDateTime.now());

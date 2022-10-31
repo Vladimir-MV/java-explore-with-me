@@ -17,7 +17,7 @@
     public class Event {
 
         public Event(String annotation, String description, LocalDateTime eventDate, Location location,
-               Boolean paid, Integer participantLimit, Boolean requestModeration, String title) {
+               Boolean paid, Long participantLimit, Boolean requestModeration, String title) {
                 this.annotation= annotation;
                 this.description = description;
                 this.eventDate = eventDate;
@@ -56,13 +56,14 @@
         @Column(name = "is_paid")
         private Boolean paid;
         @Column(name="participant_limit")
-        private Integer participantLimit;
+        private Long participantLimit;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         @Column(name="published_on")
         private LocalDateTime publishedOn;
         @Column(name = "is_request_moderation")
         private Boolean requestModeration;
         @Enumerated(EnumType.STRING)
+        @Column(name = "state")
         private State state;
         private String title;
         private Long views;

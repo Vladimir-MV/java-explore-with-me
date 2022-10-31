@@ -138,7 +138,7 @@ public class PrivateUserEventServiceImpl implements PrivateUserEventService{
             throw new ConditionsOperationNotMetException();
         EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
         log.info("Отмена события eventId={} добавленного текущим пользователем userId={}", eventId.get(), userId.get());
-        eventRepository.delete(event);
+        eventRepository.deleteById(event.getId());
         return eventFullDto;
     }
 
@@ -175,7 +175,7 @@ public class PrivateUserEventServiceImpl implements PrivateUserEventService{
             throw new ConditionsOperationNotMetException();
         event.setConfirmedRequests(event.getConfirmedRequests() + 1);
         eventRepository.save(event);
-        participationRequest.setStatus("CONFIRMED");
+        participationRequest.setStatus(Status.CONFIRMED);
         requestRepository.save(participationRequest);
         log.info("Подтверждение чужой заявки на участие в событии текущего пользователя userId={}", userId.get());
         return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
@@ -195,7 +195,7 @@ public class PrivateUserEventServiceImpl implements PrivateUserEventService{
         if (!participationRequest.getRequester().getId().equals(userId.get()) ||
                 !participationRequest.getEvent().getId().equals(eventId.get()))
             throw new ConditionsOperationNotMetException();
-        participationRequest.setStatus("REJECTED");
+        participationRequest.setStatus(Status.REJECTED);
         requestRepository.save(participationRequest);
         log.info("Отклонение чужой заявки на участие в событии текущего пользователя userId={}", userId.get());
         return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);

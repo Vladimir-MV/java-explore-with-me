@@ -40,21 +40,9 @@
             event.setLocation(eventDto.getLocation());
             event.setTitle(eventDto.getTitle());
             event.setConfirmedRequests(0L);
-            if (event.getPaid() == null) {
-                event.setPaid(false);
-            } else {
-                event.setPaid(eventDto.getPaid());
-            }
-            if (event.getParticipantLimit() == null) {
-                event.setParticipantLimit(0);
-            } else {
-                event.setParticipantLimit(eventDto.getParticipantLimit());
-            }
-            if (event.getRequestModeration() == null) {
-                event.setRequestModeration(true);
-            } else {
-                event.setRequestModeration(eventDto.getRequestModeration());
-            }
+            event.setPaid(eventDto.getPaid());
+            event.setParticipantLimit(eventDto.getParticipantLimit());
+            event.setRequestModeration(eventDto.getRequestModeration());
             event.setState(State.PENDING);
             event.setCreatedOn(LocalDateTime.now());
             event.setViews(0L);
