@@ -36,10 +36,9 @@
 
         @GetMapping("/{compId}")
         public CompilationDto publicGetCompilationById(
-                @PathVariable Optional<Long> compId) throws ObjectNotFoundException {
+                @PathVariable Long compId) throws ObjectNotFoundException {
             log.info("publicGetCompilationById get compilation by compId={}", compId);
             return publicCompilationService.getCompilationById(compId);
         }
-
 
     }

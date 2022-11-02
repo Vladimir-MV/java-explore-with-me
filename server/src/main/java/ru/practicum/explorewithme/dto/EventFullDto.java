@@ -17,26 +17,29 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class EventFullDto {
-        @NotNull
+        //@NotNull
         private String annotation;
-        @NotNull
+       // @NotNull
         private CategoryDto category;
         private Long confirmedRequests;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime createdOn;
         private String description;
-        @NotNull
+        //@NotNull
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime eventDate;
         private Long id;
         private UserShortDto initiator;
         private Location location;
-        @NotNull
+       // @NotNull
         private Boolean paid;
         private Long participantLimit;
-        @NotNull
+       // @NotNull
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime publishedOn;
         private Boolean requestModeration;
         private State state;
-        @NotNull
+        //@NotNull
         private String title;
         private Long views;
 

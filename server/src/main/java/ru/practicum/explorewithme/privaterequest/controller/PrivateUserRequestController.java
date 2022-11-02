@@ -29,23 +29,23 @@
 
         @GetMapping()
         public List<ParticipationRequestDto> privateUserRequests(
-                @PathVariable Optional<Long> userId) throws ObjectNotFoundException, RequestErrorException {
+                @PathVariable Long userId) throws ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequests get user request by userId={}", userId);
             return privateUserRequestService.getUserUserRequests(userId);
         }
 
         @PostMapping()
         public ParticipationRequestDto privateUserRequest(
-                @PathVariable Optional<Long> userId,
-                @RequestParam Optional<Long> eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+                @PathVariable Long userId,
+                @RequestParam Long eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequest, create request userId={}, eventId={}", userId, eventId);
             return privateUserRequestService.createUserRequest(userId, eventId);
         }
 
         @PatchMapping("/{requestId}/cancel")
         public ParticipationRequestDto privateCancelUserRequest(
-                @PathVariable Optional<Long> userId,
-                @PathVariable Optional<Long> requestId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+                @PathVariable Long userId,
+                @PathVariable Long requestId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateCancelUserRequest, cancel user request userId={}, requestId={}", userId, requestId);
             return privateUserRequestService.cancelUserRequestById(userId, requestId);
         }

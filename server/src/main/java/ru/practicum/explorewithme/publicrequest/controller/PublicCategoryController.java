@@ -34,7 +34,7 @@
 
         @GetMapping("/{catId}")
         public CategoryDto publicGetCategoryById(
-                @PathVariable Optional<Long> catId) throws ObjectNotFoundException, RequestErrorException {
+                @PathVariable Long catId) throws ObjectNotFoundException, RequestErrorException {
             log.info("publicGetCategoryById get category by catId={}", catId);
             return publicCategoryService.getCategoryById(catId);
         }

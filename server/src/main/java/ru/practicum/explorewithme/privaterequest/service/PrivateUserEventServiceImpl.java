@@ -38,62 +38,63 @@ public class PrivateUserEventServiceImpl implements PrivateUserEventService{
         this.requestRepository = requestRepository;
     }
     @Override
-    public List<EventShortDto> getUserEvents(Optional<Long> userId, Integer from, Integer size)
+    public List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size)
             throws ObjectNotFoundException, RequestErrorException {
             User user = userValidation(userId);
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<Event> listEvent = eventRepository.findEventsByUserId(user.getId(), pageable).getContent();
-            if (!listEvent.isEmpty()) {
-                log.info("Получение событий добавленным текущим пользователем userId={}", userId.get());
+            if (listEvent.size() > 0) {
+                log.info("Получение событий добавленным текущим пользователем userId={}", userId);
                 return EventMapper.toListEventShortDto(listEvent);
             } else {
-                throw new ObjectNotFoundException(String.format("ListEvents with userId={} was not found.", userId.get()));
+                throw new ObjectNotFoundException(String.format("ListEvents with userId={} was not found.", userId));
             }
     }
 
     @Override
-    public EventFullDto patchUserIdEvent(Optional<Long> userId, Optional<UpdateEventRequest> updateEventRequest)
+    public EventFullDto patchUserIdEvent(Long userId, UpdateEventRequest updateEventRequest)
             throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException {
         userValidation(userId);
-        if (!updateEventRequest.isPresent()) throw new RequestErrorException();
-        Event event = eventValidation(Optional.of(updateEventRequest.get().getEventId()));
-        if (event.getInitiator().getId() != userId.get()) throw new ConditionsOperationNotMetException();
-        if (event.getRequestModeration() == false || !event.getState().equals(State.CANCELED))
+       // if (!updateEventRequest.isPresent()) throw new RequestErrorException();
+        Event event = eventValidation(updateEventRequest.getEventId());
+        if (event.getInitiator().getId() == userId) throw new ConditionsOperationNotMetException();
+        if (event.getRequestModeration() == false || event.getState() != State.CANCELED)
             throw new ConditionsOperationNotMetException();
-        if (updateEventRequest.get().getEventDate() != null) {
-            if (updateEventRequest.get().getEventDate().isBefore(LocalDateTime.now().plusHours(2)))
+        if (updateEventRequest.getEventDate() != null) {
+            if (updateEventRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2)))
             throw new RequestErrorException();
-            event.setEventDate(updateEventRequest.get().getEventDate());
+            event.setEventDate(updateEventRequest.getEventDate());
         }
-        if (event.getState().equals(State.CANCELED)) event.setState(State.PENDING);
-        if (!updateEventRequest.get().getAnnotation().isBlank()) event.setAnnotation(updateEventRequest.get().getAnnotation());
-        if (updateEventRequest.get().getCategory() != null) {
-            if (categoryRepository.findCategoryById(updateEventRequest.get().getCategory()).isPresent())
-            event.setCategory(categoryRepository.findCategoryById(updateEventRequest.get().getCategory()).get());
+        if (event.getState() == State.CANCELED) event.setState(State.PENDING);
+        if (!updateEventRequest.getAnnotation().isBlank()) event.setAnnotation(updateEventRequest.getAnnotation());
+        if (updateEventRequest.getCategory() != null) {
+            if (categoryRepository.findById(updateEventRequest.getCategory()).isPresent())
+            event.setCategory(categoryRepository.findById(updateEventRequest.getCategory()).get());
         }
-        if (updateEventRequest.get().getPaid() != null) event.setPaid(updateEventRequest.get().getPaid());
-        if (updateEventRequest.get().getParticipantLimit() != null)
-            event.setParticipantLimit(updateEventRequest.get().getParticipantLimit());
-        if (updateEventRequest.get().getTitle() != null) event.setTitle(updateEventRequest.get().getTitle());
-        eventRepository.save(event);
-        EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
-        log.info("Изменения события добавленного текущим пользователем userId={}", userId.get());
-        return eventFullDto;
+        if (updateEventRequest.getPaid() != null) event.setPaid(updateEventRequest.getPaid());
+        if (updateEventRequest.getParticipantLimit() != null)
+            event.setParticipantLimit(updateEventRequest.getParticipantLimit());
+        if (updateEventRequest.getTitle() != null) event.setTitle(updateEventRequest.getTitle());
+        eventRepository.saveAndFlush(event);
+        log.info("Изменения события добавленного текущим пользователем userId={}", userId);
+        return EventMapper.toEventFullDto(event);
     }
 
-    private Event eventValidation (Optional<Long> eventId) throws ObjectNotFoundException, RequestErrorException {
-        if (!eventId.isPresent()) throw new RequestErrorException();
-        Optional<Event> event = eventRepository.findEventById(eventId.get());
-        if (!event.isPresent())
-            throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event.get()));
-        return event.get();
+    private Event eventValidation (Long eventId) throws ObjectNotFoundException, RequestErrorException {
+       // if (!eventId.isPresent()) throw new RequestErrorException();
+        Event event = eventRepository.findEventById(eventId).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId)));
+//        if (!event.isPresent())
+//            throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event));
+        return event;
     }
-    private User userValidation (Optional<Long> userId) throws ObjectNotFoundException, RequestErrorException {
-        if (!userId.isPresent()) throw new RequestErrorException();
-        Optional<User> user = userRepository.findUserById(userId.get());
-        if (!user.isPresent())
-            throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
-        return user.get() ;
+    private User userValidation (Long userId) throws ObjectNotFoundException, RequestErrorException {
+       // if (!userId.isPresent()) throw new RequestErrorException();
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("User with id={} was not found.", userId)));
+//        if (!user.isPresent())
+//            throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
+        return user;
     }
 
 //    private ParticipationRequest participationRequestValidation (Long userId) throws MethodExceptions {
@@ -104,100 +105,103 @@ public class PrivateUserEventServiceImpl implements PrivateUserEventService{
 //        return participationRequest.get() ;
 //    }
     @Override
-    public EventFullDto createUserEvent(Optional<Long> userId, Optional<NewEventDto> newEventDto)
+    public EventFullDto createUserEvent(Long userId, NewEventDto newEventDto)
             throws ObjectNotFoundException, RequestErrorException {
         User user = userValidation(userId);
-        if (!newEventDto.isPresent()) throw new RequestErrorException();
-            Category category = categoryRepository.findCategoryById(newEventDto.get().getCategory()).get();
-            Event event = EventMapper.toEvent(newEventDto.get());
-            event.setCategory(category);
-            event.setInitiator(user);
-            eventRepository.save(event);
-            log.info("Добавление нового события eventId={}", event.getId());
-            return EventMapper.toEventFullDto(event);
+        //if (!newEventDto.isPresent()) throw new RequestErrorException();
+        Category category = categoryRepository.findById(newEventDto.getCategory()).orElseThrow(
+                  () -> new ObjectNotFoundException(String.format("Category with id={} was not found.", newEventDto.getCategory())));
+        Event event = EventMapper.toEvent(newEventDto);
+        event.setCategory(category);
+        event.setInitiator(user);
+        eventRepository.saveAndFlush(event);
+        log.info("Добавление нового события eventId={}", event.getId());
+        return EventMapper.toEventFullDto(event);
     }
 
     @Override
-    public EventFullDto getUserEventById(Optional<Long> userId, Optional<Long> eventId)
+    public EventFullDto getUserEventById(Long userId, Long eventId)
             throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException {
         userValidation(userId);
         Event event = eventValidation(eventId);
-        if (event.getInitiator().getId() != userId.get()) throw new ConditionsOperationNotMetException();
-        EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
-        log.info("Получение полной информации о событии полученной текущим пользователем userId={}", userId.get());
-        return eventFullDto;
+        if (event.getInitiator().getId() != userId) throw new ConditionsOperationNotMetException();
+        log.info("Получение полной информации о событии полученной текущим пользователем userId={}", userId);
+        return EventMapper.toEventFullDto(event);
     }
     @Override
-    public EventFullDto patchCancelUserIdEvent(Optional<Long> userId, Optional<Long> eventId)
+    public EventFullDto patchCancelUserIdEvent(Long userId, Long eventId)
             throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException {
         userValidation(userId);
         Event event = eventValidation(eventId);
-        if (event.getInitiator().getId() != userId.get())
+        if (event.getInitiator().getId() != userId)
             throw new ConditionsOperationNotMetException();
         if (!event.getRequestModeration())
             throw new ConditionsOperationNotMetException();
-        EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
-        log.info("Отмена события eventId={} добавленного текущим пользователем userId={}", eventId.get(), userId.get());
+        log.info("Отмена события eventId={} добавленного текущим пользователем userId={}", eventId, userId);
         eventRepository.deleteById(event.getId());
-        return eventFullDto;
+        return EventMapper.toEventFullDto(event);
     }
 
     @Override
-    public ParticipationRequestDto getUserEventRequestsById(Optional<Long> userId, Optional<Long> eventId)
+    public ParticipationRequestDto getUserEventRequestsById(Long userId, Long eventId)
             throws ObjectNotFoundException, RequestErrorException {
         userValidation(userId);
         eventValidation(eventId);
-        Optional<ParticipationRequest> participationRequest =
-                requestRepository.findRequestUserByIdAndEventById(userId.get(), eventId.get());
-        if (!participationRequest.isPresent())
-            throw new ObjectNotFoundException(String.format("ParticipationRequest with userId={}, eventId={} was not found.",
-                    userId.get(), eventId.get()));
-        log.info("Получение информации о запросах на участие в событии текущего пользователя userId={}", userId.get());
-        return ParticipationRequestMapper.toParticipationRequestDto(participationRequest.get());
+        ParticipationRequest participationRequest =
+                requestRepository.findRequestUserByIdAndEventById(userId, eventId).orElseThrow(
+                        () -> new ObjectNotFoundException(String.format("ParticipationRequest with userId={}, eventId={} was not found.",
+                                userId, eventId)));
+//        if (!participationRequest.isPresent())
+//            throw new ObjectNotFoundException(String.format("ParticipationRequest with userId={}, eventId={} was not found.",
+//                    userId.get(), eventId.get()));
+        log.info("Получение информации о запросах на участие в событии текущего пользователя userId={}", userId);
+        return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
 
     }
 
     @Override
-    public ParticipationRequestDto patchUserRequestConfirm(Optional<Long> userId, Optional<Long> eventId, Optional<Long> reqId)
+    public ParticipationRequestDto patchUserRequestConfirm(Long userId, Long eventId, Long reqId)
             throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException {
         userValidation(userId);
         Event event = eventValidation(eventId);
-        Optional<ParticipationRequest> participationRequestOp = requestRepository.findRequestById(reqId.get());
-        if (!participationRequestOp.isPresent())
-            throw new ObjectNotFoundException(String.format("ParticipationRequest with reqId={} was not found.", reqId.get()));
-        ParticipationRequest participationRequest = participationRequestOp.get();
+        ParticipationRequest participationRequest = requestRepository.findById(reqId).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("ParticipationRequest with reqId={} was not found.", reqId)));
+//        if (!participationRequestOp.isPresent())
+//            throw new ObjectNotFoundException(String.format("ParticipationRequest with reqId={} was not found.", reqId.get()));
+//        ParticipationRequest participationRequest = participationRequestOp.get();
         if (event.getParticipantLimit() == 0 || event.getRequestModeration() == false)
             return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
         if (event.getParticipantLimit().equals(event.getConfirmedRequests()))
             throw new ConditionsOperationNotMetException();
-        if (!participationRequest.getRequester().getId().equals(userId.get()) ||
-                !participationRequest.getEvent().getId().equals(eventId.get()))
+        if (!participationRequest.getRequester().getId().equals(userId) ||
+                !participationRequest.getEvent().getId().equals(eventId))
             throw new ConditionsOperationNotMetException();
-        event.setConfirmedRequests(event.getConfirmedRequests() + 1);
-        eventRepository.save(event);
+//        event.setConfirmedRequests(event.getConfirmedRequests() + 1);
+        //eventRepository.saveAndFlush(event);
         participationRequest.setStatus(Status.CONFIRMED);
-        requestRepository.save(participationRequest);
-        log.info("Подтверждение чужой заявки на участие в событии текущего пользователя userId={}", userId.get());
+        requestRepository.saveAndFlush(participationRequest);
+        log.info("Подтверждение чужой заявки на участие в событии текущего пользователя userId={}", userId);
         return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
     }
 
     @Override
-    public ParticipationRequestDto patchUserRequestReject(Optional<Long> userId, Optional<Long> eventId, Optional<Long> reqId)
+    public ParticipationRequestDto patchUserRequestReject(Long userId, Long eventId, Long reqId)
             throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException {
         userValidation(userId);
         Event event = eventValidation(eventId);
-        Optional<ParticipationRequest> participationRequestOp = requestRepository.findRequestById(reqId.get());
-        if (!participationRequestOp.isPresent())
-            throw new ObjectNotFoundException(String.format("ParticipationRequest with reqId={} was not found.", reqId.get()));
-        ParticipationRequest participationRequest = participationRequestOp.get();
+        ParticipationRequest participationRequest = requestRepository.findById(reqId).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("ParticipationRequest with reqId={} was not found.", reqId)));
+//        if (!participationRequestOp.isPresent())
+//            throw new ObjectNotFoundException(String.format("ParticipationRequest with reqId={} was not found.", reqId.get()));
+//        ParticipationRequest participationRequest = participationRequestOp.get();
         if (event.getParticipantLimit() == 0 || event.getRequestModeration() == false)
             return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
-        if (!participationRequest.getRequester().getId().equals(userId.get()) ||
-                !participationRequest.getEvent().getId().equals(eventId.get()))
+        if (!participationRequest.getRequester().getId().equals(userId) ||
+                !participationRequest.getEvent().getId().equals(eventId))
             throw new ConditionsOperationNotMetException();
         participationRequest.setStatus(Status.REJECTED);
-        requestRepository.save(participationRequest);
-        log.info("Отклонение чужой заявки на участие в событии текущего пользователя userId={}", userId.get());
+        requestRepository.saveAndFlush(participationRequest);
+        log.info("Отклонение чужой заявки на участие в событии текущего пользователя userId={}", userId);
         return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
     }
 

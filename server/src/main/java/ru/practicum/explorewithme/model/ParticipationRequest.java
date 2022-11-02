@@ -17,7 +17,7 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+       // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime created;
         @ManyToOne(fetch=FetchType.EAGER,
                 cascade=CascadeType.ALL)

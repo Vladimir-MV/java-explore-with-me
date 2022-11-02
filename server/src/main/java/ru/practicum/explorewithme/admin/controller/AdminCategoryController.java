@@ -27,21 +27,21 @@
 
         @PatchMapping()
         public CategoryDto adminPatchCategory(
-                @RequestBody Optional<CategoryDto> categoryDto) throws RequestErrorException {
+                @RequestBody CategoryDto categoryDto) throws RequestErrorException {
             log.info("adminPatchCategory, patch categoryDto {}", categoryDto);
             return adminCategoryService.patchCategoryByIdAndName(categoryDto);
         }
 
         @PostMapping()
         public CategoryDto adminPostCategory(
-                @RequestBody Optional<NewCategoryDto> newCategoryDto) throws RequestErrorException {
+                @RequestBody NewCategoryDto newCategoryDto) throws RequestErrorException {
             log.info("adminPostCategory, create category newCategoryDto {}", newCategoryDto);
             return adminCategoryService.createCategory(newCategoryDto);
         }
 
         @DeleteMapping("/{catId}")
         public CategoryDto adminDeleteCategory(
-                @PathVariable Optional<Long> catId) throws RequestErrorException {
+                @PathVariable Long catId) throws RequestErrorException {
             log.info("adminDeleteCategory, delete category catId={}", catId);
             return adminCategoryService.deleteCategoryById(catId);
         }

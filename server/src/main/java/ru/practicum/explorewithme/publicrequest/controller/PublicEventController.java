@@ -30,13 +30,13 @@
 
         @GetMapping
         public List<EventShortDto> publicGetEvents(
-            @RequestParam(name = "text", required = false) String text,
-            @RequestParam(name = "categories", required = false) List<Long> categories,
-            @RequestParam(name = "paid", required = false) Boolean paid,
+            @RequestParam(name = "text") String text,
+            @RequestParam(name = "categories") List<Long> categories,
+            @RequestParam(name = "paid") Boolean paid,
             @RequestParam(name = "rangeStart", required = false) String rangeStart,
             @RequestParam(name = "rangeEnd", required = false) String rangeEnd,
             @RequestParam(name = "onlyAvailable", defaultValue = "false") Boolean onlyAvailable,
-            @RequestParam(name = "sort", required = false) String sort,
+            @RequestParam(name = "sort") String sort,
             @RequestParam(name = "from", defaultValue = "0") Integer from,
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             HttpServletRequest request) throws ObjectNotFoundException {
@@ -49,7 +49,7 @@
 
         @GetMapping("/{id}")
         public List<EventFullDto> publicGetEventsWithId(
-            @NotBlank @PathVariable Optional<Long> id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException {
+            @NotBlank @PathVariable Long id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException {
             log.info("publicGetEventsWithId get event by id={}", id);
             return publicEventService.getEventById(id, request);
         }

@@ -21,7 +21,7 @@
                     "Only pending or canceled events can be changed",
                     "For the requested operation the conditions are not met.",
                           StatusError.withIndex(400),
-                          LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                          LocalDateTime.now());
         }
 
         @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -31,7 +31,7 @@
                     "Only pending or canceled events can be changed",
                     "For the requested operation the conditions are not met.",
                     StatusError.withIndex(403),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    LocalDateTime.now());
         }
 
         @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -41,7 +41,7 @@
                     e.getMessage(),
                     "The required object was not found.",
                     StatusError.withIndex(404),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    LocalDateTime.now());
         }
 
         @ResponseStatus(HttpStatus.CONFLICT)
@@ -51,7 +51,7 @@
                     e.getMessage(),
                     "Integrity constraint has been violated",
                     StatusError.withIndex(409),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    LocalDateTime.now());
         }
 
         @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,7 +61,7 @@
                     e.getMessage(),
                     "Error occurred",
                     StatusError.withIndex(500),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    LocalDateTime.now());
         }
 
 //        @ExceptionHandler(MethodArgumentNotValidException.class)

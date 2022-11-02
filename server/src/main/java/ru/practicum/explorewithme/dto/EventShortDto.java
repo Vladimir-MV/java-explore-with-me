@@ -14,19 +14,20 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class EventShortDto {
-        @NotNull
+       // @NotNull
         private String annotation;
-        @NotNull
+        //@NotNull
         private CategoryDto category;
         private Long confirmedRequests;
-        @NotNull
+       // @NotNull
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime eventDate;
         private Long id;
-        @NotNull
+       // @NotNull
         private UserShortDto initiator;
-        @NotNull
+       // @NotNull
         private Boolean paid;
-        @NotNull
+        //@NotNull
         private String title;
         private Long views;
 

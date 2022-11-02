@@ -28,7 +28,7 @@
 
         @GetMapping()
         public List<UserDto> adminGetUsers(
-                @RequestParam(name = "ids") Optional<List<Long>> ids,
+                @RequestParam(name = "ids") List<Long> ids,
                 @RequestParam(name = "from", defaultValue = "0") Integer from,
                 @RequestParam(name = "size", defaultValue = "10") Integer size) throws ConditionsOperationNotMetException, ObjectNotFoundException {
             log.info("adminGetUsers, get users ids {}, from={}, size={}", ids, from, size);
@@ -37,14 +37,14 @@
 
         @PostMapping()
         public UserDto adminPostUser(
-            @RequestBody Optional<NewUserRequest> userRequest) throws ConditionsOperationNotMetException {
+            @RequestBody NewUserRequest userRequest) throws ConditionsOperationNotMetException {
             log.info("adminPostUser, create user userDto {}", userRequest);
             return adminUserService.createUser(userRequest);
         }
 
         @DeleteMapping("/{userId}")
         public void adminDeleteUser(
-            @PathVariable Optional<Long> userId) throws ConditionsOperationNotMetException, ObjectNotFoundException {
+            @PathVariable Long userId) throws ConditionsOperationNotMetException, ObjectNotFoundException {
             log.info("adminDeleteUser, delete user userId={}", userId);
             adminUserService.deleteUserIdById(userId);
         }

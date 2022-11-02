@@ -38,11 +38,11 @@
         private Category category;
         @Column(name="confirmed_requests")
         private Long confirmedRequests;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+       // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         @Column(name="created_on")
         private LocalDateTime createdOn;
         private String description;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+       // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         @Column(name="event_date")
         private LocalDateTime eventDate;
         @ManyToOne(fetch=FetchType.EAGER,
@@ -57,7 +57,7 @@
         private Boolean paid;
         @Column(name="participant_limit")
         private Long participantLimit;
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+       // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         @Column(name="published_on")
         private LocalDateTime publishedOn;
         @Column(name = "is_request_moderation")

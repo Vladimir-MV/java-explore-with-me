@@ -6,7 +6,6 @@
     import org.springframework.stereotype.Service;
     import ru.practicum.explorewithme.dto.UserDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.mapper.UserMapper;
     import ru.practicum.explorewithme.model.NewUserRequest;
@@ -25,29 +24,31 @@
             this.userRepository = userRepository;
         }
         @Override
-        public List<UserDto> getUsersByIds(Optional<List<Long>> ids, Integer from, Integer size) throws ConditionsOperationNotMetException, ObjectNotFoundException {
+        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) throws ConditionsOperationNotMetException, ObjectNotFoundException {
             final Pageable pageable = FromSizeRequest.of(from, size);
-            if (!ids.isPresent()) throw new ConditionsOperationNotMetException();
-            List<User> listUsers = userRepository.searchUsersListById(ids.get(), pageable).getContent();
-            if (listUsers.isEmpty()) throw new ObjectNotFoundException(String.format("Users with ids={} was not found.", ids.get()));
+          //  if (!ids.isPresent()) throw new ConditionsOperationNotMetException();
+            List<User> listUsers = userRepository.searchUsersListById(ids, pageable).getContent();
+            if (!(listUsers.size() > 0)) throw new ObjectNotFoundException(String.format("Users with ids={} was not found.", ids));
             return UserMapper.toListUserDto(listUsers);
         }
 
         @Override
-        public UserDto createUser(Optional<NewUserRequest> userRequest) throws ConditionsOperationNotMetException {
-            if (!userRequest.isPresent()) throw new ConditionsOperationNotMetException();
-            User user = UserMapper.toUser(userRequest.get());
-            userRepository.save(user);
-            log.info("Добавлен новый пользователь userId={}", user.getId());
+        public UserDto createUser(NewUserRequest userRequest) throws ConditionsOperationNotMetException {
+           // if (!userRequest.isPresent()) throw new ConditionsOperationNotMetException();
+            User user = UserMapper.toUser(userRequest);
+            userRepository.saveAndFlush(user);
+            log.info("Добавлен новый пользователь name {}", user.getName());
             return UserMapper.toUserDto(user);
         }
 
         @Override
-        public void deleteUserIdById(Optional<Long> userId) throws ConditionsOperationNotMetException, ObjectNotFoundException {
-            if (!userId.isPresent()) throw new ConditionsOperationNotMetException();
-            Optional<User> user = userRepository.findUserById(userId.get());
-            if (user.isPresent()) throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
-            userRepository.delete(user.get());
-            log.info("Удален пользователь userId={}", userId.get());
+        public void deleteUserIdById(Long userId) throws ConditionsOperationNotMetException, ObjectNotFoundException {
+          //  if (!userId.isPresent()) throw new ConditionsOperationNotMetException();
+            User user = userRepository.findById(userId).orElseThrow(
+                    () -> new ObjectNotFoundException(String.format("User with id={} was not found.", userId)));
+
+           // if (user.isPresent()) throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId));
+            userRepository.deleteById(userId);
+            log.info("Удален пользователь name {} userId={}",user.getName(), userId);
         }
     }

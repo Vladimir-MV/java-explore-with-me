@@ -7,6 +7,7 @@
     import ru.practicum.explorewithme.model.State;
 
     import java.time.LocalDateTime;
+    import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
     import java.util.List;
 
@@ -35,7 +36,6 @@
             Event event = new Event();
             event.setAnnotation(eventDto.getAnnotation());
             event.setDescription(eventDto.getDescription());
-            event.setEventDate(eventDto.getEventDate());
             event.setEventDate(eventDto.getEventDate());
             event.setLocation(eventDto.getLocation());
             event.setTitle(eventDto.getTitle());

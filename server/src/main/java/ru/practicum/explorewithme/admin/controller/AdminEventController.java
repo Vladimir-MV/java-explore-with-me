@@ -53,14 +53,14 @@
 
         @PatchMapping("/{eventId}/publish")
         public EventFullDto adminPublishEvent(
-                @PathVariable Optional<Long> eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+                @PathVariable Long eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("adminPublishEvent, publish event eventId={}", eventId);
             return adminEventService.patchPublishEventById(eventId);
         }
 
         @PatchMapping("/{eventId}/reject")
         public EventFullDto adminRejectEvent(
-                @PathVariable Optional<Long> eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+                @PathVariable Long eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("adminRejectEvent, reject event eventId={}", eventId);
             return adminEventService.patchRejectEventById(eventId);
         }

@@ -28,24 +28,23 @@
         @Override
         public List<CategoryDto> getCategories(Integer from, Integer size) throws ObjectNotFoundException {
             final Pageable pageable = FromSizeRequest.of(from, size);
-            List<Category> listCategory = categoryRepository.findAllCategory(pageable).getContent();
-            if (!listCategory.isEmpty()) {
+            List<Category> listCategory = categoryRepository.findAll(pageable).getContent();
+            if (listCategory.size() > 0) {
                 return CategoryMapper.toListCategoryDto(listCategory);
             }
-            throw new ObjectNotFoundException(String.format("Compilation with id={} was not found."));
+            throw new ObjectNotFoundException(String.format("Compilation was not found."));
         }
 
         @Override
-        public CategoryDto getCategoryById(Optional<Long> catId) throws RequestErrorException, ObjectNotFoundException {
-            if (catId.isPresent()) {
-                Optional<Category> category = categoryRepository.findCategoryById(catId.get());
-                if (category.isPresent()) {
-                    return CategoryMapper.toCategoryDto(category.get());
-                } else {
-                    throw new ObjectNotFoundException(String.format("Compilation with id={} was not found.", catId));
-                }
-            } else {
-                throw new RequestErrorException();
-            }
+        public CategoryDto getCategoryById(Long catId) throws RequestErrorException, ObjectNotFoundException {
+           // if (catId.isPresent()) {
+                Category category = categoryRepository.findById(catId).orElseThrow(
+                        () -> new ObjectNotFoundException(String.format("Compilation with id={} was not found.", catId)));
+                //if (category.isPresent()) {
+                return CategoryMapper.toCategoryDto(category);
+
+//            } else {
+//                throw new RequestErrorException();
+//            }
         }
     }

@@ -6,8 +6,8 @@ import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
 import ru.practicum.explorewithme.exceptions.RequestErrorException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Optional;
 
 public interface PublicEventService {
 
@@ -16,7 +16,7 @@ public interface PublicEventService {
                                                    Boolean rangeStart, String rangeEnd, String paid, Boolean onlyAvailable, String sort,
                                                    Integer from, Integer size, HttpServletRequest request) throws ObjectNotFoundException;
 
-    List<EventFullDto> getEventById(Optional<Long> id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException;
+    List<EventFullDto> getEventById(@NotBlank Long id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException;
 
    // EventShortDto[] getEventsByTextAndCategory(String text, CategoryDto[] categories, Boolean paid, String rangeStart, String rangeEnd, Boolean onlyAvailable, String sort, Integer from, Integer size, HttpServletRequest request);
 }

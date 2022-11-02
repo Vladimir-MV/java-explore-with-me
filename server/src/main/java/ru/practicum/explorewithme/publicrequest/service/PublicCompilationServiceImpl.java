@@ -35,22 +35,22 @@
             } else {
                 listCompilation = compilationRepository.findCompilation(pageable).getContent();
             }
-            if (!listCompilation.isEmpty()) return CompilationMapper.toListCompilationDto(listCompilation);
-
+            if (listCompilation.size() > 0) return CompilationMapper.toListCompilationDto(listCompilation);
             throw new ObjectNotFoundException(String.format("Compilation with pinned={} was not found.", pinned));
 
         }
         @Override
-        public CompilationDto getCompilationById(Optional<Long> compId) throws ObjectNotFoundException {
-            if (compId.isPresent()) {
-                Optional<Compilation> compilation = compilationRepository.findCompilationById(compId.get());
-                if (compilation.isPresent()) {
-                    return CompilationMapper.toCompilationDto(compilation.get());
-                } else {
-                    throw new ObjectNotFoundException(String.format("Compilation with id={} was not found.", compId));
-                }
-            } else {
-                throw new ObjectNotFoundException(String.format("Only pending or canceled events can be changed"));
-            }
+        public CompilationDto getCompilationById(Long compId) throws ObjectNotFoundException {
+//            if (compId.isPresent()) {
+                Compilation compilation = compilationRepository.findCompilationById(compId).orElseThrow(
+                        () -> new ObjectNotFoundException(String.format("Compilation with id={} was not found.", compId)));
+               // if (compilation.isPresent()) {
+                return CompilationMapper.toCompilationDto(compilation);
+//                } else {
+//                    throw new ObjectNotFoundException(String.format("Compilation with id={} was not found.", compId));
+//                }
+//            } else {
+//                throw new ObjectNotFoundException(String.format("Only pending or canceled events can be changed"));
+//            }
         }
     }

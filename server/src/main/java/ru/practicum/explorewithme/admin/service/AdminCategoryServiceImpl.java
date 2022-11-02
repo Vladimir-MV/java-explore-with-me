@@ -26,34 +26,35 @@
         }
 
         @Override
-        public CategoryDto patchCategoryByIdAndName(Optional<CategoryDto> categoryDto) throws RequestErrorException {
-            if (!categoryDto.isPresent()) throw new RequestErrorException();
-            Optional<Category> categoryOp = categoryRepository.findCategoryById(categoryDto.get().getId());
-            if (!categoryOp.isPresent()) throw new RequestErrorException();
-            Category category = categoryOp.get();
-            category.setName(categoryDto.get().getName());
+        public CategoryDto patchCategoryByIdAndName(CategoryDto categoryDto) throws RequestErrorException {
+           // if (!categoryDto.isPresent()) throw new RequestErrorException();
+            Category category = categoryRepository.findById(categoryDto.getId()).orElseThrow(RequestErrorException::new);
+           // if (!categoryOp.isPresent()) throw new RequestErrorException();
+            //Category category = categoryOp.get();
+            category.setName(categoryDto.getName());
+            categoryRepository.saveAndFlush(category);
             log.info("Изменение категории на категорию categoryDto={}", category.getName());
             return CategoryMapper.toCategoryDto(category);
         }
 
         @Override
-        public CategoryDto createCategory(Optional<NewCategoryDto> newCategoryDto) throws RequestErrorException {
-            if (!newCategoryDto.isPresent()) throw new RequestErrorException();
-            Category category = CategoryMapper.toCategory(newCategoryDto.get());
-            categoryRepository.save(category);
+        public CategoryDto createCategory(NewCategoryDto newCategoryDto) throws RequestErrorException {
+           // if (!newCategoryDto.isPresent()) throw new RequestErrorException();
+            Category category = CategoryMapper.toCategory(newCategoryDto);
+            categoryRepository.saveAndFlush(category);
             log.info("Добавление новой категории category={}", category.getName());
             return CategoryMapper.toCategoryDto(category);
         }
 
         @Override
-        public CategoryDto deleteCategoryById(Optional<Long> catId) throws RequestErrorException {
-            if (!catId.isPresent()) throw new RequestErrorException();
-            Optional<Category> category = categoryRepository.findCategoryById(catId.get());
-            if (!category.isPresent()) throw new RequestErrorException();
-            Optional<List<Event>> listEvent = eventRepository.findEventByCategoryId(catId.get());
-            if (listEvent.isPresent()) throw new RequestErrorException();
-            categoryRepository.deleteById(category.get().getId());
-            log.info("Удалена категория category={}", category.get().getName());
-            return CategoryMapper.toCategoryDto(category.get());
+        public CategoryDto deleteCategoryById(Long catId) throws RequestErrorException {
+           //if (!catId.isPresent()) throw new RequestErrorException();
+            Category category = categoryRepository.findById(catId).orElseThrow(RequestErrorException::new);
+            //if (!category.isPresent()) throw new RequestErrorException();
+//            Optional<List<Event>> listEvent = eventRepository.findEventByCategoryId(catId.get());
+//            if (listEvent.isPresent()) throw new RequestErrorException();
+            categoryRepository.deleteById(category.getId());
+            log.info("Удалена категория category={}", category.getName());
+            return CategoryMapper.toCategoryDto(category);
         }
     }

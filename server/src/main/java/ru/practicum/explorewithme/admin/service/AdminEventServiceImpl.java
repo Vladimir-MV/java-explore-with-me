@@ -1,5 +1,6 @@
     package ru.practicum.explorewithme.admin.service;
 
+    import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.domain.Pageable;
@@ -16,10 +17,12 @@
     import ru.practicum.explorewithme.repository.UserRepository;
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
+    import java.util.ArrayList;
     import java.util.List;
-    import java.util.Optional;
+
     @Slf4j
     @Service
+    @RequiredArgsConstructor
     public class AdminEventServiceImpl implements AdminEventService{
         private EventRepository eventRepository;
         private UserRepository userRepository;
@@ -34,68 +37,108 @@
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         @Override
-        public List<EventFullDto> getEventsByUsersStatesCategories(List<Long> users, List<String> states, List<Long> categories,
-                                                                   String rangeStart, String rangeEnd, Integer from, Integer size) throws ObjectNotFoundException {
+        public List<EventFullDto> getEventsByUsersStatesCategories(
+                List<Long> users, List<String> states, List<Long> categories,
+                String rangeStart, String rangeEnd, Integer from, Integer size) throws ObjectNotFoundException {
+            List<State> listState = new ArrayList<>();
+            for (String state: states) {
+                listState.add(State.valueOf(state));
+            }
+
+            for (Long userId: users) {
+                if (!userRepository.existsById(userId))
+                    throw new ObjectNotFoundException(String.format("User with userId={} was not found.", userId));
+            }
+
+            for (Long catId: categories) {
+                if (!categoryRepository.existsById(catId))
+                    throw new ObjectNotFoundException(String.format("Category with categoryId={} was not found.", catId));
+            }
+
             final Pageable pageable = FromSizeRequest.of(from, size);
-            List <Event> listEvents = eventRepository.searchEventsByAdminGetConditions(users, states, categories,
-                    LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
-            if (listEvents.isEmpty())
+
+
+            List <Event> listEvents = eventRepository.searchEventsByAdminGetConditions(users, listState, categories,
+                        LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
+
+            if (!(listEvents.size() > 0))
                 throw new ObjectNotFoundException(String.format("Event list with was not found."));
             return EventMapper.toListEventFullDto(listEvents);
 
         }
-        private Event eventValidation (Optional<Long> eventId) throws ObjectNotFoundException, RequestErrorException {
-            if (!eventId.isPresent()) throw new RequestErrorException();
-            Optional<Event> event = eventRepository.findEventById(eventId.get());
-            if (!event.isPresent())
-                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event.get()));
-            return event.get();
+
+//        private User userValidation (Long userId) throws ObjectNotFoundException, RequestErrorException {
+//            // if (!userId.isPresent()) throw new RequestErrorException();
+//            User user = userRepository.findById(userId).orElseThrow(
+//                    () -> new ObjectNotFoundException(String.format("User with id={} was not found.", userId)));
+////        if (!user.isPresent())
+////            throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
+//            return user;
+//        }
+        private Event eventValidation (Long eventId) throws ObjectNotFoundException, RequestErrorException {
+//            if (!eventId.isPresent()) throw new RequestErrorException();
+            Event event = eventRepository.findById(eventId).orElseThrow(
+                    () -> new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId)));
+//            if (!event.isPresent())
+//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event.get()));
+            return event;
         }
 
         @Override
         public EventFullDto putEventById(Long eventId,
             AdminUpdateEventRequest adminUpdateEventRequest) throws ObjectNotFoundException {
-            Event event = eventRepository.findEventById(eventId).get();
-            if (event == null)
-                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
-            event.setAnnotation(adminUpdateEventRequest.getAnnotation());
-            event.setCategory(categoryRepository.findCategoryById(adminUpdateEventRequest.getCategory()).get());
-            event.setEventDate(LocalDateTime.parse(adminUpdateEventRequest.getEventDate(), formatter));
-            event.setLocation(adminUpdateEventRequest.getLocation());
-            event.setPaid(adminUpdateEventRequest.getPaid());
-            event.setParticipantLimit(adminUpdateEventRequest.getParticipantLimit());
-            event.setTitle(adminUpdateEventRequest.getTitle());
-            eventRepository.save(event);
-            log.info("Поиск события eventId={}", eventId);
+            Event event = eventRepository.findById(eventId).orElseThrow(
+                    () -> new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId)));
+//          if (event == null)
+//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
+            if (adminUpdateEventRequest.getAnnotation() != null)
+                        event.setAnnotation(adminUpdateEventRequest.getAnnotation());
+            if (adminUpdateEventRequest.getCategory() != null)
+               event.setCategory(categoryRepository.findById(adminUpdateEventRequest.getCategory()).orElseThrow(
+                  () -> new ObjectNotFoundException(
+                      String.format("Category id={} was not found.", adminUpdateEventRequest.getCategory()))));
+            if (adminUpdateEventRequest.getEventDate() != null)
+                event.setEventDate(adminUpdateEventRequest.getEventDate());
+            if (adminUpdateEventRequest.getLocation() != null)
+                event.setLocation(adminUpdateEventRequest.getLocation());
+            if (adminUpdateEventRequest.getPaid() != null)
+                event.setPaid(adminUpdateEventRequest.getPaid());
+            if (adminUpdateEventRequest.getParticipantLimit() != null)
+                event.setParticipantLimit(adminUpdateEventRequest.getParticipantLimit());
+            if (adminUpdateEventRequest.getTitle() != null)
+                event.setTitle(adminUpdateEventRequest.getTitle());
+            eventRepository.saveAndFlush(event);
+            log.info("Поиск события eventId={}", event.getId());
             return EventMapper.toEventFullDto(event);
         }
 
         @Override
-        public EventFullDto patchPublishEventById(Optional<Long> eventId) throws ObjectNotFoundException,
+        public EventFullDto patchPublishEventById(Long eventId) throws ObjectNotFoundException,
+                RequestErrorException, ConditionsOperationNotMetException {
+            Event event = eventValidation(eventId);
+//            if (!event.isPresent())
+//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
+            if (event.getState() != State.PENDING) throw new ConditionsOperationNotMetException();
+            event.setPublishedOn(LocalDateTime.now());
+            if (event.getEventDate().isBefore(event.getPublishedOn().plusHours(1)))
+                throw new ConditionsOperationNotMetException();
+            event.setState(State.PUBLISHED);
+            eventRepository.saveAndFlush(event);
+            log.info("Публикация события eventId={}", event.getId());
+            return EventMapper.toEventFullDto(event);
+        }
+
+        @Override
+        public EventFullDto patchRejectEventById(Long eventId) throws ObjectNotFoundException,
                 RequestErrorException, ConditionsOperationNotMetException {
             Event event = eventValidation(eventId);
 //            if (event == null)
 //                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
-            if (!event.getState().equals(State.PENDING)) throw new ConditionsOperationNotMetException();
-            if (!event.getEventDate().isAfter(event.getPublishedOn().plusHours(1)))
-                throw new ConditionsOperationNotMetException();
-            event.setState(State.PUBLISHED);
-            eventRepository.save(event);
-            log.info("Публикация события userId={}", eventId.get());
-            return EventMapper.toEventFullDto(event);
-        }
-
-        @Override
-        public EventFullDto patchRejectEventById(Optional<Long> eventId) throws ObjectNotFoundException,
-                RequestErrorException, ConditionsOperationNotMetException {
-            Event event = eventValidation(eventId);
-            if (event == null)
-                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
-            if (event.getState().equals(State.PUBLISHED) || event.getState().equals(State.CANCELED))
+            if (event.getState() == State.PUBLISHED || event.getState() == State.CANCELED)
                 throw new ConditionsOperationNotMetException();
             event.setState(State.CANCELED);
-            eventRepository.save(event);
-            log.info("Отклонение события userId={}", eventId.get());
+            eventRepository.saveAndFlush(event);
+            log.info("Отклонение события userId={}", eventId);
             return EventMapper.toEventFullDto(event);
         }
     }

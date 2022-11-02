@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.explorewithme.model.Category;
 import ru.practicum.explorewithme.model.Compilation;
 
+import java.util.List;
 import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("select c from Category c where c.id = ?1")
-    Optional<Category> findCategoryById(Long id);
+    Optional<List<Category>> findCategoryById(Long[] id);
 
     @Query("select c from Category c ")
     Page<Category> findAllCategory(Pageable pageable);

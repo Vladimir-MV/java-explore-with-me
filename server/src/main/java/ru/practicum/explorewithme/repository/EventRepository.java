@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.practicum.explorewithme.model.Compilation;
 import ru.practicum.explorewithme.model.Event;
+import ru.practicum.explorewithme.model.State;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,37 +30,77 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
             " or upper(e.description) like upper(concat('%', ?1, '%')) " +
             "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
-            "and e.eventDate between ?4 and ?5 and e.confirmedRequests < e.participantLimit ORDER BY ?6")
-    Page<Event> searchEventByFilterAvailable(String text, List<Long> category, Boolean paid, LocalDateTime rangeStart,
-                                    LocalDateTime rangeEnd, String sort, Pageable pageable);
+            "and e.eventDate > e.createdOn ORDER BY e.eventDate asc ")
+    Page<Event> searchEventByEventDayAvailableFalseEndNull(String text, List<Long> category, Boolean paid,
+                                   LocalDateTime rangeStart, Pageable pageable);
     @Query("select e from Event e " +
             "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
             " or upper(e.description) like upper(concat('%', ?1, '%')) " +
             "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
-            "and e.eventDate between ?4 and ?5 ORDER BY ?6")
-    Page<Event> searchEventByFilter(String text, List<Long> category, Boolean paid, LocalDateTime rangeStart,
-                                    LocalDateTime rangeEnd, String sort, Pageable pageable);
+            "and e.eventDate between ?4 and ?5 ORDER BY e.eventDate asc")
+    Page<Event> searchEventByEventDayAvailableFalseEndNotNull(String text, List<Long> category, Boolean paid,
+                                   LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+    @Query("select e from Event e " +
+            "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) like upper(concat('%', ?1, '%')) " +
+            "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
+            "and e.eventDate > e.createdOn ORDER BY e.eventDate asc")
+    Page<Event> searchEventByEventDayAvailableTrueEndNull(String text, List<Long> category, Boolean paid,
+                                                           LocalDateTime rangeStart, Pageable pageable);
+    @Query("select e from Event e " +
+            "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) like upper(concat('%', ?1, '%')) " +
+            "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
+            "and e.eventDate between ?4 and ?5 ORDER BY e.eventDate asc")
+    Page<Event> searchEventByEventDayAvailableTrueEndNotNull(String text, List<Long> category, Boolean paid,
+              LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+
+//    @Query("SELECT e FROM Event e " +
+//            " WHERE e.initiator.id IN :users " +
+//            " AND e.state IN :states " +
+//            " AND e.category.id IN :categories " +
+//            " AND e.eventDate BETWEEN :startDate AND :endDate "
+//    )
+
+
     @Query("select e from Event e where e.initiator.id = ?1 and e.state = ?2 " +
             "and e.category.id = ?3 and e.eventDate between ?4 and ?5")
-    Page<Event> searchEventsByAdminGetConditions(List<Long> usersId, List<String> states, List<Long> categoriesId,
-                                   LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
-
+    Page<Event> searchEventsByAdminGetConditions(List<Long> usersId, List<State> states, List<Long> categoriesId,
+                                                 LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+//    @Query("select e from Event e where e.initiator.id = ?1 and e.state = ?2 " +
+//            "and e.eventDate between ?4 and ?5")
+//    Page<Event> searchEventsByAdminGetConditionsWithOutCategory(Long[] usersId, String[] states, LocalDateTime rangeStart,
+//                                   LocalDateTime rangeEnd, Pageable pageable);
+    @Query("select e from Event e " +
+            "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) like upper(concat('%', ?1, '%')) " +
+            "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
+            "and e.eventDate > e.createdOn ORDER BY e.views")
+    Page<Event> searchEventByViewsAvailableFalseEndNull(String text, List<Long> category, Boolean paid,
+                                                           LocalDateTime rangeStart, Pageable pageable);
+    @Query("select e from Event e " +
+            "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) like upper(concat('%', ?1, '%')) " +
+            "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
+            "and e.eventDate between ?4 and ?5 ORDER BY e.views desc ")
+    Page<Event> searchEventByViewsAvailableFalseEndNotNull(String text, List<Long> category, Boolean paid,
+                                     LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+    @Query("select e from Event e " +
+            "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) like upper(concat('%', ?1, '%')) " +
+            "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
+            "and e.eventDate > e.createdOn ORDER BY e.views desc ")
+    Page<Event> searchEventByViewsAvailableTrueEndNull(String text, List<Long> category, Boolean paid,
+                                                          LocalDateTime rangeStart, Pageable pageable);
+    @Query("select e from Event e " +
+            "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) like upper(concat('%', ?1, '%')) " +
+            "and e.state = 'PUBLISHED' and e.category.id = ?2 and e.paid = ?3 " +
+            "and e.eventDate between ?4 and ?5 ORDER BY e.views desc ")
+    Page<Event> searchEventByViewsAvailableTrueEndNotNull(String text, List<Long> category, Boolean paid,
+                                    LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
     @Query("select e from Event e where e.category.id = ?1")
-    Optional<List<Event>> findEventByCategoryId(Long id);
-
-//    @Query("SELECT i FROM Item i WHERE i.owner.id = ?1 ORDER BY i.id")
-//    Page<Item> findAllItemsOwner(Long idUser, Pageable pageable);
-//    @Query("select i from Item i " +
-//            "where upper(i.name) like upper(concat('%', ?1, '%')) " +
-//            " or upper(i.description) like upper(concat('%', ?1, '%')) " +
-//            "and i.available is true")
-//    Page<Item> searchListItem(String text, Pageable pageable);
-//    @Query("select i from Item i " +
-//            "where upper(i.name) like upper(concat('%', ?1, '%')) " +
-//            " or upper(i.description) like upper(concat('%', ?1, '%')) " +
-//            "and i.available is true")
-//    List<Item> searchListItemText(String text);
-
+    Optional<List<Event>> findEventByCategoryId(Long[] id);
 
 
 }

@@ -43,60 +43,73 @@
       //  LocalDateTime anotherDateTime = LocalDateTime.parse("22.02.2022, 22:22", formatter);
         @Override
         public List<EventShortDto> getEventsByTextAndCategory(String text, List<Long> categories,
-                                                              Boolean paid, String rangeStart, String rangeEnd, Boolean onlyAvailable, String sort,
-                                                              Integer from, Integer size, HttpServletRequest request) throws ObjectNotFoundException {
-            if (sort.equals("EVENT_DATE")) {
-                sort = "e.eventDate";
-            } else {
-                sort = "e.views";
-            }
+                               Boolean paid, String rangeStart, String rangeEnd, Boolean onlyAvailable, String sort,
+                               Integer from, Integer size, HttpServletRequest request) throws ObjectNotFoundException {
+
             List<Event> listEvent = new ArrayList<>();
             final Pageable pageable = FromSizeRequest.of(from, size);
-            if (rangeStart == null) rangeStart = LocalDateTime.now().format(formatter);
-            if (rangeStart != null) {
-                if (onlyAvailable) listEvent = (eventRepository.searchEventByFilterAvailable(text, categories, paid,
-                            LocalDateTime.parse(rangeStart), LocalDateTime.parse(rangeEnd), sort,  pageable).getContent());
-            } else {
-                listEvent = (eventRepository.searchEventByFilter(text, categories, paid,
-                        LocalDateTime.parse(rangeStart), LocalDateTime.parse(rangeEnd), sort,  pageable).getContent());
-            }
+            if (rangeStart.isEmpty()) rangeStart = LocalDateTime.now().format(formatter);
+            if (sort.equals("EVENT_DATE") && onlyAvailable == false && rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByEventDayAvailableFalseEndNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), pageable).getContent();
 
-          if (listEvent.isEmpty()) throw new ObjectNotFoundException(String.format("User with id={} was not found."));
-            return EventMapper.toListEventShortDto(listEvent);
+            if (sort.equals("EVENT_DATE") && onlyAvailable == false && !rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByEventDayAvailableFalseEndNotNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
+
+            if (sort.equals("EVENT_DATE") && onlyAvailable == true && rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByEventDayAvailableTrueEndNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), pageable).getContent();
+
+            if (sort.equals("EVENT_DATE") && onlyAvailable == true && !rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByEventDayAvailableTrueEndNotNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter),  pageable).getContent();
+
+            if (sort.equals("VIEWS") && onlyAvailable == false && rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByViewsAvailableFalseEndNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), pageable).getContent();
+
+            if (sort.equals("VIEWS") && onlyAvailable == false && !rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByViewsAvailableFalseEndNotNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter),  pageable).getContent();
+
+            if (sort.equals("VIEWS") && onlyAvailable == true && rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByViewsAvailableTrueEndNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), pageable).getContent();
+
+            if (sort.equals("VIEWS") && onlyAvailable == true && !rangeEnd.isEmpty())
+                listEvent = eventRepository.searchEventByViewsAvailableTrueEndNotNull(text, categories, paid,
+                        LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter),  pageable).getContent();
+
+          if (!(listEvent.size() > 0)) throw new ObjectNotFoundException(String.format("Events with text = {} was not found.", text));
+            EndpointHit endpointHit = new EndpointHit();
+            endpointHit.setUri(request.getRequestURI());
+            endpointHit.setIp(request.getRemoteAddr());
+            endpointHit.setTimestamp(LocalDateTime.now());
+            restTemplateClientStat.createEndpointHitStatistics(endpointHit);
+          return EventMapper.toListEventShortDto(listEvent);
         }
 
-//        private Event eventValidation (Optional<Long> eventId) throws ObjectNotFoundException, RequestErrorException {
-//            if (!eventId.isPresent()) throw new RequestErrorException();
-//            Optional<Event> event = eventRepository.findEventById(eventId.get());
-//            if (!event.isPresent())
-//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event.get()));
-//            return event.get();
-//        }
-//        private User userValidation (Optional<Long> userId) throws ObjectNotFoundException, RequestErrorException {
-//            if (!userId.isPresent()) throw new RequestErrorException();
-//            Optional<User> user = userRepository.findUserById(userId.get());
-//            if (!user.isPresent())
-//                throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
-//            return user.get() ;
-//        }
         @Override
-        public List<EventFullDto> getEventById(Optional<Long> id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException {
-            if (!id.isPresent())  throw new RequestErrorException();
-            Optional<List<Event>> listEvent = eventRepository.findByEvent_IdAndState(id.get());
-            if (listEvent.isPresent()) {
-                List<Event> list = listEvent.get();
-                for (Event event: list){
+        public List<EventFullDto> getEventById(Long id, HttpServletRequest request)
+                throws ObjectNotFoundException, RequestErrorException {
+            //if (!id.isPresent())  throw new RequestErrorException();
+            List<Event> listEvent = eventRepository.findByEvent_IdAndState(id).orElseThrow(
+                    () -> new ObjectNotFoundException(String.format("Events with id={} was not found.", id)));
+            //if (listEvent.isPresent()) {
+             //   List<Event> list = listEvent.get();
+            for (Event event: listEvent){
                     event.setViews(event.getViews() + 1);
-                    eventRepository.save(event);
+                    eventRepository.saveAndFlush(event);
                 }
                 EndpointHit endpointHit = new EndpointHit();
                 endpointHit.setUri(request.getRequestURI());
                 endpointHit.setIp(request.getRemoteAddr());
                 endpointHit.setTimestamp(LocalDateTime.now());
                 restTemplateClientStat.createEndpointHitStatistics(endpointHit);
-                return EventMapper.toListEventFullDto(list);
-            } else {
-                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", id.get()));
-            }
+                return EventMapper.toListEventFullDto(listEvent);
+//            } else {
+//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", id.get()));
+//            }
         }
     }
