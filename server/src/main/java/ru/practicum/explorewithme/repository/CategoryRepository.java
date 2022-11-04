@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.practicum.explorewithme.model.Category;
-import ru.practicum.explorewithme.model.Compilation;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +16,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select c from Category c ")
     Page<Category> findAllCategory(Pageable pageable);
-
 
 }

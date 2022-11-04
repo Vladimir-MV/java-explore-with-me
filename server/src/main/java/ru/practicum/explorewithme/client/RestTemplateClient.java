@@ -1,7 +1,6 @@
     package ru.practicum.explorewithme.client;
 
     import java.util.List;
-
     import org.springframework.boot.web.client.RestTemplateBuilder;
     import org.springframework.http.HttpEntity;
     import org.springframework.http.HttpHeaders;
@@ -35,11 +34,7 @@
             HttpEntity<T> requestEntity = new HttpEntity<>(body, defaultHeaders());
             ResponseEntity<Object> serverResponse;
             try {
-//                if (parameters != null) {
-//                    serverResponse = rest.exchange(path, method, requestEntity, Object.class, parameters);
-//                } else {
                     serverResponse = rest.exchange(path, method, requestEntity, Object.class);
-                //}
             } catch (HttpStatusCodeException e) {
                 return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsByteArray());
             }

@@ -2,9 +2,7 @@
 
     import com.fasterxml.jackson.annotation.JsonFormat;
     import lombok.*;
-    import org.springframework.boot.context.properties.bind.DefaultValue;
     import ru.practicum.explorewithme.model.Location;
-
     import javax.validation.constraints.NotBlank;
     import javax.validation.constraints.NotNull;
     import javax.validation.constraints.Size;

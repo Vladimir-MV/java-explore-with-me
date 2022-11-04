@@ -1,5 +1,5 @@
-package ru.practicum.explorewithme.exceptions;
+    package ru.practicum.explorewithme.exceptions;
 
-public class ConditionsOperationNotMetException extends Exception{
+    public class ConditionsOperationNotMetException extends Exception{
 
-}
+    }

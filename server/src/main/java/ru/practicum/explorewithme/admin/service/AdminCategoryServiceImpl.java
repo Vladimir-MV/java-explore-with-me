@@ -8,12 +8,9 @@
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.CategoryMapper;
     import ru.practicum.explorewithme.model.Category;
-    import ru.practicum.explorewithme.model.Event;
     import ru.practicum.explorewithme.repository.CategoryRepository;
     import ru.practicum.explorewithme.repository.EventRepository;
 
-    import java.util.List;
-    import java.util.Optional;
     @Slf4j
     @Service
     public class AdminCategoryServiceImpl implements AdminCategoryService {
@@ -27,10 +24,7 @@
 
         @Override
         public CategoryDto patchCategoryByIdAndName(CategoryDto categoryDto) throws RequestErrorException {
-           // if (!categoryDto.isPresent()) throw new RequestErrorException();
             Category category = categoryRepository.findById(categoryDto.getId()).orElseThrow(RequestErrorException::new);
-           // if (!categoryOp.isPresent()) throw new RequestErrorException();
-            //Category category = categoryOp.get();
             category.setName(categoryDto.getName());
             categoryRepository.saveAndFlush(category);
             log.info("Изменение категории на категорию categoryDto={}", category.getName());
@@ -38,8 +32,7 @@
         }
 
         @Override
-        public CategoryDto createCategory(NewCategoryDto newCategoryDto) throws RequestErrorException {
-           // if (!newCategoryDto.isPresent()) throw new RequestErrorException();
+        public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
             Category category = CategoryMapper.toCategory(newCategoryDto);
             categoryRepository.saveAndFlush(category);
             log.info("Добавление новой категории category={}", category.getName());
@@ -48,11 +41,7 @@
 
         @Override
         public CategoryDto deleteCategoryById(Long catId) throws RequestErrorException {
-           //if (!catId.isPresent()) throw new RequestErrorException();
             Category category = categoryRepository.findById(catId).orElseThrow(RequestErrorException::new);
-            //if (!category.isPresent()) throw new RequestErrorException();
-//            Optional<List<Event>> listEvent = eventRepository.findEventByCategoryId(catId.get());
-//            if (listEvent.isPresent()) throw new RequestErrorException();
             categoryRepository.deleteById(category.getId());
             log.info("Удалена категория category={}", category.getName());
             return CategoryMapper.toCategoryDto(category);

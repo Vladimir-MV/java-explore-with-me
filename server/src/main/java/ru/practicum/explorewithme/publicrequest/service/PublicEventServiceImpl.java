@@ -5,10 +5,10 @@
     import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
     import ru.practicum.explorewithme.client.RestTemplateClientStat;
+    import ru.practicum.explorewithme.dto.EndpointHitDto;
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.dto.EventShortDto;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.EventMapper;
     import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.CategoryRepository;
@@ -39,7 +39,6 @@
             this.categoryRepository = categoryRepository;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-      //  LocalDateTime anotherDateTime = LocalDateTime.parse("22.02.2022, 22:22", formatter);
         @Override
         public List<EventShortDto> getEventsByTextAndCategory(String text, List<Long> categories,
                                Boolean paid, String rangeStart, String rangeEnd, Boolean onlyAvailable, String sort,
@@ -81,7 +80,7 @@
                         LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter),  pageable).getContent();
 
           if (!(listEvent.size() > 0)) throw new ObjectNotFoundException(String.format("Events with text = {} was not found.", text));
-            EndpointHit endpointHit = new EndpointHit();
+            EndpointHitDto endpointHit = new EndpointHitDto();
             endpointHit.setUri(request.getRequestURI());
             endpointHit.setIp(request.getRemoteAddr());
             endpointHit.setTimestamp(LocalDateTime.now());
@@ -91,24 +90,17 @@
 
         @Override
         public EventFullDto getEventById(Long id, HttpServletRequest request)
-                throws ObjectNotFoundException, RequestErrorException {
-            //if (!id.isPresent())  throw new RequestErrorException();
+                throws ObjectNotFoundException{
             Event event = eventRepository.findByEventIdAndState(id, State.PUBLISHED).orElseThrow(
                     () -> new ObjectNotFoundException(String.format("Events with id={} was not found.", id)));
-            //if (listEvent.isPresent()) {
-             //   List<Event> list = listEvent.get();
-
             event.setViews(event.getViews() + 1);
             eventRepository.saveAndFlush(event);
-
-                EndpointHit endpointHit = new EndpointHit();
+                EndpointHitDto endpointHit = new EndpointHitDto();
                 endpointHit.setUri(request.getRequestURI());
                 endpointHit.setIp(request.getRemoteAddr());
                 endpointHit.setTimestamp(LocalDateTime.now());
                 restTemplateClientStat.createEndpointHitStatistics(endpointHit);
                 return EventMapper.toEventFullDto(event);
-//            } else {
-//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", id.get()));
-//            }
+
         }
     }

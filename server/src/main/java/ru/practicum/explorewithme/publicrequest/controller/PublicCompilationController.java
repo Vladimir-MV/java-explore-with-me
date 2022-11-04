@@ -4,13 +4,10 @@
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.CompilationDto;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.publicrequest.service.PublicCompilationService;
     import ru.practicum.explorewithme.publicrequest.service.PublicCompilationServiceImpl;
-
     import java.util.List;
-    import java.util.Optional;
 
     @RestController
     @RequestMapping(path = "/compilations")

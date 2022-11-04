@@ -5,7 +5,6 @@
     import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
     import ru.practicum.explorewithme.dto.UserDto;
-    import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.mapper.UserMapper;
     import ru.practicum.explorewithme.model.NewUserRequest;
@@ -23,10 +22,9 @@
             this.userRepository = userRepository;
         }
         @Override
-        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) throws ConditionsOperationNotMetException, ObjectNotFoundException {
+        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) {
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<User> listUsers = userRepository.searchUsersListById(ids, pageable).getContent();
-            if (!(listUsers.size() > 0)) throw new ObjectNotFoundException(String.format("Users with ids={} was not found.", ids));
             return UserMapper.toListUserDto(listUsers);
         }
 

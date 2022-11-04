@@ -1,9 +1,7 @@
     package ru.practicum.explorewithme.mapper;
 
-    import ru.practicum.explorewithme.dto.EventShortDto;
     import ru.practicum.explorewithme.dto.UserDto;
     import ru.practicum.explorewithme.dto.UserShortDto;
-    import ru.practicum.explorewithme.model.Event;
     import ru.practicum.explorewithme.model.NewUserRequest;
     import ru.practicum.explorewithme.model.User;
 
@@ -23,12 +21,6 @@
                     user.getName());
         }
 
-//        public static User toUser (UserDto userDto) {
-//            return new User (
-//                    userDto.getId(),
-//                    userDto.getEmail(),
-//                    userDto.getName());
-//        }
         public static User toUser (NewUserRequest userRequest) {
             return new User (
                     userRequest.getEmail(),

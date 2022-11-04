@@ -8,12 +8,8 @@
     import ru.practicum.explorewithme.dto.CompilationDto;
     import ru.practicum.explorewithme.dto.NewCompilationDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
-
-    import javax.validation.constraints.NotBlank;
-    import java.util.Optional;
 
     @RestController
     @RequestMapping(path = "/admin/compilations")

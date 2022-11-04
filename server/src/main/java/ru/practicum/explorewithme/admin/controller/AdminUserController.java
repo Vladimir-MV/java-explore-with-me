@@ -7,13 +7,10 @@
     import ru.practicum.explorewithme.admin.service.AdminUserServiceImpl;
     import ru.practicum.explorewithme.dto.UserDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.model.NewUserRequest;
-
     import java.util.List;
-    import java.util.Optional;
 
     @RestController
     @RequestMapping(path = "/admin/users")

@@ -9,7 +9,6 @@
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.EventMapper;
     import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.CategoryRepository;
@@ -65,23 +64,11 @@
             if (!(listEvents.size() > 0))
                 throw new ObjectNotFoundException(String.format("Event list with was not found."));
             return EventMapper.toListEventFullDto(listEvents);
-
         }
 
-//        private User userValidation (Long userId) throws ObjectNotFoundException, RequestErrorException {
-//            // if (!userId.isPresent()) throw new RequestErrorException();
-//            User user = userRepository.findById(userId).orElseThrow(
-//                    () -> new ObjectNotFoundException(String.format("User with id={} was not found.", userId)));
-////        if (!user.isPresent())
-////            throw new ObjectNotFoundException(String.format("User with id={} was not found.", userId.get()));
-//            return user;
-//        }
-        private Event eventValidation (Long eventId) throws ObjectNotFoundException, RequestErrorException {
-//            if (!eventId.isPresent()) throw new RequestErrorException();
+        private Event eventValidation (Long eventId) throws ObjectNotFoundException{
             Event event = eventRepository.findById(eventId).orElseThrow(
                     () -> new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId)));
-//            if (!event.isPresent())
-//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", event.get()));
             return event;
         }
 
@@ -90,8 +77,6 @@
             AdminUpdateEventRequest adminUpdateEventRequest) throws ObjectNotFoundException {
             Event event = eventRepository.findById(eventId).orElseThrow(
                     () -> new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId)));
-//          if (event == null)
-//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
             if (adminUpdateEventRequest.getAnnotation() != null)
                         event.setAnnotation(adminUpdateEventRequest.getAnnotation());
             if (adminUpdateEventRequest.getCategory() != null)
@@ -118,11 +103,9 @@
         }
 
         @Override
-        public EventFullDto patchPublishEventById(Long eventId) throws ObjectNotFoundException,
-                RequestErrorException, ConditionsOperationNotMetException {
+        public EventFullDto patchPublishEventById(Long eventId)
+                throws ObjectNotFoundException, ConditionsOperationNotMetException {
             Event event = eventValidation(eventId);
-//            if (!event.isPresent())
-//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
             if (event.getState() != State.PENDING) throw new ConditionsOperationNotMetException();
             event.setPublishedOn(LocalDateTime.now());
             if (event.getEventDate().isBefore(event.getPublishedOn().plusHours(1)))
@@ -134,11 +117,9 @@
         }
 
         @Override
-        public EventFullDto patchRejectEventById(Long eventId) throws ObjectNotFoundException,
-                RequestErrorException, ConditionsOperationNotMetException {
+        public EventFullDto patchRejectEventById(Long eventId)
+                throws ObjectNotFoundException, ConditionsOperationNotMetException {
             Event event = eventValidation(eventId);
-//            if (event == null)
-//                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", eventId));
             if (event.getState() == State.PUBLISHED || event.getState() == State.CANCELED)
                 throw new ConditionsOperationNotMetException();
             event.setState(State.CANCELED);

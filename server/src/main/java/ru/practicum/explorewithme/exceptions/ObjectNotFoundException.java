@@ -1,7 +1,7 @@
-package ru.practicum.explorewithme.exceptions;
+    package ru.practicum.explorewithme.exceptions;
 
-public class ObjectNotFoundException extends Exception{
-    public ObjectNotFoundException(String message) {
-        super(message);
+    public class ObjectNotFoundException extends Exception{
+        public ObjectNotFoundException(String message) {
+            super(message);
+        }
     }
-}

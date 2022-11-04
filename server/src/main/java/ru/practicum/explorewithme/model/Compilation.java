@@ -15,10 +15,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class Compilation {
-        public Compilation(Boolean pinned, String title) {
-            this.pinned = pinned;
-            this.title = title;
-        }
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;

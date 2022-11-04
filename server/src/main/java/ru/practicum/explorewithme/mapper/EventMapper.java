@@ -7,9 +7,7 @@
     import ru.practicum.explorewithme.model.Event;
     import ru.practicum.explorewithme.model.Location;
     import ru.practicum.explorewithme.model.State;
-
     import java.time.LocalDateTime;
-    import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
     import java.util.List;
 

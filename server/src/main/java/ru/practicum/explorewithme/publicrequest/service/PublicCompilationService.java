@@ -1,13 +1,13 @@
-package ru.practicum.explorewithme.publicrequest.service;
+    package ru.practicum.explorewithme.publicrequest.service;
 
-import ru.practicum.explorewithme.dto.CompilationDto;
-import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+    import ru.practicum.explorewithme.dto.CompilationDto;
+    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
 
-import java.util.List;
+    import java.util.List;
 
-public interface PublicCompilationService {
-    List<CompilationDto> getCompilation(Boolean pinned, Integer from, Integer size)
-            throws ObjectNotFoundException;
+    public interface PublicCompilationService {
+        List<CompilationDto> getCompilation(Boolean pinned, Integer from, Integer size)
+                throws ObjectNotFoundException;
 
-    CompilationDto getCompilationById(Long compId) throws ObjectNotFoundException;
-}
+        CompilationDto getCompilationById(Long compId) throws ObjectNotFoundException;
+    }
