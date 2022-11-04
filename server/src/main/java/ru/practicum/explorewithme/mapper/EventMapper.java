@@ -2,8 +2,10 @@
 
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.dto.EventShortDto;
+    import ru.practicum.explorewithme.dto.LocationDto;
     import ru.practicum.explorewithme.dto.NewEventDto;
     import ru.practicum.explorewithme.model.Event;
+    import ru.practicum.explorewithme.model.Location;
     import ru.practicum.explorewithme.model.State;
 
     import java.time.LocalDateTime;
@@ -22,7 +24,7 @@
                     event.getEventDate(),
                     event.getId(),
                     UserMapper.toUserShortDto(event.getInitiator()),
-                    event.getLocation(),
+                    EventMapper.toLocationDto(event.getLocation()),
                     event.getPaid(),
                     event.getParticipantLimit(),
                     event.getPublishedOn(),
@@ -31,7 +33,11 @@
                     event.getTitle(),
                     event.getViews());
         }
-
+        public static LocationDto toLocationDto (Location locat) {
+            return new LocationDto(
+                    locat.getLat(),
+                    locat.getLon());
+        }
         public static Event toEvent(NewEventDto eventDto) {
             Event event = new Event();
             event.setAnnotation(eventDto.getAnnotation());

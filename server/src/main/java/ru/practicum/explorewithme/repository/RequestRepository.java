@@ -9,16 +9,15 @@
     import java.util.Optional;
     @Repository
     public interface RequestRepository extends JpaRepository<ParticipationRequest, Long> {
-        @Query("select r from ParticipationRequest r where r.requester.id = ?1 and r.event.id = ?2")
-        Optional<ParticipationRequest> findRequestUserByIdAndEventById(Long userId, Long eventId);
+        @Query("select r from ParticipationRequest r " +
+                " JOIN Event e ON r.event.id = e.id" +
+                " where e.id = ?1 and e.initiator.id = ?2 ")
+        Optional<List<ParticipationRequest>> findRequestUserByIdAndEventById(Long eventId, Long userId);
 
         @Query("select r from ParticipationRequest r where r.requester.id = ?1")
         Optional<List<ParticipationRequest>> findAllRequestUserById(Long id);
 
         @Query("select r from ParticipationRequest r where r.id = ?1 and r.status <> 'CONFIRMED'")
         Optional<ParticipationRequest> findRequestById(Long id);
-
-    //    @Query("select r from ParticipationRequest r where r.status = 'REJECTED' ")
-    //    Optional<List<ParticipationRequest>> participationRequestReject ();
 
     }

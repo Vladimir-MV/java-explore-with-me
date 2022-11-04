@@ -30,7 +30,7 @@
         private LocalDateTime eventDate;
         private Long id;
         private UserShortDto initiator;
-        private Location location;
+        private LocationDto location;
        // @NotNull
         private Boolean paid;
         private Long participantLimit;

@@ -31,7 +31,7 @@
         public List<ParticipationRequestDto> privateUserRequests(
                 @PathVariable Long userId) throws ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequests get user request by userId={}", userId);
-            return privateUserRequestService.getUserUserRequests(userId);
+            return privateUserRequestService.getUserRequests(userId);
         }
 
         @PostMapping()

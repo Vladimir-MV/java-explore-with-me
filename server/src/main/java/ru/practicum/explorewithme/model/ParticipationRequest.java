@@ -17,13 +17,12 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-       // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime created;
-        @ManyToOne(fetch=FetchType.EAGER,
+        @ManyToOne(fetch=FetchType.LAZY,
                 cascade=CascadeType.ALL)
         @JoinColumn(name="event_id")
         private Event event;
-        @ManyToOne(fetch=FetchType.EAGER,
+        @ManyToOne(fetch=FetchType.LAZY,
                 cascade=CascadeType.ALL)
         @JoinColumn(name="requester_id")
         private User requester;

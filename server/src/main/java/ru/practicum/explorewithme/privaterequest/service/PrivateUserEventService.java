@@ -7,10 +7,9 @@ import ru.practicum.explorewithme.dto.ParticipationRequestDto;
 import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
 import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
 import ru.practicum.explorewithme.exceptions.RequestErrorException;
-import ru.practicum.explorewithme.model.UpdateEventRequest;
+import ru.practicum.explorewithme.dto.UpdateEventRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PrivateUserEventService {
     EventFullDto getUserEventById(Long catId, Long eventId) throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
@@ -21,7 +20,7 @@ public interface PrivateUserEventService {
 
     EventFullDto createUserEvent(Long userId, NewEventDto newEventDto) throws ObjectNotFoundException, RequestErrorException;
 
-    ParticipationRequestDto getUserEventRequestsById(Long userId, Long eventId) throws ObjectNotFoundException, RequestErrorException;
+    List<ParticipationRequestDto> getUserEventRequestsById(Long userId, Long eventId) throws ObjectNotFoundException, RequestErrorException;
 
     ParticipationRequestDto patchUserRequestConfirm(Long userId, Long eventId, Long reqId) throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
 

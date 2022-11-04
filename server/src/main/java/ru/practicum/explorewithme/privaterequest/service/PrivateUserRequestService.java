@@ -8,7 +8,7 @@ import ru.practicum.explorewithme.exceptions.RequestErrorException;
 import java.util.List;
 
 public interface PrivateUserRequestService {
-    List<ParticipationRequestDto> getUserUserRequests(Long userId)
+    List<ParticipationRequestDto> getUserRequests(Long userId)
             throws ObjectNotFoundException, RequestErrorException;
 
     ParticipationRequestDto createUserRequest(Long userId, Long eventId)

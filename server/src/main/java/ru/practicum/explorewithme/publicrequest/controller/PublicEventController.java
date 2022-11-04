@@ -48,7 +48,7 @@
         }
 
         @GetMapping("/{id}")
-        public List<EventFullDto> publicGetEventsWithId(
+        public EventFullDto publicGetEventsWithId(
             @NotBlank @PathVariable Long id, HttpServletRequest request) throws ObjectNotFoundException, RequestErrorException {
             log.info("publicGetEventsWithId get event by id={}", id);
             return publicEventService.getEventById(id, request);

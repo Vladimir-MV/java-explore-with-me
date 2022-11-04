@@ -1,32 +1,27 @@
-    package ru.practicum.explorewithme.model;
+    package ru.practicum.explorewithme.dto;
 
     import com.fasterxml.jackson.annotation.JsonFormat;
     import lombok.AllArgsConstructor;
     import lombok.Getter;
     import lombok.NoArgsConstructor;
     import lombok.Setter;
+    import ru.practicum.explorewithme.model.Location;
 
-    import javax.validation.constraints.NotBlank;
-    import javax.validation.constraints.Size;
     import java.time.LocalDateTime;
 
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public class UpdateEventRequest {
-        //@Size(min=20, max=2000)
+    public class AdminUpdateEventRequest {
         private String annotation;
         private Long category;
-        //@Size(min=20, max=7000)
         private String description;
-       // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime eventDate;
-        //@NotBlank
-        private Long eventId;
+        private Location location;
         private Boolean paid;
         private Long participantLimit;
-        //@Size(min=3, max=120)
+        private Boolean requestModeration;
         private String title;
-
     }

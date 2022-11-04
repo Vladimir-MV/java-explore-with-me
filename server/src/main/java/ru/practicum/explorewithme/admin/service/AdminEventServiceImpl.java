@@ -5,6 +5,7 @@
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
+    import ru.practicum.explorewithme.dto.AdminUpdateEventRequest;
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
@@ -97,6 +98,8 @@
                event.setCategory(categoryRepository.findById(adminUpdateEventRequest.getCategory()).orElseThrow(
                   () -> new ObjectNotFoundException(
                       String.format("Category id={} was not found.", adminUpdateEventRequest.getCategory()))));
+            if (adminUpdateEventRequest.getDescription() != null)
+                event.setDescription(adminUpdateEventRequest.getDescription());
             if (adminUpdateEventRequest.getEventDate() != null)
                 event.setEventDate(adminUpdateEventRequest.getEventDate());
             if (adminUpdateEventRequest.getLocation() != null)
@@ -105,6 +108,8 @@
                 event.setPaid(adminUpdateEventRequest.getPaid());
             if (adminUpdateEventRequest.getParticipantLimit() != null)
                 event.setParticipantLimit(adminUpdateEventRequest.getParticipantLimit());
+            if (adminUpdateEventRequest.getRequestModeration() != null)
+                event.setRequestModeration(adminUpdateEventRequest.getRequestModeration());
             if (adminUpdateEventRequest.getTitle() != null)
                 event.setTitle(adminUpdateEventRequest.getTitle());
             eventRepository.saveAndFlush(event);

@@ -8,14 +8,12 @@
     import ru.practicum.explorewithme.dto.NewEventDto;
     import ru.practicum.explorewithme.dto.ParticipationRequestDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
-    import ru.practicum.explorewithme.model.UpdateEventRequest;
+    import ru.practicum.explorewithme.dto.UpdateEventRequest;
     import ru.practicum.explorewithme.privaterequest.service.PrivateUserEventService;
     import ru.practicum.explorewithme.privaterequest.service.PrivateUserEventServiceImpl;
     import java.util.List;
-    import java.util.Optional;
 
     @RestController
     @RequestMapping(path = "/users/{userId}/events")
@@ -70,7 +68,7 @@
         }
 
         @GetMapping("/{eventId}/requests")
-        public ParticipationRequestDto privateUserEventRequests(
+        public List<ParticipationRequestDto> privateUserEventRequests(
             @PathVariable Long userId,
             @PathVariable Long eventId) throws ObjectNotFoundException, RequestErrorException {
             log.info("privateUserEventRequests get requests user event by userId={}, eventId={}", userId, eventId);

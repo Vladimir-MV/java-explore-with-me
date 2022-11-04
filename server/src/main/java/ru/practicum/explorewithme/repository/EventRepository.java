@@ -17,8 +17,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
    // List<Item> findByOwner_IdOrderById(Long idUser);
 
-    @Query("select e from Event e where e.id = ?1 and e.state = 'PUBLISHED' ")
-    Optional<List<Event>> findByEvent_IdAndState(Long id);
+    @Query("select e from Event e where e.id = ?1 and e.state = ?2 ")
+    Optional<Event> findByEventIdAndState(Long id, State state);
 
     @Query("select e from Event e where e.initiator.id = ?1")
     Page<Event> findEventsByUserId(Long id, Pageable pageable);
@@ -99,6 +99,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "and e.eventDate between ?4 and ?5 ORDER BY e.views desc ")
     Page<Event> searchEventByViewsAvailableTrueEndNotNull(String text, List<Long> category, Boolean paid,
                                     LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+    @Query("select e from Event e where e.initiator.id = ?1 and e.id = ?2")
+    Optional<Event> findUserEventById(Long userId, Long eventId);
     @Query("select e from Event e where e.category.id = ?1")
     Optional<List<Event>> findEventByCategoryId(Long[] id);
 

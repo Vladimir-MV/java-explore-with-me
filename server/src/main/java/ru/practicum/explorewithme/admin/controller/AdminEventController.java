@@ -7,13 +7,11 @@
     import ru.practicum.explorewithme.admin.service.AdminEventServiceImpl;
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
-    import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
-    import ru.practicum.explorewithme.model.AdminUpdateEventRequest;
+    import ru.practicum.explorewithme.dto.AdminUpdateEventRequest;
 
     import java.util.List;
-    import java.util.Optional;
 
     @RestController
     @RequestMapping(path = "/admin/events")

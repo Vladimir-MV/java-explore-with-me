@@ -21,7 +21,6 @@
     import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
     import java.util.List;
-    import java.util.Optional;
 
     @Slf4j
     @Service
@@ -91,23 +90,23 @@
         }
 
         @Override
-        public List<EventFullDto> getEventById(Long id, HttpServletRequest request)
+        public EventFullDto getEventById(Long id, HttpServletRequest request)
                 throws ObjectNotFoundException, RequestErrorException {
             //if (!id.isPresent())  throw new RequestErrorException();
-            List<Event> listEvent = eventRepository.findByEvent_IdAndState(id).orElseThrow(
+            Event event = eventRepository.findByEventIdAndState(id, State.PUBLISHED).orElseThrow(
                     () -> new ObjectNotFoundException(String.format("Events with id={} was not found.", id)));
             //if (listEvent.isPresent()) {
              //   List<Event> list = listEvent.get();
-            for (Event event: listEvent){
-                    event.setViews(event.getViews() + 1);
-                    eventRepository.saveAndFlush(event);
-                }
+
+            event.setViews(event.getViews() + 1);
+            eventRepository.saveAndFlush(event);
+
                 EndpointHit endpointHit = new EndpointHit();
                 endpointHit.setUri(request.getRequestURI());
                 endpointHit.setIp(request.getRemoteAddr());
                 endpointHit.setTimestamp(LocalDateTime.now());
                 restTemplateClientStat.createEndpointHitStatistics(endpointHit);
-                return EventMapper.toListEventFullDto(listEvent);
+                return EventMapper.toEventFullDto(event);
 //            } else {
 //                throw new ObjectNotFoundException(String.format("Event with id={} was not found.", id.get()));
 //            }

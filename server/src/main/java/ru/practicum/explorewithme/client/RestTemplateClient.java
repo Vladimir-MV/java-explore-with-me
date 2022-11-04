@@ -1,25 +1,29 @@
     package ru.practicum.explorewithme.client;
 
     import java.util.List;
-    import java.util.Map;
 
-    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.boot.web.client.RestTemplateBuilder;
     import org.springframework.http.HttpEntity;
     import org.springframework.http.HttpHeaders;
     import org.springframework.http.HttpMethod;
     import org.springframework.http.MediaType;
-    import org.springframework.boot.web.client.RestTemplateBuilder;
     import org.springframework.http.ResponseEntity;
+    import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
     import org.springframework.lang.Nullable;
     import org.springframework.web.client.HttpStatusCodeException;
     import org.springframework.web.client.RestTemplate;
+    import org.springframework.web.util.DefaultUriBuilderFactory;
+
 
     public class RestTemplateClient {
 
         protected final RestTemplate rest;
 
-        public RestTemplateClient(RestTemplate rest) {
-            this.rest = rest;
+        public RestTemplateClient(String serverUrl) {
+            this.rest = new RestTemplateBuilder()
+                    .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
+                    .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                    .build();
         }
 
         protected <T> ResponseEntity<Object> post(String path, T body) {

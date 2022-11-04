@@ -14,10 +14,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.id = ?1")
-    Optional<User> findUserById(Long id);
-
-    @Query("select u from User u where u.id = ?1")
     Page<User> searchUsersListById(List<Long> ids, Pageable pageable);
-
 
 }

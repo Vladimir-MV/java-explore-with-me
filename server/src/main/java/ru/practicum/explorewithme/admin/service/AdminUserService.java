@@ -3,6 +3,7 @@ package ru.practicum.explorewithme.admin.service;
 import ru.practicum.explorewithme.dto.UserDto;
 import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
 import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+import ru.practicum.explorewithme.exceptions.RequestErrorException;
 import ru.practicum.explorewithme.model.NewUserRequest;
 
 import java.util.List;
@@ -13,6 +14,6 @@ public interface AdminUserService {
 
     UserDto createUser(NewUserRequest userDto) throws ConditionsOperationNotMetException;
 
-    void deleteUserIdById(Long userId)
-            throws ConditionsOperationNotMetException, ObjectNotFoundException;
+    void deleteUserById(Long userId)
+            throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException;
 }

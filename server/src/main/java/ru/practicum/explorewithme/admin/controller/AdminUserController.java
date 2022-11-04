@@ -9,6 +9,7 @@
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.MethodExceptions;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.model.NewUserRequest;
 
     import java.util.List;
@@ -44,9 +45,9 @@
 
         @DeleteMapping("/{userId}")
         public void adminDeleteUser(
-            @PathVariable Long userId) throws ConditionsOperationNotMetException, ObjectNotFoundException {
+            @PathVariable Long userId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("adminDeleteUser, delete user userId={}", userId);
-            adminUserService.deleteUserIdById(userId);
+            adminUserService.deleteUserById(userId);
         }
 
     }
