@@ -1,4 +1,4 @@
-name: Explore With Me API Tests
+name: Explore With Me API Test
 
 on:
   pull_request:
