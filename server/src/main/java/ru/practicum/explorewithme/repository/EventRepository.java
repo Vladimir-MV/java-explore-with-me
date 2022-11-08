@@ -6,12 +6,13 @@
     import org.springframework.data.jpa.repository.Query;
     import org.springframework.stereotype.Repository;
     import ru.practicum.explorewithme.model.Event;
+    import ru.practicum.explorewithme.model.LocationGroup;
     import ru.practicum.explorewithme.model.State;
 
     import java.time.LocalDateTime;
     import java.util.List;
     import java.util.Optional;
-    @Repository
+
     public interface EventRepository extends JpaRepository<Event, Long> {
 
         @Query("select e from Event e where e.id = ?1 and e.state = ?2 ")
@@ -20,8 +21,8 @@
         @Query("select e from Event e where e.initiator.id = ?1")
         Page<Event> findEventsByUserId(Long id, Pageable pageable);
 
-        @Query("select e from Event e where e.id = ?1")
-        Optional<Event> findEventById(Long id);
+//        @Query("select e from Event e where e.id = ?1")
+//        Optional<Event> findEventById(Long id);
 
         @Query("select e from Event e " +
                 "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
@@ -88,8 +89,8 @@
                                         LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
         @Query("select e from Event e where e.initiator.id = ?1 and e.id = ?2")
         Optional<Event> findUserEventById(Long userId, Long eventId);
-//        @Query("select e from Event e where e.category.id = ?1")
-//        Optional<List<Event>> findEventByCategoryId(Long[] id);
 
+        @Query("select e from Event e where e.locationGroup = ?1")
+        Optional<List<Event>> findEventsByLocationId(Long id);
 
     }

@@ -7,6 +7,7 @@
     import javax.validation.constraints.NotNull;
     import javax.validation.constraints.Size;
     import java.time.LocalDateTime;
+    import java.util.Set;
 
     @Getter
     @Setter
@@ -14,28 +15,25 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewEventDto {
-        @NotNull
+        @NotBlank
         @Size(min=20, max=2000)
         private String annotation;
         @NotNull
-        @NotBlank
         private Long category;
-        @NotNull
+        @NotBlank
         @Size(min=20, max=7000)
         private String description;
         @NotNull
-        @NotBlank
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime eventDate;
         @NotNull
         private Location location;
-        @Builder.Default
-        private Boolean paid = false;
+        private boolean paid;
         @Builder.Default
         private Long participantLimit = 0L;
         @Builder.Default
         private Boolean requestModeration = true;
-        @NotNull
+        @NotBlank
         @Size(min=3, max=120)
         private String title;
     }

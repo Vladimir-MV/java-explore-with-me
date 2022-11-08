@@ -2,7 +2,7 @@
 
     import ru.practicum.explorewithme.dto.UserDto;
     import ru.practicum.explorewithme.dto.UserShortDto;
-    import ru.practicum.explorewithme.model.NewUserRequest;
+    import ru.practicum.explorewithme.dto.NewUserRequest;
     import ru.practicum.explorewithme.model.User;
 
     import java.util.ArrayList;

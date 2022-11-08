@@ -6,6 +6,7 @@
     import lombok.NoArgsConstructor;
     import lombok.Setter;
     import javax.persistence.*;
+    import javax.validation.constraints.NotBlank;
     import javax.validation.constraints.Pattern;
     import java.time.LocalDateTime;
 
@@ -19,8 +20,11 @@
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+        @NotBlank
         private String app;
+        @NotBlank
         private String uri;
+        @NotBlank
         private String ip;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime timestamp;

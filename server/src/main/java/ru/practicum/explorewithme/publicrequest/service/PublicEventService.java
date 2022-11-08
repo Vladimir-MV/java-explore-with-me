@@ -2,6 +2,7 @@
 
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.dto.EventShortDto;
+    import ru.practicum.explorewithme.dto.EventShortLocationDto;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import javax.servlet.http.HttpServletRequest;
@@ -16,4 +17,5 @@
         EventFullDto getEventById(Long id, HttpServletRequest request)
                 throws ObjectNotFoundException, RequestErrorException;
 
+        List<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException;
     }

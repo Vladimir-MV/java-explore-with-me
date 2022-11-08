@@ -8,7 +8,7 @@
     import javax.persistence.*;
 
     @Entity
-    @Table(name = "users")
+    @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
     @Getter
     @Setter
     @NoArgsConstructor
@@ -20,10 +20,11 @@
         }
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id", nullable = false)
         private Long id;
-        @Column(name="email")
+        @Column(name="email", nullable = false)
         private String email;
-        @Column(name="name")
+        @Column(name="name", nullable = false)
         private String name;
 
     }

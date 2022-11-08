@@ -5,6 +5,8 @@
     import lombok.Getter;
     import lombok.NoArgsConstructor;
     import lombok.Setter;
+
+    import javax.validation.constraints.NotNull;
     import java.time.LocalDateTime;
 
     @Getter
@@ -17,6 +19,7 @@
         private String description;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime eventDate;
+        @NotNull
         private Long eventId;
         private Boolean paid;
         private Long participantLimit;

@@ -9,10 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>statistics</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>ExploreWithMeStatistics</name>
-
-    <properties>
+       <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

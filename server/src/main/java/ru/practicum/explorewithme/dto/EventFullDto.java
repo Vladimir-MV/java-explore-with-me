@@ -24,7 +24,7 @@
         private Long id;
         private UserShortDto initiator;
         private LocationDto location;
-        private Boolean paid;
+        private boolean paid;
         private Long participantLimit;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime publishedOn;

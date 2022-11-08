@@ -6,17 +6,16 @@
     import lombok.Setter;
     import javax.validation.constraints.NotNull;
     import java.util.List;
-        @Getter
+    import java.util.Set;
+
+    @Getter
         @Setter
         @NoArgsConstructor
         @AllArgsConstructor
         public class CompilationDto {
-            @NotNull
             private Long id;
-            private List<EventShortDto> events;
-            @NotNull
-            private Boolean pinned;
-            @NotNull
+            private Set<EventShortDto> events;
+            private boolean pinned;
             private String title;
 
         }

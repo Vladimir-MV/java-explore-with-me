@@ -7,7 +7,7 @@
 
     import java.util.List;
     import java.util.Optional;
-    @Repository
+
     public interface RequestRepository extends JpaRepository<ParticipationRequest, Long> {
         @Query("select r from ParticipationRequest r " +
                 " JOIN Event e ON r.event.id = e.id" +
@@ -17,7 +17,10 @@
         @Query("select r from ParticipationRequest r where r.requester.id = ?1")
         Optional<List<ParticipationRequest>> findAllRequestUserById(Long id);
 
-        @Query("select r from ParticipationRequest r where r.id = ?1 and r.status <> 'CONFIRMED'")
-        Optional<ParticipationRequest> findRequestById(Long id);
+        @Query("select r from ParticipationRequest r where r.requester.id = ?1 and r.event.id = ?2")
+        Optional<ParticipationRequest> findRequestByUserIdAndEventId(Long userId, Long eventId);
+
+        @Query("select r from ParticipationRequest r where r.requester.id = ?1 and r.id = ?2 and r.status <> 'CONFIRMED'")
+        Optional<ParticipationRequest> findRequestById(Long userId, Long id);
 
     }

@@ -1,5 +1,6 @@
     package ru.practicum.explorewithme.privaterequest.controller;
 
+    import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.web.bind.annotation.*;
@@ -12,47 +13,54 @@
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.dto.UpdateEventRequest;
     import ru.practicum.explorewithme.privaterequest.service.PrivateUserEventService;
-    import ru.practicum.explorewithme.privaterequest.service.PrivateUserEventServiceImpl;
+
+    import javax.validation.Valid;
+    import javax.validation.constraints.NotNull;
     import java.util.List;
 
     @RestController
     @RequestMapping(path = "/users/{userId}/events")
     @Slf4j
+    @RequiredArgsConstructor
     public class PrivateUserEventController {
-        PrivateUserEventService privateUserEventService;
+        final private PrivateUserEventService privateUserEventService;
 
-        @Autowired
-        public PrivateUserEventController (PrivateUserEventServiceImpl privateUserEventServiceImpl) {
-            this.privateUserEventService = privateUserEventServiceImpl;
-        }
+//        @Autowired
+//        public PrivateUserEventController (PrivateUserEventService privateUserEventService) {
+//            this.privateUserEventService = privateUserEventService;
+//        }
 
-        @GetMapping()
-        public List<EventShortDto> privateUserEvents(
+        @GetMapping
+        public List<EventShortDto> getUserEvents(
              @PathVariable Long userId,
              @RequestParam(name = "from", defaultValue = "0") Integer from,
-             @RequestParam(name = "size", defaultValue = "10") Integer size) throws ObjectNotFoundException, RequestErrorException {
-            log.info("privateUserEvents, get categories with userId={}, from={}, size={}", userId, from, size);
+             @RequestParam(name = "size", defaultValue = "10") Integer size)
+                    throws ObjectNotFoundException, RequestErrorException {
+            log.info("privateUserEvents, get categories with userId={}, from={}, size={}",
+                    userId, from, size);
             return privateUserEventService.getUserEvents(userId, from, size);
         }
 
-        @PatchMapping()
-        public EventFullDto privatePatchUserEvent(
+        @PatchMapping
+        public EventFullDto updateUserEvent(
             @PathVariable Long userId,
-            @RequestBody UpdateEventRequest updateEventRequest) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
-            log.info("patchUserEvent, patch user event with userId={}, updateEventRequest {}", userId, updateEventRequest);
+            @Valid @RequestBody UpdateEventRequest updateEventRequest)
+                throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+            log.info("patchUserEvent, patch user event with userId={}, updateEventRequest {}",
+                userId, updateEventRequest);
             return privateUserEventService.patchUserIdEvent(userId, updateEventRequest);
         }
 
-        @PostMapping()
-        public EventFullDto privateCreateEvent(
+        @PostMapping
+        public EventFullDto addEvent(
             @PathVariable Long userId,
-            @RequestBody NewEventDto newEventDto) throws ObjectNotFoundException, RequestErrorException {
+            @Valid @RequestBody NewEventDto newEventDto) throws ObjectNotFoundException, RequestErrorException {
             log.info("createEvent, create event with userId={}, newEventDto {}", userId, newEventDto);
             return privateUserEventService.createUserEvent(userId, newEventDto);
         }
 
         @GetMapping("/{eventId}")
-        public EventFullDto privateUserEventById(
+        public EventFullDto getUserEventById(
             @PathVariable Long userId,
             @PathVariable Long eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateUserEventById get user event by userId={}, eventId={}", userId, eventId);
@@ -60,35 +68,41 @@
         }
 
         @PatchMapping("/{eventId}")
-        public EventFullDto privatePatchСancelEvent(
+        public EventFullDto updateСancelEvent(
             @PathVariable Long userId,
-            @PathVariable Long eventId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+            @PathVariable Long eventId)
+                throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("patchСancelEvent, сancel event with userId={}, eventId={}", userId, eventId);
             return privateUserEventService.patchCancelUserIdEvent(userId, eventId);
         }
 
         @GetMapping("/{eventId}/requests")
-        public List<ParticipationRequestDto> privateUserEventRequests(
+        public List<ParticipationRequestDto> getUserEventRequests(
             @PathVariable Long userId,
             @PathVariable Long eventId) throws ObjectNotFoundException, RequestErrorException {
-            log.info("privateUserEventRequests get requests user event by userId={}, eventId={}", userId, eventId);
+            log.info("privateUserEventRequests get requests user event by userId={}, eventId={}",
+                 userId, eventId);
             return privateUserEventService.getUserEventRequestsById(userId, eventId);
         }
         @PatchMapping("/{eventId}/requests/{reqId}/confirm")
-        public ParticipationRequestDto privatePatchRequestConfirm(
+        public ParticipationRequestDto updateRequestConfirm(
             @PathVariable Long userId,
             @PathVariable Long eventId,
-            @PathVariable Long reqId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
-            log.info("privatePatchRequestConfirm, confirm request userId={}, eventId={}, reqId={}", userId, eventId, reqId);
+            @PathVariable Long reqId)
+                throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+            log.info("privatePatchRequestConfirm, confirm request userId={}, eventId={}, reqId={}",
+                userId, eventId, reqId);
             return privateUserEventService.patchUserRequestConfirm(userId, eventId, reqId);
         }
 
         @PatchMapping("/{eventId}/requests/{reqId}/reject")
-        public ParticipationRequestDto privatePatchRequestReject(
-                @PathVariable Long userId,
-                @PathVariable Long eventId,
-                @PathVariable Long reqId) throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
-            log.info("privatePatchRequestReject, confirm request userId={}, eventId={}, reqId={}", userId, eventId, reqId);
+        public ParticipationRequestDto updateRequestReject(
+            @PathVariable Long userId,
+            @PathVariable Long eventId,
+            @PathVariable Long reqId)
+                throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
+            log.info("privatePatchRequestReject, confirm request userId={}, eventId={}, reqId={}",
+                userId, eventId, reqId);
             return privateUserEventService.patchUserRequestReject(userId, eventId, reqId);
         }
 

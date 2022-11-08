@@ -13,7 +13,6 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class EndpointHitDto {
-
         private Long id;
         private String app;
         private String uri;

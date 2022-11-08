@@ -10,15 +10,15 @@
         public static CompilationDto toCompilationDto(Compilation compilation) {
             return new CompilationDto(
                     compilation.getId(),
-                    EventMapper.toListEventShortDto(compilation.getEvents()),
-                    compilation.getPinned(),
+                    EventMapper.toSetEventShortDto(compilation.getEvents()),
+                    compilation.isPinned(),
                     compilation.getTitle()
             );
         }
         public static Compilation toCompilation (NewCompilationDto compilationNew) {
             Compilation compilation = new Compilation();
             compilation.setTitle(compilationNew.getTitle());
-            compilation.setPinned(compilationNew.getPinned());
+            compilation.setPinned(compilationNew.isPinned());
             return compilation;
         }
 

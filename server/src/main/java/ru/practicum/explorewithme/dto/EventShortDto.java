@@ -5,6 +5,8 @@
     import lombok.Getter;
     import lombok.NoArgsConstructor;
     import lombok.Setter;
+    import ru.practicum.explorewithme.model.LocationGroup;
+
     import java.time.LocalDateTime;
 
     @Getter
@@ -19,7 +21,7 @@
         private LocalDateTime eventDate;
         private Long id;
         private UserShortDto initiator;
-        private Boolean paid;
+        private boolean paid;
         private String title;
         private Long views;
 

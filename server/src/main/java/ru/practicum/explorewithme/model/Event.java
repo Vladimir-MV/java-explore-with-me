@@ -7,6 +7,11 @@
 
     import javax.persistence.*;
     import java.time.LocalDateTime;
+    import java.util.ArrayList;
+    import java.util.HashSet;
+    import java.util.List;
+    import java.util.Set;
+
     @Entity
     @Table(name = "events")
     @Getter
@@ -29,39 +34,47 @@
         }
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id", nullable = false)
         private Long id;
+        @Column(name = "annotation", nullable = false)
         private String annotation;
-        @ManyToOne(fetch=FetchType.EAGER,
-                cascade = CascadeType.ALL)
+        @ManyToOne
         @JoinColumn(name="category_id")
         private Category category;
         @Column(name="confirmed_requests")
         private Long confirmedRequests;
         @Column(name="created_on")
         private LocalDateTime createdOn;
+        @Column(name = "description", nullable = false)
         private String description;
-        @Column(name="event_date")
+        @Column(name="event_date", nullable = false)
         private LocalDateTime eventDate;
-        @ManyToOne(fetch=FetchType.EAGER,
-                cascade=CascadeType.ALL)
+        @ManyToOne
         @JoinColumn(name="initiator_id")
         private User initiator;
-        @OneToOne(fetch=FetchType.EAGER,
-                cascade=CascadeType.ALL)
-        @JoinColumn(name="location_id")
+        @OneToOne
+        @JoinColumn(name="location_id", nullable = false)
         private Location location;
-        @Column(name = "is_paid")
-        private Boolean paid;
-        @Column(name="participant_limit")
+        @Column(name = "is_paid", nullable = false)
+        private boolean paid;
+        @Column(name="participant_limit", nullable = false)
         private Long participantLimit;
         @Column(name="published_on")
         private LocalDateTime publishedOn;
-        @Column(name = "is_request_moderation")
+        @Column(name = "is_request_moderation", nullable = false)
         private Boolean requestModeration;
         @Enumerated(EnumType.STRING)
         @Column(name = "state")
         private State state;
+        @Column(name = "title", nullable = false)
         private String title;
+        @Column
         private Long views;
+        //Фича: Локация(группа) к которой относится событие.
+        @ManyToMany
+        @JoinTable(name="location_groups_events",
+                joinColumns =@JoinColumn(name="event_id"),
+                inverseJoinColumns = @JoinColumn(name="location_group_id"))
+        private Set<LocationGroup> locationGroup = new HashSet<>();
 
     }

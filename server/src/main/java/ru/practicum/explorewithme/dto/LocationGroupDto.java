@@ -5,16 +5,15 @@
     import lombok.NoArgsConstructor;
     import lombok.Setter;
 
-    import javax.validation.constraints.NotBlank;
-    import javax.validation.constraints.NotNull;
-
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public class CategoryDto {
-        @NotNull
+    public class LocationGroupDto {
         private Long id;
-        @NotBlank
         private String name;
+        private float lat;
+        private float lon;
+        private float radius;
+        private String description;
     }

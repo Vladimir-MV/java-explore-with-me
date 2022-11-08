@@ -1,13 +1,14 @@
     package ru.practicum.explorewithme.admin.service;
 
+    import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
+    import org.springframework.transaction.annotation.Transactional;
     import ru.practicum.explorewithme.dto.UserDto;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.mapper.UserMapper;
-    import ru.practicum.explorewithme.model.NewUserRequest;
+    import ru.practicum.explorewithme.dto.NewUserRequest;
     import ru.practicum.explorewithme.model.User;
     import ru.practicum.explorewithme.repository.FromSizeRequest;
     import ru.practicum.explorewithme.repository.UserRepository;
@@ -15,19 +16,25 @@
 
     @Slf4j
     @Service
+    @RequiredArgsConstructor
     public class AdminUserServiceImpl implements AdminUserService{
-        private UserRepository userRepository;
-        @Autowired
-        public AdminUserServiceImpl (UserRepository userRepository) {
-            this.userRepository = userRepository;
-        }
+        final private UserRepository userRepository;
+        @Transactional(readOnly = true)
         @Override
-        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) {
+        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) throws ObjectNotFoundException {
             final Pageable pageable = FromSizeRequest.of(from, size);
-            List<User> listUsers = userRepository.searchUsersListById(ids, pageable).getContent();
+            List<User> listUsers;
+            if (ids.isEmpty()) {
+                listUsers = userRepository.findAll(pageable).getContent();
+            } else {
+                listUsers = userRepository.searchUsersListById(ids, pageable).getContent();
+            }
+            if (listUsers.isEmpty()) throw new ObjectNotFoundException("Объект не найден. ",
+                    String.format("Users with list ids {} was not found.", ids));
+            log.info("Найден список пользователей ids {}", ids);
             return UserMapper.toListUserDto(listUsers);
         }
-
+        @Transactional
         @Override
         public UserDto createUser(NewUserRequest userRequest) {
             User user = UserMapper.toUser(userRequest);
@@ -35,13 +42,10 @@
             log.info("Добавлен новый пользователь name {}", user.getName());
             return UserMapper.toUserDto(user);
         }
-
+        @Transactional
         @Override
-        public void deleteUserById(Long userId) throws ObjectNotFoundException {
-            User user = userRepository.findById(userId).orElseThrow(
-                () -> new ObjectNotFoundException(String.format("User with id={} was not found.", userId)));
+        public void deleteUserById(Long userId) {
             log.info("Удален пользователь userId={}", userId);
-            userRepository.findById(userId);
-            userRepository.deleteById(user.getId());
+            userRepository.deleteById(userId);
         }
     }

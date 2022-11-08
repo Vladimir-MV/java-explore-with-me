@@ -9,15 +9,19 @@
     import java.util.List;
 
     public interface AdminEventService {
-        List<EventFullDto> getEventsByUsersStatesCategories(List<Long> users, List<String> states, List<Long> categories,
-                                                            String rangeStart, String rangeEnd, Integer from, Integer size)
-                                                            throws ObjectNotFoundException;
+        List<EventFullDto> getEventsByUsersStatesCategories(
+                List<Long> users, List<String> states, List<Long> categories,
+                String rangeStart, String rangeEnd, Integer from, Integer size)
+                    throws ObjectNotFoundException;
 
-        EventFullDto putEventById(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest) throws ObjectNotFoundException;
+        EventFullDto putEventById(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest)
+                throws ObjectNotFoundException;
 
-        EventFullDto patchPublishEventById(Long eventId) throws ObjectNotFoundException,
-                RequestErrorException, ConditionsOperationNotMetException;
+        EventFullDto patchPublishEventById(Long eventId)
+                throws ObjectNotFoundException, RequestErrorException,
+                ConditionsOperationNotMetException;
 
-        EventFullDto patchRejectEventById(Long eventId) throws ObjectNotFoundException,
-                RequestErrorException, ConditionsOperationNotMetException;
+        EventFullDto patchRejectEventById(Long eventId)
+                throws ObjectNotFoundException, RequestErrorException,
+                ConditionsOperationNotMetException;
     }

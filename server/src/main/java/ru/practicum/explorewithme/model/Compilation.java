@@ -5,8 +5,11 @@
     import lombok.NoArgsConstructor;
     import lombok.Setter;
     import javax.persistence.*;
+    import javax.validation.constraints.NotNull;
     import java.util.ArrayList;
+    import java.util.HashSet;
     import java.util.List;
+    import java.util.Set;
 
     @Entity
     @Table(name = "compilations")
@@ -18,14 +21,16 @@
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id", nullable = false)
         private Long id;
-        @ManyToMany(cascade=CascadeType.ALL)
+        @ManyToMany
         @JoinTable(name="compilations_events",
         joinColumns =@JoinColumn(name="compilation_id"),
         inverseJoinColumns = @JoinColumn(name="event_id"))
-        private List<Event> events = new ArrayList<>();
-        @Column(name="is_pinned")
-        private Boolean pinned;
+        private Set<Event> events = new HashSet<>();
+        @Column(name="is_pinned", nullable = false)
+        private boolean pinned;
+        @Column(name = "title", nullable = false)
         private String title;
 
 

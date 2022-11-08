@@ -12,9 +12,9 @@
     public class ErrorHandler {
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ExceptionHandler(RequestErrorException.class)
-        public ApiError requestErrorResponse() {
+        public ApiError requestErrorResponse(RequestErrorException e) {
             return new ApiError(Collections.emptyList(),
-                    "Only pending or canceled events can be changed",
+                          e.getMessage(),
                     "For the requested operation the conditions are not met.",
                           StatusError.withIndex(400),
                           LocalDateTime.now());
@@ -22,9 +22,9 @@
 
         @ResponseStatus(HttpStatus.FORBIDDEN)
         @ExceptionHandler(ConditionsOperationNotMetException.class)
-        public ApiError errorResponse() {
+        public ApiError errorResponse(ConditionsOperationNotMetException e) {
             return new ApiError(Collections.emptyList(),
-                    "Only pending or canceled events can be changed",
+                    e.getMessage(),
                     "For the requested operation the conditions are not met.",
                     StatusError.withIndex(403),
                     LocalDateTime.now());

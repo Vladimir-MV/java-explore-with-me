@@ -7,7 +7,7 @@
     import org.springframework.stereotype.Repository;
     import ru.practicum.explorewithme.model.User;
     import java.util.List;
-    @Repository
+
     public interface UserRepository extends JpaRepository<User, Long> {
         @Query("select u from User u where u.id = ?1")
         Page<User> searchUsersListById(List<Long> ids, Pageable pageable);

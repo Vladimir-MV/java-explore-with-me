@@ -15,17 +15,16 @@
     public class ParticipationRequest {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id", nullable = false)
         private Long id;
         private LocalDateTime created;
-        @ManyToOne(fetch=FetchType.LAZY,
-                cascade=CascadeType.ALL)
-        @JoinColumn(name="event_id")
+        @ManyToOne
+        @JoinColumn(name="event_id", nullable = false)
         private Event event;
-        @ManyToOne(fetch=FetchType.LAZY,
-                cascade=CascadeType.ALL)
-        @JoinColumn(name="requester_id")
+        @ManyToOne
+        @JoinColumn(name="requester_id", nullable = false)
         private User requester;
-        @JoinColumn(name = "status")
+        @JoinColumn(name = "status", nullable = false)
         @Enumerated(EnumType.STRING)
         private Status status;
     }

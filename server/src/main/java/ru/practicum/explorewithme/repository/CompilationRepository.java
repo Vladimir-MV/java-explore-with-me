@@ -7,11 +7,11 @@
     import org.springframework.stereotype.Repository;
     import ru.practicum.explorewithme.model.Compilation;
     import java.util.Optional;
-    @Repository
+
     public interface CompilationRepository extends JpaRepository<Compilation, Long> {
 
-        @Query("select c from Compilation c where c.id = ?1")
-        Optional<Compilation> findCompilationById(Long id);
+//        @Query("select c from Compilation c where c.id = ?1")
+//        Optional<Compilation> findCompilationById(Long id);
 
         @Query("select c from Compilation c where c.pinned = ?1")
         Page<Compilation> findCompilationByPinned(Boolean pinned, Pageable pageable);
