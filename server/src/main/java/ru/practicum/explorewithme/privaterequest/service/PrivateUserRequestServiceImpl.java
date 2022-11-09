@@ -7,10 +7,8 @@
     import ru.practicum.explorewithme.dto.ParticipationRequestDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.ParticipationRequestMapper;
     import ru.practicum.explorewithme.model.*;
-    import ru.practicum.explorewithme.repository.CategoryRepository;
     import ru.practicum.explorewithme.repository.EventRepository;
     import ru.practicum.explorewithme.repository.RequestRepository;
     import ru.practicum.explorewithme.repository.UserRepository;
@@ -23,7 +21,6 @@
     @RequiredArgsConstructor
     public class PrivateUserRequestServiceImpl implements PrivateUserRequestService {
         final private UserRepository userRepository;
-        final private CategoryRepository categoryRepository;
         final private EventRepository eventRepository;
         final private RequestRepository requestRepository;
         private Event eventValidation (Long eventId) throws ObjectNotFoundException {
@@ -91,9 +88,7 @@
                     .findRequestById(userId, requestId).orElseThrow(
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("ParticipationRequest with reqId={} was not found.", requestId)));
-//            if (participationRequest.getRequester().getId() != userId) {
-//                throw new ConditionsOperationNotMetException();
-//            }
+
             participationRequest.setStatus(Status.CANCELED);
             requestRepository.save(participationRequest);
             log.info("Отмена своего запроса requestId={} на участие в событии userId={}", requestId, userId);

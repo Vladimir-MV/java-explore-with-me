@@ -4,25 +4,14 @@
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.jpa.repository.JpaRepository;
     import org.springframework.data.jpa.repository.Query;
-    import org.springframework.stereotype.Repository;
     import ru.practicum.explorewithme.model.Event;
-    import ru.practicum.explorewithme.model.LocationGroup;
     import ru.practicum.explorewithme.model.State;
-
     import java.time.LocalDateTime;
     import java.util.List;
     import java.util.Optional;
 
     public interface EventRepository extends JpaRepository<Event, Long> {
-
-        @Query("select e from Event e where e.id = ?1 and e.state = ?2 ")
-        Optional<Event> findByEventIdAndState(Long id, State state);
-
-        @Query("select e from Event e where e.initiator.id = ?1")
-        Page<Event> findEventsByUserId(Long id, Pageable pageable);
-
-//        @Query("select e from Event e where e.id = ?1")
-//        Optional<Event> findEventById(Long id);
+        Optional<Event> findByIdAndState(Long id, State state);
 
         @Query("select e from Event e " +
                 "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +
@@ -58,6 +47,12 @@
                 "and e.category.id = ?3 and e.eventDate between ?4 and ?5")
         Page<Event> searchEventsByAdminGetConditions(List<Long> usersId, List<State> states, List<Long> categoriesId,
                                                      LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+
+        @Query("select e from Event e where e.initiator.id = ?1 and e.category.id = ?2 ")
+        Page<Event> searchEventsByAdminWithOutStatesAndRange(List<Long> usersId, List<Long> categoriesId, Pageable pageable);
+
+        @Query("select e from Event e where e.initiator.id = ?1")
+        Page<Event> findEventsByUserId(Long id, Pageable pageable);
 
         @Query("select e from Event e " +
                 "where upper(e.annotation) like upper(concat('%', ?1, '%')) " +

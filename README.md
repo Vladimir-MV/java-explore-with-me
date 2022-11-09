@@ -1,6 +1,6 @@
 
 # Дипломный проект Матвеева Владимира, когорта 3<br>
-https://github.com/Vladimir-MV/java-explore-with-me/tree/develop
+https://github.com/Vladimir-MV/java-explore-with-me/pull/1
 
 
 ---

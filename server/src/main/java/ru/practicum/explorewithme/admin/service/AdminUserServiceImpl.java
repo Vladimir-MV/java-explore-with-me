@@ -27,10 +27,8 @@
             if (ids.isEmpty()) {
                 listUsers = userRepository.findAll(pageable).getContent();
             } else {
-                listUsers = userRepository.searchUsersListById(ids, pageable).getContent();
+                listUsers = userRepository.findById(ids, pageable).getContent();
             }
-            if (listUsers.isEmpty()) throw new ObjectNotFoundException("Объект не найден. ",
-                    String.format("Users with list ids {} was not found.", ids));
             log.info("Найден список пользователей ids {}", ids);
             return UserMapper.toListUserDto(listUsers);
         }

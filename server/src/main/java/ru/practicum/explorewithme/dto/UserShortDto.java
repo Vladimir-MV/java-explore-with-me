@@ -2,6 +2,7 @@
 
     import lombok.*;
 
+    import javax.validation.constraints.NotBlank;
     import javax.validation.constraints.NotNull;
 
     @Getter
@@ -11,6 +12,6 @@
     public class UserShortDto {
         @NotNull
         private Long id;
-        @NotNull
+        @NotBlank
         private String name;
     }

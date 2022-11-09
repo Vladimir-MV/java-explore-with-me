@@ -2,13 +2,11 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.admin.service.AdminLocationGroupService;
     import ru.practicum.explorewithme.dto.LocationGroupDto;
     import ru.practicum.explorewithme.dto.NewLocationGroupDto;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-
     import javax.validation.Valid;
 
     @RestController
@@ -20,8 +18,7 @@
         final private AdminLocationGroupService adminLocationGroupService;
 
         @PostMapping
-        public LocationGroupDto addLocationGroup(
-                @Valid @RequestBody NewLocationGroupDto locationGroupDto) {
+        public LocationGroupDto addLocationGroup(@Valid @RequestBody NewLocationGroupDto locationGroupDto) {
             log.info("adminCreateLocationGroup, create newLocationGroup {}", locationGroupDto);
             return adminLocationGroupService.createLocationGroup(locationGroupDto);
         }
@@ -34,8 +31,7 @@
 
 
         @PatchMapping
-        public LocationGroupDto updateLocationGroup(
-                @Valid @RequestBody LocationGroupDto locationGroupDto)
+        public LocationGroupDto updateLocationGroup(@Valid @RequestBody LocationGroupDto locationGroupDto)
                 throws ObjectNotFoundException {
             log.info("adminPatchLocationGroup, patch locationGroupDto {}", locationGroupDto);
             return adminLocationGroupService.patchLocationGroup(locationGroupDto);

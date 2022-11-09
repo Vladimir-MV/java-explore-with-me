@@ -7,9 +7,7 @@
 
     import javax.persistence.*;
     import java.time.LocalDateTime;
-    import java.util.ArrayList;
     import java.util.HashSet;
-    import java.util.List;
     import java.util.Set;
 
     @Entity
@@ -20,18 +18,6 @@
     @AllArgsConstructor
     public class Event {
 
-        public Event(String annotation, String description, LocalDateTime eventDate, Location location,
-               Boolean paid, Long participantLimit, Boolean requestModeration, String title) {
-                this.annotation= annotation;
-                this.description = description;
-                this.eventDate = eventDate;
-                this.location = location;
-                this.paid= paid;
-                this.participantLimit = participantLimit;
-                this.requestModeration = requestModeration;
-                this.title = title;
-
-        }
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false)

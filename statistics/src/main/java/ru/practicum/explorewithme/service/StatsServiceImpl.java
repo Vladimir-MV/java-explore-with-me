@@ -42,14 +42,14 @@
                             uris.get(),
                             LocalDateTime.parse(start.get(), formatter),
                             LocalDateTime.parse(end.get(), formatter)).orElseThrow(
-                            () -> new ObjectNotFoundException(
+                            () -> new ObjectNotFoundException("Объект не найден. ",
                                 String.format("EndpointHit with uris {} was not found.", uris.get())));
                 }
                 if (!uris.isPresent()) {
                     listEndpoint = statsRepository.findEndpointHitByNotUriUniqueTrue(
                             LocalDateTime.parse(start.get(), formatter),
                             LocalDateTime.parse(end.get(), formatter)).orElseThrow(
-                            () -> new ObjectNotFoundException(
+                            () -> new ObjectNotFoundException("Объект не найден. ",
                                 String.format("EndpointHit without uris {} was not found.", uris.get())));
                 }
             } else {
@@ -58,7 +58,7 @@
                             uris.get(),
                             LocalDateTime.parse(start.get(), formatter),
                             LocalDateTime.parse(end.get(), formatter)).orElseThrow(
-                            () -> new ObjectNotFoundException(
+                            () -> new ObjectNotFoundException("Объект не найден. ",
                                 String.format("EndpointHit with uris {} was not found.", uris.get())));
                 }
 
@@ -66,7 +66,7 @@
                     listEndpoint = statsRepository.findEndpointHitByNotUriUniqueFalse(
                             LocalDateTime.parse(start.get(), formatter),
                             LocalDateTime.parse(end.get(), formatter)).orElseThrow(
-                            () -> new ObjectNotFoundException(
+                            () -> new ObjectNotFoundException("Объект не найден. ",
                                  String.format("EndpointHit without uris {} was not found.", uris.get())));
                 }
 

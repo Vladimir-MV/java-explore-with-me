@@ -2,7 +2,6 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.admin.service.AdminCategoryService;
     import ru.practicum.explorewithme.dto.CategoryDto;
@@ -17,28 +16,23 @@
     public class AdminCategoryController {
         final private AdminCategoryService adminCategoryService;
 
-//        @Autowired
-//        public AdminCategoryController (AdminCategoryService adminCategoryService) {
-//            this.adminCategoryService = adminCategoryService;
-//        }
-
         @PatchMapping
-        public CategoryDto updateCategory(
-                @Valid @RequestBody CategoryDto categoryDto) throws RequestErrorException {
+        public CategoryDto updateCategory(@Valid @RequestBody CategoryDto categoryDto)
+                throws RequestErrorException {
             log.info("adminPatchCategory, patch categoryDto {}", categoryDto);
             return adminCategoryService.patchCategoryByIdAndName(categoryDto);
         }
 
         @PostMapping
-        public CategoryDto addPostCategory(
-                @Valid @RequestBody NewCategoryDto newCategoryDto) throws RequestErrorException {
+        public CategoryDto addPostCategory(@Valid @RequestBody NewCategoryDto newCategoryDto)
+                throws RequestErrorException {
             log.info("adminPostCategory, create category newCategoryDto {}", newCategoryDto);
             return adminCategoryService.createCategory(newCategoryDto);
         }
 
         @DeleteMapping("/{catId}")
-        public CategoryDto deleteCategory(
-                @PathVariable Long catId) throws RequestErrorException {
+        public CategoryDto deleteCategory(@PathVariable Long catId)
+                throws RequestErrorException {
             log.info("adminDeleteCategory, delete category catId={}", catId);
             return adminCategoryService.deleteCategoryById(catId);
         }

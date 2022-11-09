@@ -2,7 +2,6 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +35,11 @@
                 String rangeStart, String rangeEnd, Integer from, Integer size)
                     throws ObjectNotFoundException {
             List<State> listState = new ArrayList<>();
-            for (String state: states) {
-                listState.add(State.valueOf(state));
+            List <Event> listEvents;
+            if (states != null) {
+                for (String state: states) {
+                    listState.add(State.valueOf(state));
+                }
             }
 
             for (Long userId: users) {
@@ -54,14 +56,22 @@
 
             final Pageable pageable = FromSizeRequest.of(from, size);
 
+            if (states == null && rangeStart == null && rangeEnd == null) {
+                listEvents = eventRepository
+                        .searchEventsByAdminWithOutStatesAndRange(users, categories, pageable).getContent();
+            } else {
 
-            List <Event> listEvents = eventRepository
-                    .searchEventsByAdminGetConditions(users, listState, categories,
-                    LocalDateTime.parse(rangeStart, formatter), LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
+                listEvents = eventRepository
+                        .searchEventsByAdminGetConditions(
+                                users, listState, categories,
+                                LocalDateTime.parse(rangeStart, formatter),
+                                LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
+            }
 
-            if (!(listEvents.size() > 0))
-                throw new ObjectNotFoundException("Объект не найден. ",
-                        String.format("Event list with was not found."));
+           if (listEvents.isEmpty()) {
+               throw new ObjectNotFoundException("Объект не найден. ",
+                       String.format("Event list with was not found."));
+           }
             return EventMapper.toListEventFullDto(listEvents);
         }
 

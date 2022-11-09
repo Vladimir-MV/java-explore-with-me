@@ -6,7 +6,6 @@
     import lombok.Setter;
 
     import javax.persistence.*;
-    import javax.validation.constraints.NotNull;
 
     @Entity
     @Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = "name"))

@@ -2,7 +2,6 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.ParticipationRequestDto;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
@@ -19,31 +18,24 @@
 
         final private PrivateUserRequestService privateUserRequestService;
 
-//        @Autowired
-//        public PrivateUserRequestController (PrivateUserRequestService privateUserRequestService) {
-//            this.privateUserRequestService = privateUserRequestService;
-//        }
-
         @GetMapping
-        public List<ParticipationRequestDto> getUserRequests(
-                @PathVariable Long userId) throws ObjectNotFoundException, RequestErrorException {
+        public List<ParticipationRequestDto> getUserRequests(@PathVariable Long userId)
+                throws ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequests get user request by userId={}", userId);
             return privateUserRequestService.getUserRequests(userId);
         }
 
         @PostMapping
-        public ParticipationRequestDto addUserRequest(
-            @PathVariable Long userId,
-            @RequestParam Long eventId)
+        public ParticipationRequestDto addUserRequest(@PathVariable Long userId,
+                                                      @RequestParam Long eventId)
                 throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateUserRequest, create request userId={}, eventId={}", userId, eventId);
             return privateUserRequestService.createUserRequest(userId, eventId);
         }
 
         @PatchMapping("/{requestId}/cancel")
-        public ParticipationRequestDto updateCancelUserRequest(
-             @PathVariable Long userId,
-             @PathVariable Long requestId)
+        public ParticipationRequestDto updateCancelUserRequest(@PathVariable Long userId,
+                                                               @PathVariable Long requestId)
                 throws ConditionsOperationNotMetException, ObjectNotFoundException, RequestErrorException {
             log.info("privateCancelUserRequest, cancel user request userId={}, requestId={}",
                 userId, requestId);

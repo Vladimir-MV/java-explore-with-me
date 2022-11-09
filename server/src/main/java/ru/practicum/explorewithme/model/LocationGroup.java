@@ -15,12 +15,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class LocationGroup {
-        public LocationGroup (String name, float lat, float lon, float radius) {
-            this.name = name;
-            this.lat = lat;
-            this.lon = lon;
-            this.radius = radius;
-        }
+
         //Фича: Локация(группа) в радиусе которой происходит событие.
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

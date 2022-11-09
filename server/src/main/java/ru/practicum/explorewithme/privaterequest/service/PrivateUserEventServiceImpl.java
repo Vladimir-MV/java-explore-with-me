@@ -2,12 +2,9 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.domain.Pageable;
-
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
-    import ru.practicum.explorewithme.admin.service.AdminLocationGroupService;
     import ru.practicum.explorewithme.dto.*;
     import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
@@ -16,9 +13,6 @@
     import ru.practicum.explorewithme.mapper.ParticipationRequestMapper;
     import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.*;
-
-    import javax.persistence.EntityManager;
-    import javax.persistence.PersistenceContext;
     import java.time.LocalDateTime;
     import java.util.HashSet;
     import java.util.List;

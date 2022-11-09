@@ -20,8 +20,6 @@
     @RequiredArgsConstructor
     public class AdminCompilationServiceImpl implements AdminCompilationService{
         final private EventRepository eventRepository;
-        final private UserRepository userRepository;
-        final private CategoryRepository categoryRepository;
         final private CompilationRepository compilationRepository;
 
         @Transactional
@@ -77,7 +75,7 @@
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
             compilation.setPinned(false);
-            compilationRepository.saveAndFlush(compilation);
+            compilationRepository.save(compilation);
             log.info("Откреплена подборка compilationId={} с главной страницы.", compId);
         }
 
@@ -88,7 +86,7 @@
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
             compilation.setPinned(true);
-            compilationRepository.saveAndFlush(compilation);
+            compilationRepository.save(compilation);
             log.info("Закреплена подборка compilationId={} на главную страницу.", compId);
         }
     }

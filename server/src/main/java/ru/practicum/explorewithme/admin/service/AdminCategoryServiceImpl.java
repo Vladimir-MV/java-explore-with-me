@@ -10,14 +10,12 @@
     import ru.practicum.explorewithme.mapper.CategoryMapper;
     import ru.practicum.explorewithme.model.Category;
     import ru.practicum.explorewithme.repository.CategoryRepository;
-    import ru.practicum.explorewithme.repository.EventRepository;
     import java.util.Optional;
 
     @Slf4j
     @Service
     @RequiredArgsConstructor
     public class AdminCategoryServiceImpl implements AdminCategoryService {
-        final private EventRepository eventRepository;
         final private CategoryRepository categoryRepository;
 
         @Transactional
@@ -38,6 +36,9 @@
         @Transactional
         @Override
         public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
+            if (newCategoryDto.getName() == null) {
+                throw new RequestErrorException("Запрос составлен с ошибкой", "нет name");
+            }
             Category category = CategoryMapper.toCategory(newCategoryDto);
             categoryRepository.save(category);
             log.info("Добавление новой категории category={}", category.getName());

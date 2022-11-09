@@ -11,7 +11,7 @@
     public interface PublicEventService {
         List<EventShortDto> getEventsByTextAndCategory(
                 String text, List<Long> categories,
-                Boolean rangeStart, String rangeEnd, String paid, Boolean onlyAvailable, String sort,
+                Boolean rangeStart, String rangeEnd, String paid, boolean onlyAvailable, String sort,
                 Integer from, Integer size, HttpServletRequest request) throws ObjectNotFoundException;
 
         EventFullDto getEventById(Long id, HttpServletRequest request)
