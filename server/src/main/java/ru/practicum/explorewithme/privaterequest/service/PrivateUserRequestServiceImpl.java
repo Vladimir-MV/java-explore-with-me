@@ -24,6 +24,7 @@
         private final UserRepository userRepository;
         private final EventRepository eventRepository;
         private final RequestRepository requestRepository;
+
         private Event eventValidation(Long eventId) throws ObjectNotFoundException {
             return eventRepository.findById(eventId).orElseThrow(() ->
                     new ObjectNotFoundException("Объект не найден. ",

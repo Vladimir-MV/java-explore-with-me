@@ -6,7 +6,7 @@
 
     public interface AdminLocationGroupService {
 
-        LocationGroupDto createLocationGroup(NewLocationGroupDto LocationGroupDto);
+        LocationGroupDto createLocationGroup(NewLocationGroupDto locationGroupDto);
 
         void deleteLocationGroupById(Long id) throws ObjectNotFoundException;
 

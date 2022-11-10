@@ -15,6 +15,7 @@
                                                 request.getRequester().getId(),
                                                 request.getStatus());
         }
+
         public static List<ParticipationRequestDto> toListParticipationRequestDto(List<ParticipationRequest> list) {
             List<ParticipationRequestDto> listDto = new ArrayList<>();
             for (ParticipationRequest request : list) {
@@ -22,5 +23,4 @@
             }
             return listDto;
         }
-
     }

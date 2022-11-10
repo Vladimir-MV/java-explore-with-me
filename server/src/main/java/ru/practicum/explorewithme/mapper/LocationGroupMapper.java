@@ -19,8 +19,9 @@
             return locationGroup;
 
         }
+
         public static LocationGroupDto toLocationGroupDto(LocationGroup locationGroup) {
-            return new LocationGroupDto (locationGroup.getId(),
+            return new LocationGroupDto(locationGroup.getId(),
                                         locationGroup.getName(),
                                         locationGroup.getLat(),
                                         locationGroup.getLon(),

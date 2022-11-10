@@ -2,7 +2,7 @@
 
     import ru.practicum.explorewithme.dto.*;
     import ru.practicum.explorewithme.model.Event;
-    import ru.practicum.explorewithme.model.Location;;
+    import ru.practicum.explorewithme.model.Location;
     import ru.practicum.explorewithme.model.State;
     import java.time.LocalDateTime;
     import java.util.ArrayList;

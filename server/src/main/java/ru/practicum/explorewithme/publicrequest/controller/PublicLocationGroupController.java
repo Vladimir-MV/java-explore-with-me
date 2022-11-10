@@ -1,7 +1,6 @@
     package ru.practicum.explorewithme.publicrequest.controller;
 
     import lombok.RequiredArgsConstructor;
-    import lombok.extern.slf4j.Slf4j;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.LocationGroupDto;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;

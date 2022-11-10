@@ -16,7 +16,7 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class AdminCompilationServiceImpl implements AdminCompilationService{
+    public class AdminCompilationServiceImpl implements AdminCompilationService {
 
         private final EventRepository eventRepository;
         private final CompilationRepository compilationRepository;
@@ -57,7 +57,7 @@
         @Transactional
         @Override
         public void patchEventInCompilationById(Long compId, Long eventId)
-                throws ObjectNotFoundException {
+                                                throws ObjectNotFoundException {
             Compilation compilation = compilationRepository
                     .findById(compId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));

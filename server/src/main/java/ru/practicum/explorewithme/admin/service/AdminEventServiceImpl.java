@@ -24,6 +24,7 @@
     @Service
     @RequiredArgsConstructor
     public class AdminEventServiceImpl implements AdminEventService {
+
         private final EventRepository eventRepository;
         private final UserRepository userRepository;
         private final CategoryRepository categoryRepository;
@@ -35,7 +36,7 @@
             List<Long> users, List<String> states, List<Long> categories,
             String rangeStart, String rangeEnd, Integer from, Integer size) throws ObjectNotFoundException {
             List<State> listState = new ArrayList<>();
-            List <Event> listEvents;
+            List<Event> listEvents;
             if (states != null) {
                 for (String state: states) {
                     listState.add(State.valueOf(state));
@@ -74,15 +75,15 @@
             return EventMapper.toListEventFullDto(listEvents);
         }
 
-        private Event eventValidation (Long eventId) throws ObjectNotFoundException {
+        private Event eventValidation(Long eventId) throws ObjectNotFoundException {
             return eventRepository.findById(eventId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
 
         @Transactional
         @Override
-        public EventFullDto putEventById(Long eventId,
-            AdminUpdateEventRequest adminUpdateEventRequest) throws ObjectNotFoundException {
+        public EventFullDto putEventById(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest)
+                                throws ObjectNotFoundException {
             Event event = eventValidation(eventId);
             if (adminUpdateEventRequest.getAnnotation() != null) {
                 event.setAnnotation(adminUpdateEventRequest.getAnnotation());

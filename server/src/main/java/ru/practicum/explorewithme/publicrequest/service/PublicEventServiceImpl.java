@@ -15,8 +15,6 @@
     import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.EventRepository;
     import ru.practicum.explorewithme.repository.FromSizeRequest;
-    import ru.practicum.explorewithme.repository.LocationGroupRepository;
-
     import javax.servlet.http.HttpServletRequest;
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
@@ -113,18 +111,18 @@
         @Transactional
         @Override
         public EventFullDto getEventById(Long id, HttpServletRequest request)
-                throws ObjectNotFoundException{
-            Event event = eventRepository.findByIdAndState(id, State.PUBLISHED).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+                throws ObjectNotFoundException {
+            Event event = eventRepository.findByIdAndState(id, State.PUBLISHED)
+                    .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Events with id={} was not found.", id)));
             event.setViews(event.getViews() + 1);
             eventRepository.saveAndFlush(event);
-                EndpointHitDto endpointHit = new EndpointHitDto();
-                endpointHit.setUri(request.getRequestURI());
-                endpointHit.setIp(request.getRemoteAddr());
-                endpointHit.setTimestamp(LocalDateTime.now());
-                restTemplateClientStat.createEndpointHitStatistics(endpointHit);
-                return EventMapper.toEventFullDto(event);
+            EndpointHitDto endpointHit = new EndpointHitDto();
+            endpointHit.setUri(request.getRequestURI());
+            endpointHit.setIp(request.getRemoteAddr());
+            endpointHit.setTimestamp(LocalDateTime.now());
+            restTemplateClientStat.createEndpointHitStatistics(endpointHit);
+            return EventMapper.toEventFullDto(event);
         }
 
         @Transactional(readOnly = true)

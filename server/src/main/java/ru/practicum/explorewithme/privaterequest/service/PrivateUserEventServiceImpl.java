@@ -33,10 +33,9 @@
         @Transactional(readOnly = true)
         @Override
         public List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size)
-                throws ObjectNotFoundException {
+                                        throws ObjectNotFoundException {
                 final Pageable pageable = FromSizeRequest.of(from, size);
-                List<Event> listEvent = eventRepository
-                        .findEventsByUserId(userId, pageable).getContent();
+                List<Event> listEvent = eventRepository.findEventsByUserId(userId, pageable).getContent();
                 if (listEvent.isEmpty()) {
                     throw new ObjectNotFoundException("Объект не найден. ",
                             String.format("ListEvents with userId={} was not found.", userId));
@@ -98,13 +97,13 @@
             return EventMapper.toEventFullDto(event);
         }
 
-        private Event eventValidation (Long eventId) throws ObjectNotFoundException {
+        private Event eventValidation(Long eventId) throws ObjectNotFoundException {
             return eventRepository.findById(eventId).orElseThrow(() ->
                             new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
 
-        private User userValidation (Long userId) throws ObjectNotFoundException {
+        private User userValidation(Long userId) throws ObjectNotFoundException {
             return userRepository.findById(userId).orElseThrow(() ->
                             new ObjectNotFoundException("Объект не найден. ",
                             String.format("User with id={} was not found.", userId)));
@@ -122,8 +121,8 @@
             if (!newEventDto.getEventDate().minusHours(2).isAfter(LocalDateTime.now())) {
                 throw new RequestErrorException("Запрос составлен с ошибкой. ", "EventDate");
             }
-            Category category = categoryRepository.
-                    findById(newEventDto.getCategory()).orElseThrow(() ->
+            Category category = categoryRepository
+                    .findById(newEventDto.getCategory()).orElseThrow(() ->
                               new ObjectNotFoundException("Объект не найден. ",
                               String.format("Category with id={} was not found.",
                               newEventDto.getCategory())));
@@ -220,7 +219,7 @@
             if (event.getParticipantLimit() == 0 || !event.getRequestModeration()) {
                 return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
             }
-            if (event.getParticipantLimit() == (event.getConfirmedRequests())){
+            if (event.getParticipantLimit() == (event.getConfirmedRequests())) {
                 throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "ParticipantLimit");
             }
 

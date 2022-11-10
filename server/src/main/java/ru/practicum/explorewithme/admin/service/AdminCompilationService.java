@@ -10,14 +10,19 @@
 
         CompilationDto createCompilation(NewCompilationDto newCompilationDto)
                 throws ConditionsOperationNotMetException;
+
         void deleteCompilationById(Long compId)
                 throws RequestErrorException, ObjectNotFoundException;
+
         void deleteEventByIdFromCompilation(Long compId, Long eventId)
                 throws RequestErrorException, ObjectNotFoundException;
+
         void patchEventInCompilationById(Long compId, Long eventId)
                 throws RequestErrorException, ObjectNotFoundException;
+
         void unpinCompilationById(Long compId)
                 throws RequestErrorException, ObjectNotFoundException;
+
         void pinCompilationById(Long compId)
                 throws RequestErrorException, ObjectNotFoundException;
     }
