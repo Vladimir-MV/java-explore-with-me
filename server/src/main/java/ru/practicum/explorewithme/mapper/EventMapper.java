@@ -2,14 +2,8 @@
 
     import ru.practicum.explorewithme.dto.*;
     import ru.practicum.explorewithme.model.Event;
-    import ru.practicum.explorewithme.model.Location;
-    import ru.practicum.explorewithme.model.LocationGroup;
+    import ru.practicum.explorewithme.model.Location;;
     import ru.practicum.explorewithme.model.State;
-
-    import javax.persistence.CascadeType;
-    import javax.persistence.FetchType;
-    import javax.persistence.JoinColumn;
-    import javax.persistence.ManyToOne;
     import java.time.LocalDateTime;
     import java.util.ArrayList;
     import java.util.HashSet;
@@ -43,10 +37,9 @@
             return eventFullDto;
         }
 
-        public static LocationDto toLocationDto (Location locat) {
-            return new LocationDto(
-                    locat.getLat(),
-                    locat.getLon());
+        public static LocationDto toLocationDto(Location locat) {
+            return new LocationDto(locat.getLat(),
+                                   locat.getLon());
         }
 
         public static Event toEvent(NewEventDto eventDto) {
@@ -66,8 +59,8 @@
             return event;
         }
 
-        public static EventShortDto toEventShortDto (Event event) {
-            return new EventShortDto (event.getAnnotation(),
+        public static EventShortDto toEventShortDto(Event event) {
+            return new EventShortDto(event.getAnnotation(),
                                       CategoryMapper.toCategoryDto(event.getCategory()),
                                       event.getConfirmedRequests(),
                                       event.getEventDate(),
@@ -78,8 +71,8 @@
                                       event.getViews());
         }
 
-        public static EventShortLocationDto toEventShortLocationDto (Event event) {
-            return new EventShortLocationDto (event.getAnnotation(),
+        public static EventShortLocationDto toEventShortLocationDto(Event event) {
+            return new EventShortLocationDto(event.getAnnotation(),
                                             CategoryMapper.toCategoryDto(event.getCategory()),
                                             event.getConfirmedRequests(),
                                             event.getEventDate(),

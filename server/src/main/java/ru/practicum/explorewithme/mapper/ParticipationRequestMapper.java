@@ -9,12 +9,11 @@
     public class ParticipationRequestMapper {
 
         public static ParticipationRequestDto toParticipationRequestDto(ParticipationRequest request) {
-            return new ParticipationRequestDto(
-                    request.getCreated(),
-                    request.getEvent().getId(),
-                    request.getId(),
-                    request.getRequester().getId(),
-                    request.getStatus());
+            return new ParticipationRequestDto(request.getCreated(),
+                                                request.getEvent().getId(),
+                                                request.getId(),
+                                                request.getRequester().getId(),
+                                                request.getStatus());
         }
         public static List<ParticipationRequestDto> toListParticipationRequestDto(List<ParticipationRequest> list) {
             List<ParticipationRequestDto> listDto = new ArrayList<>();

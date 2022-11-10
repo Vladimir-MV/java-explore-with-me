@@ -10,21 +10,20 @@
     import ru.practicum.explorewithme.mapper.CompilationMapper;
     import ru.practicum.explorewithme.model.Compilation;
     import ru.practicum.explorewithme.model.Event;
-    import ru.practicum.explorewithme.repository.CategoryRepository;
     import ru.practicum.explorewithme.repository.CompilationRepository;
     import ru.practicum.explorewithme.repository.EventRepository;
-    import ru.practicum.explorewithme.repository.UserRepository;
 
     @Slf4j
     @Service
     @RequiredArgsConstructor
     public class AdminCompilationServiceImpl implements AdminCompilationService{
+
         private final EventRepository eventRepository;
         private final CompilationRepository compilationRepository;
 
         @Transactional
         @Override
-        public CompilationDto createCompilation (NewCompilationDto newCompilationDto) {
+        public CompilationDto createCompilation(NewCompilationDto newCompilationDto) {
             Compilation compilation = CompilationMapper.toCompilation(newCompilationDto);
             if (!newCompilationDto.getEvents().isEmpty()) {
                 for (Long id : newCompilationDto.getEvents()) {
@@ -48,8 +47,7 @@
         public void deleteEventByIdFromCompilation(Long compId, Long eventId)
                 throws ObjectNotFoundException {
             Compilation compilation = compilationRepository
-                    .findById(compId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findById(compId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
              compilation.getEvents().removeIf(e -> (e.getId().equals(eventId)));
             compilationRepository.saveAndFlush(compilation);
@@ -61,11 +59,10 @@
         public void patchEventInCompilationById(Long compId, Long eventId)
                 throws ObjectNotFoundException {
             Compilation compilation = compilationRepository
-                    .findById(compId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findById(compId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
-            Event event = eventRepository.findById(eventId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+            Event event = eventRepository.findById(eventId).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
             compilation.getEvents().add(event);
             compilationRepository.saveAndFlush(compilation);
@@ -75,8 +72,8 @@
         @Transactional
         @Override
         public void unpinCompilationById(Long compId) throws ObjectNotFoundException {
-            Compilation compilation = compilationRepository.findById(compId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+            Compilation compilation = compilationRepository.findById(compId)
+                    .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
             compilation.setPinned(false);
             compilationRepository.save(compilation);
@@ -86,8 +83,8 @@
         @Transactional
         @Override
         public void pinCompilationById(Long compId) throws ObjectNotFoundException {
-            Compilation compilation = compilationRepository.findById(compId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+            Compilation compilation = compilationRepository.findById(compId)
+                    .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
             compilation.setPinned(true);
             compilationRepository.save(compilation);

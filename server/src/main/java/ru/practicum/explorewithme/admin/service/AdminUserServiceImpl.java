@@ -18,6 +18,7 @@
     @Service
     @RequiredArgsConstructor
     public class AdminUserServiceImpl implements AdminUserService {
+
         private final UserRepository userRepository;
         @Transactional(readOnly = true)
         @Override

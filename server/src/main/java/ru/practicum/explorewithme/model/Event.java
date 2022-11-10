@@ -25,27 +25,27 @@
         @Column(name = "annotation", nullable = false)
         private String annotation;
         @ManyToOne
-        @JoinColumn(name="category_id")
+        @JoinColumn(name = "category_id")
         private Category category;
-        @Column(name="confirmed_requests")
+        @Column(name = "confirmed_requests")
         private Long confirmedRequests;
-        @Column(name="created_on")
+        @Column(name = "created_on")
         private LocalDateTime createdOn;
         @Column(name = "description", nullable = false)
         private String description;
-        @Column(name="event_date", nullable = false)
+        @Column(name = "event_date", nullable = false)
         private LocalDateTime eventDate;
         @ManyToOne
-        @JoinColumn(name="initiator_id")
+        @JoinColumn(name = "initiator_id")
         private User initiator;
         @OneToOne
-        @JoinColumn(name="location_id", nullable = false)
+        @JoinColumn(name = "location_id", nullable = false)
         private Location location;
         @Column(name = "is_paid", nullable = false)
         private boolean paid;
-        @Column(name="participant_limit", nullable = false)
+        @Column(name = "participant_limit", nullable = false)
         private Long participantLimit;
-        @Column(name="published_on")
+        @Column(name = "published_on")
         private LocalDateTime publishedOn;
         @Column(name = "is_request_moderation", nullable = false)
         private Boolean requestModeration;
@@ -57,9 +57,9 @@
         @Column
         private Long views;
         //Фича: Локация(группа) к которой относится событие.
-        @ManyToMany(fetch = FetchType.EAGER)
-        @JoinTable(name="location_groups_events",
-                joinColumns =@JoinColumn(name="event_id"),
-                inverseJoinColumns = @JoinColumn(name="location_group_id"))
+        @ManyToMany
+        @JoinTable(name = "location_groups_events",
+                joinColumns = @JoinColumn(name = "event_id"),
+                inverseJoinColumns = @JoinColumn(name = "location_group_id"))
         private Set<LocationGroup> locationGroup = new HashSet<>();
     }

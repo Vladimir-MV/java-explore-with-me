@@ -35,7 +35,7 @@
         @Override
         public LocationGroupDto getLocationGroupById(Long id) throws ObjectNotFoundException {
             LocationGroup locationGroup = locationGroupRepository
-                    .findById(id).orElseThrow( () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findById(id).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroup with id={} was not found.", id)));
             return LocationGroupMapper.toLocationGroupDto(locationGroup);
         }

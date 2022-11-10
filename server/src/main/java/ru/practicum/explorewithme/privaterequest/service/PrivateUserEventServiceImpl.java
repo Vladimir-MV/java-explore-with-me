@@ -99,14 +99,14 @@
         }
 
         private Event eventValidation (Long eventId) throws ObjectNotFoundException {
-            return eventRepository.findById(eventId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+            return eventRepository.findById(eventId).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
 
         private User userValidation (Long userId) throws ObjectNotFoundException {
-            return userRepository.findById(userId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+            return userRepository.findById(userId).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
                             String.format("User with id={} was not found.", userId)));
         }
 
@@ -115,18 +115,16 @@
         public EventFullDto createUserEvent(Long userId, NewEventDto newEventDto)
                 throws ObjectNotFoundException, RequestErrorException {
             User user = userValidation(userId);
-            if (locationRepository
-                    .findByLatAndLon(
-                            newEventDto.getLocation().getLat(),
-                            newEventDto.getLocation().getLon()).isPresent()) {
+            if (locationRepository.findByLatAndLon(newEventDto.getLocation().getLat(),
+                                                   newEventDto.getLocation().getLon()).isPresent()) {
                 throw new RequestErrorException("Запрос составлен с ошибкой. ", "locationRepository");
             }
             if (!newEventDto.getEventDate().minusHours(2).isAfter(LocalDateTime.now())) {
                 throw new RequestErrorException("Запрос составлен с ошибкой. ", "EventDate");
             }
             Category category = categoryRepository.
-                    findById(newEventDto.getCategory()).orElseThrow(
-                      () -> new ObjectNotFoundException("Объект не найден. ",
+                    findById(newEventDto.getCategory()).orElseThrow(() ->
+                              new ObjectNotFoundException("Объект не найден. ",
                               String.format("Category with id={} was not found.",
                               newEventDto.getCategory())));
             Event event = EventMapper.toEvent(newEventDto);
@@ -135,8 +133,8 @@
             if (!locationGroupList.isEmpty()) {
                 Set<LocationGroup> locationGroupSet = new HashSet<>();
                 for (LocationGroup locationGroup : locationGroupList) {
-                    if (locationGroup.getRadius() >= locationGroupRepository.distanceBetweenLocations(
-                            locationGroup.getLat(), locationGroup.getLon(),
+                    if (locationGroup.getRadius() >= locationGroupRepository
+                            .distanceBetweenLocations(locationGroup.getLat(), locationGroup.getLon(),
                             newEventDto.getLocation().getLat(), newEventDto.getLocation().getLon())) {
                         locationGroupSet.add(locationGroup);
                     }
@@ -161,8 +159,8 @@
                 throws ObjectNotFoundException {
             userValidation(userId);
             Event event = eventRepository
-                    .findUserEventById(userId, eventId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findUserEventById(userId, eventId).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with eventId={} and userId={} was not found.",
                             eventId, userId)));
             log.info("Получение полной информации о событии полученной текущим пользователем userId={}", userId);
@@ -175,8 +173,8 @@
                 throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException {
             userValidation(userId);
             Event event = eventRepository
-                    .findById(eventId).orElseThrow(
-                         () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findById(eventId).orElseThrow(() ->
+                                 new ObjectNotFoundException("Объект не найден. ",
                                  String.format("Event with eventId={} and userId={} was not found.",
                                  eventId, userId)));
             if (event.getInitiator().getId() != userId) {
@@ -196,8 +194,8 @@
         public List<ParticipationRequestDto> getUserEventRequestsById(Long userId, Long eventId)
                 throws ObjectNotFoundException {
             List<ParticipationRequest> participationRequest =
-                    requestRepository.findRequestUserByIdAndEventById(eventId, userId).orElseThrow(
-                            () -> new ObjectNotFoundException("Объект не найден. ",
+                    requestRepository.findRequestUserByIdAndEventById(eventId, userId)
+                               .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                                String.format("ParticipationRequest with userId={}, eventId={} was not found.",
                                userId, eventId)));
             log.info("Получение информации о запросах на участие в событии текущего пользователя userId={}", userId);
@@ -214,8 +212,7 @@
                 throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан userId");
             }
             ParticipationRequest participationRequest = requestRepository
-                    .findById(reqId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findById(reqId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("ParticipationRequest with reqId={} was not found.", reqId)));
             if (participationRequest.getEvent().getId() != eventId) {
                 throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан eventId");
@@ -226,6 +223,7 @@
             if (event.getParticipantLimit() == (event.getConfirmedRequests())){
                 throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "ParticipantLimit");
             }
+
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.save(event);
             participationRequest.setStatus(Status.CONFIRMED);
@@ -243,12 +241,12 @@
                 throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан userId");
             }
             ParticipationRequest participationRequest = requestRepository
-                    .findById(reqId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+                    .findById(reqId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("ParticipationRequest with reqId={} was not found.", reqId)));
             if (participationRequest.getEvent().getId() != eventId) {
                 throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан eventId");
             }
+
             participationRequest.setStatus(Status.REJECTED);
             requestRepository.save(participationRequest);
             log.info("Отклонение чужой заявки на участие в событии текущего пользователя userId={}", userId);

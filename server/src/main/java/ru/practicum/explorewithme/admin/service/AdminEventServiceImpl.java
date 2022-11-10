@@ -32,9 +32,8 @@
         @Transactional(readOnly = true)
         @Override
         public List<EventFullDto> getEventsByUsersStatesCategories(
-                List<Long> users, List<String> states, List<Long> categories,
-                String rangeStart, String rangeEnd, Integer from, Integer size)
-                    throws ObjectNotFoundException {
+            List<Long> users, List<String> states, List<Long> categories,
+            String rangeStart, String rangeEnd, Integer from, Integer size) throws ObjectNotFoundException {
             List<State> listState = new ArrayList<>();
             List <Event> listEvents;
             if (states != null) {
@@ -61,7 +60,6 @@
                 listEvents = eventRepository
                         .searchEventsByAdminWithOutStatesAndRange(users, categories, pageable).getContent();
             } else {
-
                 listEvents = eventRepository
                         .searchEventsByAdminGetConditions(
                                 users, listState, categories,
@@ -76,9 +74,8 @@
             return EventMapper.toListEventFullDto(listEvents);
         }
 
-        private Event eventValidation (Long eventId) throws ObjectNotFoundException{
-            return eventRepository.findById(eventId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+        private Event eventValidation (Long eventId) throws ObjectNotFoundException {
+            return eventRepository.findById(eventId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
 
@@ -91,8 +88,8 @@
                 event.setAnnotation(adminUpdateEventRequest.getAnnotation());
             }
             if (adminUpdateEventRequest.getCategory() != null) {
-                event.setCategory(categoryRepository.findById(adminUpdateEventRequest.getCategory()).orElseThrow(
-                        () -> new ObjectNotFoundException("Объект не найден. ",
+                event.setCategory(categoryRepository.findById(adminUpdateEventRequest.getCategory())
+                        .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                                 String.format("Category id={} was not found.", adminUpdateEventRequest.getCategory()))));
             }
             if (adminUpdateEventRequest.getDescription() != null) {

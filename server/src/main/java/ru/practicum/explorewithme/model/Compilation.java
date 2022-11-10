@@ -21,11 +21,11 @@
         @Column(name = "id", nullable = false)
         private Long id;
         @ManyToMany
-        @JoinTable(name="compilations_events",
-        joinColumns =@JoinColumn(name="compilation_id"),
-        inverseJoinColumns = @JoinColumn(name="event_id"))
+        @JoinTable(name = "compilations_events",
+        joinColumns = @JoinColumn(name = "compilation_id"),
+        inverseJoinColumns = @JoinColumn(name = "event_id"))
         private Set<Event> events = new HashSet<>();
-        @Column(name="is_pinned", nullable = false)
+        @Column(name = "is_pinned", nullable = false)
         private boolean pinned;
         @Column(name = "title", nullable = false)
         private String title;

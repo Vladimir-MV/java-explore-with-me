@@ -20,13 +20,12 @@
 
         }
         public static LocationGroupDto toLocationGroupDto(LocationGroup locationGroup) {
-            return new LocationGroupDto (
-                    locationGroup.getId(),
-                    locationGroup.getName(),
-                    locationGroup.getLat(),
-                    locationGroup.getLon(),
-                    locationGroup.getRadius(),
-                    locationGroup.getDescription());
+            return new LocationGroupDto (locationGroup.getId(),
+                                        locationGroup.getName(),
+                                        locationGroup.getLat(),
+                                        locationGroup.getLon(),
+                                        locationGroup.getRadius(),
+                                        locationGroup.getDescription());
         }
 
         public static Set<LocationGroupDto> toSetLocationGroupDto(Set<LocationGroup> set) {

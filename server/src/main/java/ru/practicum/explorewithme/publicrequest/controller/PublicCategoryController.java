@@ -20,7 +20,7 @@
     @RequiredArgsConstructor
     public class PublicCategoryController {
 
-        final private PublicCategoryService publicCategoryService;
+        private final PublicCategoryService publicCategoryService;
 
         @GetMapping
         public List<CategoryDto> getAllCategories(@PositiveOrZero  @RequestParam(name = "from",

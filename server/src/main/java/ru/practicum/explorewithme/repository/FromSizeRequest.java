@@ -19,6 +19,7 @@
 
             return new FromSizeRequest(from, size, Sort.unsorted());
         }
+
         public static Pageable of(Integer from, Integer size, Sort sort) {
 
             return new FromSizeRequest(from, size, sort);

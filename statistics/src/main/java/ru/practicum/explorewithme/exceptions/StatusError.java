@@ -80,6 +80,7 @@
         }
 
         public static StatusError withIndex(int index) {
+
              for (StatusError status: values()) {
                  if (status.index == index) return status;
              }

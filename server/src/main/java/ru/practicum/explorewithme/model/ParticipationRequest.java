@@ -6,6 +6,7 @@
     import lombok.Setter;
     import javax.persistence.*;
     import java.time.LocalDateTime;
+
     @Entity
     @Table(name = "requests")
     @Getter
@@ -20,10 +21,10 @@
         private Long id;
         private LocalDateTime created;
         @ManyToOne
-        @JoinColumn(name="event_id", nullable = false)
+        @JoinColumn(name = "event_id", nullable = false)
         private Event event;
         @ManyToOne
-        @JoinColumn(name="requester_id", nullable = false)
+        @JoinColumn(name = "requester_id", nullable = false)
         private User requester;
         @JoinColumn(name = "status", nullable = false)
         @Enumerated(EnumType.STRING)

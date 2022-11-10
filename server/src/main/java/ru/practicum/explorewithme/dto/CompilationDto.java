@@ -7,14 +7,13 @@
     import java.util.Set;
 
     @Getter
-        @Setter
-        @NoArgsConstructor
-        @AllArgsConstructor
-        public class CompilationDto {
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class CompilationDto {
 
-            private Long id;
-            private Set<EventShortDto> events;
-            private boolean pinned;
-            private String title;
-
-        }
+        private Long id;
+        private Set<EventShortDto> events;
+        private boolean pinned;
+        private String title;
+    }

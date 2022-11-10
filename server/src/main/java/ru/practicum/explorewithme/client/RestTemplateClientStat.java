@@ -16,7 +16,7 @@
             super(serverUrl);
         }
 
-        public ResponseEntity<Object> createEndpointHitStatistics (EndpointHitDto endpointHit) {
+        public ResponseEntity<Object> createEndpointHitStatistics(EndpointHitDto endpointHit) {
 
             return post("", endpointHit);
         }

@@ -15,6 +15,7 @@ package ru.practicum.explorewithme.admin.service;
     @Service
     @RequiredArgsConstructor
     public class AdminLocationGroupServiceImpl implements AdminLocationGroupService {
+
         private final LocationGroupRepository locationGroupRepository;
 
 //Фича: Создание, удаление, изменение локации(группы).
@@ -33,8 +34,8 @@ package ru.practicum.explorewithme.admin.service;
         @Transactional
         @Override
         public void deleteLocationGroupById(Long id) throws ObjectNotFoundException {
-            LocationGroup locationGroup = locationGroupRepository.findById(id).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+            LocationGroup locationGroup = locationGroupRepository.findById(id)
+                    .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroup with id={} was not found.", id)));
             log.info("Удалена локация(группа) name={}", locationGroup.getName());
             locationGroupRepository.deleteById(id);
@@ -45,9 +46,10 @@ package ru.practicum.explorewithme.admin.service;
         public LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto)
                 throws ObjectNotFoundException {
             LocationGroup locationGroup = locationGroupRepository
-                    .findById(locationGroupDto.getId()).orElseThrow(
-                () -> new ObjectNotFoundException("Объект не найден. ",
-                    String.format("LocationGroup with id={} was not found.", locationGroupDto.getId())));
+                    .findById(locationGroupDto.getId()).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
+                            String.format("LocationGroup with id={} was not found.",
+                                    locationGroupDto.getId())));
             if (locationGroupDto.getName() != null) {
                 locationGroup.setName(locationGroupDto.getName());
             }

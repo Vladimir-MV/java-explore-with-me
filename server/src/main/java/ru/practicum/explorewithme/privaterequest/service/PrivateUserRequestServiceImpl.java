@@ -24,25 +24,25 @@
         private final UserRepository userRepository;
         private final EventRepository eventRepository;
         private final RequestRepository requestRepository;
-        private Event eventValidation (Long eventId) throws ObjectNotFoundException {
-            return eventRepository.findById(eventId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
-                            String.format("Event with id={} was not found.", eventId)));
+        private Event eventValidation(Long eventId) throws ObjectNotFoundException {
+            return eventRepository.findById(eventId).orElseThrow(() ->
+                    new ObjectNotFoundException("Объект не найден. ",
+                        String.format("Event with id={} was not found.", eventId)));
         }
 
-        private User userValidation (Long userId) throws ObjectNotFoundException {
-            return userRepository.findById(userId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
-                            String.format("User with id={} was not found.", userId)));
+        private User userValidation(Long userId) throws ObjectNotFoundException {
+            return userRepository.findById(userId).orElseThrow(() ->
+                    new ObjectNotFoundException("Объект не найден. ",
+                        String.format("User with id={} was not found.", userId)));
         }
 
         @Transactional(readOnly = true)
         @Override
         public List<ParticipationRequestDto> getUserRequests(Long userId) throws ObjectNotFoundException {
             List<ParticipationRequest> listRequest = requestRepository
-                    .findAllRequestUserById(userId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
-                            String.format("ParticipationRequest list with userId={} was not found.", userId)));
+                    .findAllRequestUserById(userId).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
+                                String.format("ParticipationRequest list with userId={} was not found.", userId)));
             log.info("Получение информации о заявках текущего пользователя на участие в чужих событиях userId={}", userId);
             return ParticipationRequestMapper.toListParticipationRequestDto(listRequest);
         }
@@ -77,6 +77,7 @@
             } else {
                 participationRequest.setStatus(Status.PENDING);
             }
+
             participationRequest.setRequester(user);
             participationRequest.setCreated(LocalDateTime.now());
             participationRequest.setEvent(event);
@@ -90,9 +91,9 @@
         public ParticipationRequestDto cancelUserRequestById(Long userId, Long requestId)
                 throws ObjectNotFoundException {
             ParticipationRequest participationRequest = requestRepository
-                    .findRequestById(userId, requestId).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
-                            String.format("ParticipationRequest with reqId={} was not found.", requestId)));
+                    .findRequestById(userId, requestId).orElseThrow(() ->
+                            new ObjectNotFoundException("Объект не найден. ",
+                                String.format("ParticipationRequest with reqId={} was not found.", requestId)));
 
             participationRequest.setStatus(Status.CANCELED);
             requestRepository.save(participationRequest);

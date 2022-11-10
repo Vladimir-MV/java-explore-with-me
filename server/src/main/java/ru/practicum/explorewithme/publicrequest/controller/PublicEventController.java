@@ -22,7 +22,7 @@
     @RequiredArgsConstructor
     public class PublicEventController {
 
-        final private PublicEventService publicEventService;
+        private final PublicEventService publicEventService;
 
         @GetMapping
         public List<EventShortDto> getEvents(@RequestParam(name = "text", required = false) String text,

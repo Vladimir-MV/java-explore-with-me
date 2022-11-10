@@ -31,10 +31,9 @@
         private float radius;
         @Column
         private String description;
-        @ManyToMany(mappedBy = "events",
-                fetch = FetchType.EAGER)
-        @JoinTable(name="location_groups_events",
-                joinColumns =@JoinColumn(name="location_group_id"),
-                inverseJoinColumns = @JoinColumn(name="event_id"))
+        @ManyToMany
+        @JoinTable(name = "location_groups_events",
+                joinColumns = @JoinColumn(name = "location_group_id"),
+                inverseJoinColumns = @JoinColumn(name = "event_id"))
         private Set<Event> eventGroup = new HashSet<>();
     }

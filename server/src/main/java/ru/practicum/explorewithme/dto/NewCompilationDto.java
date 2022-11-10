@@ -1,7 +1,6 @@
     package ru.practicum.explorewithme.dto;
 
     import lombok.*;
-
     import javax.validation.constraints.NotBlank;
     import java.util.List;
 
@@ -16,6 +15,4 @@
         private String title;
         private List<Long> events;
         private boolean pinned;
-
-
     }

@@ -6,7 +6,6 @@
     import lombok.NoArgsConstructor;
     import lombok.Setter;
     import ru.practicum.explorewithme.model.Status;
-
     import java.time.LocalDateTime;
 
     @Getter
@@ -21,5 +20,4 @@
         private Long id;
         private Long requester;
         private Status status;
-
     }
