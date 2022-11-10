@@ -19,6 +19,7 @@
     @Validated
     @RequiredArgsConstructor
     public class PublicCategoryController {
+
         final private PublicCategoryService publicCategoryService;
 
         @GetMapping
@@ -37,5 +38,4 @@
             log.info("publicGetCategoryById get category by catId={}", catId);
             return publicCategoryService.getCategoryById(catId);
         }
-
     }

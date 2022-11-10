@@ -9,6 +9,7 @@
     import java.util.List;
 
     public interface UserRepository extends JpaRepository<User, Long> {
+
         @Query("select u from User u where u.id = ?1")
         Page<User> findById(List<Long> id, Pageable pageable);
 

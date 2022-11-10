@@ -16,7 +16,8 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class PublicCategoryServiceImpl implements PublicCategoryService{
+    public class PublicCategoryServiceImpl implements PublicCategoryService {
+
         final private CategoryRepository categoryRepository;
 
         @Transactional(readOnly = true)

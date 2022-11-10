@@ -15,7 +15,8 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class PublicCompilationServiceImpl implements PublicCompilationService{
+    public class PublicCompilationServiceImpl implements PublicCompilationService {
+
         final private CompilationRepository compilationRepository;
 
         @Override

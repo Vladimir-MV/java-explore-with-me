@@ -23,7 +23,7 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class AdminEventServiceImpl implements AdminEventService{
+    public class AdminEventServiceImpl implements AdminEventService {
         final private EventRepository eventRepository;
         final private UserRepository userRepository;
         final private CategoryRepository categoryRepository;

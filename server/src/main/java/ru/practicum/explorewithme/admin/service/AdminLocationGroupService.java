@@ -5,6 +5,7 @@
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
 
     public interface AdminLocationGroupService {
+
         LocationGroupDto createLocationGroup(NewLocationGroupDto LocationGroupDto);
 
         void deleteLocationGroupById(Long id) throws ObjectNotFoundException;

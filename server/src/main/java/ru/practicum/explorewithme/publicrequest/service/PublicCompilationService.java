@@ -6,6 +6,7 @@
     import java.util.List;
 
     public interface PublicCompilationService {
+
         List<CompilationDto> getCompilation(boolean pinned, Integer from, Integer size)
                 throws ObjectNotFoundException;
 

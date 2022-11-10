@@ -20,7 +20,6 @@
 
         @Transactional
         @Override
-
         public CategoryDto patchCategoryByIdAndName(
                 CategoryDto categoryDto) throws RequestErrorException {
             Category category = categoryRepository

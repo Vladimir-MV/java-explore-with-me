@@ -18,13 +18,16 @@
     @Validated
     @RequiredArgsConstructor
     public class PublicCompilationController {
+
         final private PublicCompilationService publicCompilationService;
 
         @GetMapping
         public List<CompilationDto> getCompilations(@RequestParam(name = "pinned", required = false) boolean pinned,
-                                                    @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                                    @Positive @RequestParam(name = "size", defaultValue = "10") Integer size)
-                    throws ObjectNotFoundException {
+                                                    @PositiveOrZero @RequestParam(name = "from",
+                                                            defaultValue = "0") Integer from,
+                                                    @Positive @RequestParam(name = "size",
+                                                            defaultValue = "10") Integer size)
+                                                       throws ObjectNotFoundException {
             log.info("publicGetCompilation, get events with pinned={}, from={}, size={}",
                     pinned, from, size);
             return publicCompilationService.getCompilation(pinned, from, size);
@@ -32,9 +35,8 @@
 
         @GetMapping("/{compId}")
         public CompilationDto getCompilation(@PathVariable Long compId)
-                throws ObjectNotFoundException {
+                                                throws ObjectNotFoundException {
             log.info("publicGetCompilationById get compilation by compId={}", compId);
             return publicCompilationService.getCompilationById(compId);
         }
-
     }

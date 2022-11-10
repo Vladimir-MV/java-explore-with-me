@@ -11,6 +11,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewCompilationDto {
+
         @NotBlank
         private String title;
         private List<Long> events;

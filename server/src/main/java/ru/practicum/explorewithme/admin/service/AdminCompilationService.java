@@ -7,6 +7,7 @@
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
 
     public interface AdminCompilationService {
+
         CompilationDto createCompilation(NewCompilationDto newCompilationDto)
                 throws ConditionsOperationNotMetException;
         void deleteCompilationById(Long compId)

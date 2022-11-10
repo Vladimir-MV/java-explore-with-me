@@ -29,7 +29,4 @@
         private boolean pinned;
         @Column(name = "title", nullable = false)
         private String title;
-
-
-
     }

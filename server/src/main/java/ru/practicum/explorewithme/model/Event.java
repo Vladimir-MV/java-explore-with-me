@@ -57,10 +57,9 @@
         @Column
         private Long views;
         //Фича: Локация(группа) к которой относится событие.
-        @ManyToMany
+        @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name="location_groups_events",
                 joinColumns =@JoinColumn(name="event_id"),
                 inverseJoinColumns = @JoinColumn(name="location_group_id"))
         private Set<LocationGroup> locationGroup = new HashSet<>();
-
     }

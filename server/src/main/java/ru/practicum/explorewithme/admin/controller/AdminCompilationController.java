@@ -16,6 +16,7 @@
     @Slf4j
     @RequiredArgsConstructor
     public class AdminCompilationController {
+
         final private AdminCompilationService adminCompilationService;
 
         @PostMapping

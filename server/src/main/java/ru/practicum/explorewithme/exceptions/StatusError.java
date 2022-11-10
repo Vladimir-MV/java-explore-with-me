@@ -3,6 +3,7 @@
     import java.util.*;
 
     public enum StatusError {
+
         CONTINUE(100),
         SWITCHING_PROTOCOLS(101),
         PROCESSING(102),

@@ -21,6 +21,7 @@
     @Validated
     @RequiredArgsConstructor
     public class PublicEventController {
+
         final private PublicEventService publicEventService;
 
         @GetMapping
@@ -48,7 +49,7 @@
             return publicEventService.getEventById(id, request);
         }
         //Фича: поиск всех событий в конкретной локации.
-        @GetMapping("/location/{id}")
+        @GetMapping("/locations/{id}")
         public List<EventShortLocationDto> getEventsLocation(@PathVariable Long id)
                 throws ObjectNotFoundException {
             log.info("publicGetEventsLocationId get events by location id={}", id);

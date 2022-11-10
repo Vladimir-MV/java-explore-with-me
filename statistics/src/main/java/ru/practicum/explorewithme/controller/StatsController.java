@@ -7,7 +7,6 @@
     import ru.practicum.explorewithme.model.EndpointHit;
     import ru.practicum.explorewithme.model.ViewStats;
     import ru.practicum.explorewithme.service.StatsService;
-    import javax.validation.constraints.NotNull;
     import java.util.List;
     import java.util.Optional;
 
@@ -15,6 +14,7 @@
     @Slf4j
     @RequiredArgsConstructor
     public class StatsController {
+
         final private StatsService statsService;
 
         @PostMapping("/hit")
@@ -27,7 +27,7 @@
                                             @RequestParam(name = "end") Optional<String> end,
                                             @RequestParam(name = "uris") Optional<List<String>> uris,
                                             @RequestParam(name = "unique", defaultValue = "false") Boolean unique)
-                    throws ObjectNotFoundException{
+                    throws ObjectNotFoundException {
             log.info("getViewStats, get view stats start={}, end={}, uris {}, unique={}",
                     start, end, uris, unique);
             return statsService.getListViewStats(start, end, uris, unique);

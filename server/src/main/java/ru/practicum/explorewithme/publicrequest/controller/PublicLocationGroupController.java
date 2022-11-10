@@ -12,6 +12,7 @@
     @RequestMapping(path = "/locations")
     @RequiredArgsConstructor
     public class PublicLocationGroupController {
+
         final private PublicLocationGroupService publicLocationGroupService;
 
         @GetMapping

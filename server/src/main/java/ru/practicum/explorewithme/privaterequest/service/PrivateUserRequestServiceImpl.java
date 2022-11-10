@@ -20,6 +20,7 @@
     @Service
     @RequiredArgsConstructor
     public class PrivateUserRequestServiceImpl implements PrivateUserRequestService {
+
         final private UserRepository userRepository;
         final private EventRepository eventRepository;
         final private RequestRepository requestRepository;
@@ -28,11 +29,13 @@
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
+
         private User userValidation (Long userId) throws ObjectNotFoundException {
             return userRepository.findById(userId).orElseThrow(
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("User with id={} was not found.", userId)));
         }
+
         @Transactional(readOnly = true)
         @Override
         public List<ParticipationRequestDto> getUserRequests(Long userId) throws ObjectNotFoundException {
@@ -43,6 +46,7 @@
             log.info("Получение информации о заявках текущего пользователя на участие в чужих событиях userId={}", userId);
             return ParticipationRequestMapper.toListParticipationRequestDto(listRequest);
         }
+
         @Transactional
         @Override
         public ParticipationRequestDto createUserRequest(Long userId, Long eventId)
@@ -61,7 +65,7 @@
                         " совершения операции", "State");
             }
             if (event.getParticipantLimit() != 0
-                    && (event.getParticipantLimit() - event.getConfirmedRequests() <=0)) {
+                    && (event.getParticipantLimit() - event.getConfirmedRequests() <= 0)) {
                 throw new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "ParticipantLimit");
             }
@@ -80,6 +84,7 @@
             log.info("Добавление запроса от текущего пользователя  userId={} на участие в событии", userId);
             return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
         }
+
         @Transactional
         @Override
         public ParticipationRequestDto cancelUserRequestById(Long userId, Long requestId)

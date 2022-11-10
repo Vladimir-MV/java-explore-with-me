@@ -90,5 +90,4 @@
                     StatusError.withIndex(500),
                     LocalDateTime.now());
         }
-
     }

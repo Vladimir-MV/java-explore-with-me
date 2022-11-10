@@ -14,15 +14,15 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class Category {
+
         public Category(String name) {
             this.name = name;
         }
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false)
         private Long id;
         @Column(name = "name", nullable = false)
         private String name;
-
-
     }

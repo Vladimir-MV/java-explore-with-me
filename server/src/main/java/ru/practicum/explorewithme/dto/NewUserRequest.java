@@ -11,6 +11,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewUserRequest {
+
         @NotBlank
         @Email
         private String email;

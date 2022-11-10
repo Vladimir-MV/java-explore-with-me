@@ -14,6 +14,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class EventFullDto {
+
         private String annotation;
         private CategoryDto category;
         private Long confirmedRequests;
@@ -35,6 +36,4 @@
         private Long views;
         private Set<LocationGroupDto> locationGroupDtos;
 
-        public EventFullDto(String annotation, CategoryDto toCategoryDto, Long confirmedRequests, LocalDateTime createdOn, String description, LocalDateTime eventDate, Long id, UserShortDto toUserShortDto, LocationDto toLocationDto, boolean paid, Long participantLimit, LocalDateTime publishedOn, Boolean requestModeration, State state, String title, Long views) {
-        }
     }

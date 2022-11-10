@@ -43,6 +43,10 @@
 //            webEnvironment = SpringBootTest.WebEnvironment.NONE)
 //    @RequiredArgsConstructor(onConstructor_ = @Autowired)
     public class LocationGroupIntegrateTest {
+
+        // Тесты для Фичи в процессе.
+
+
 //
 //        @Autowired
 //        LocationGroupRepository locationGroupRepository;

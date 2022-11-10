@@ -9,6 +9,7 @@
     import java.util.List;
 
     public interface PublicEventService {
+
         List<EventShortDto> getEventsByTextAndCategory(
                 String text, List<Long> categories,
                 Boolean rangeStart, String rangeEnd, String paid, boolean onlyAvailable, String sort,

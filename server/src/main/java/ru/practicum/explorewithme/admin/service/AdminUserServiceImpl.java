@@ -17,11 +17,12 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class AdminUserServiceImpl implements AdminUserService{
+    public class AdminUserServiceImpl implements AdminUserService {
         final private UserRepository userRepository;
         @Transactional(readOnly = true)
         @Override
-        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) throws ObjectNotFoundException {
+        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size)
+                throws ObjectNotFoundException {
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<User> listUsers;
             if (ids.isEmpty()) {

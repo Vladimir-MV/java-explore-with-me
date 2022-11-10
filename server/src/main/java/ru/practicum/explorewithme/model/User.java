@@ -14,10 +14,12 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class User {
+
         public User(String email, String name) {
             this.email = email;
             this.name = name;
         }
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id", nullable = false)
@@ -26,5 +28,4 @@
         private String email;
         @Column(name="name", nullable = false)
         private String name;
-
     }

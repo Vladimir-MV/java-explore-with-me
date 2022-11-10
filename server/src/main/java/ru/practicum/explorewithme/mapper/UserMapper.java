@@ -9,6 +9,7 @@
     import java.util.List;
 
     public class UserMapper {
+
         public static UserDto toUserDto (User user) {
             return new UserDto (
                     user.getId(),
@@ -33,5 +34,4 @@
             }
             return listDto;
         }
-
     }

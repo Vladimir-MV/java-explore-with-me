@@ -21,7 +21,8 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class PrivateUserEventServiceImpl implements PrivateUserEventService{
+    public class PrivateUserEventServiceImpl implements PrivateUserEventService {
+
         final private UserRepository userRepository;
         final private CategoryRepository categoryRepository;
         final private EventRepository eventRepository;
@@ -96,7 +97,6 @@
             log.info("Изменения события добавленного текущим пользователем userId={}", userId);
             return EventMapper.toEventFullDto(event);
         }
-
 
         private Event eventValidation (Long eventId) throws ObjectNotFoundException {
             return eventRepository.findById(eventId).orElseThrow(
@@ -249,5 +249,4 @@
             log.info("Отклонение чужой заявки на участие в событии текущего пользователя userId={}", userId);
             return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
         }
-
     }

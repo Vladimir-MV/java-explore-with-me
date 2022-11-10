@@ -8,6 +8,7 @@
     import java.util.List;
 
     public interface AdminUserService {
+
         List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size)
                 throws ConditionsOperationNotMetException, ObjectNotFoundException;
 

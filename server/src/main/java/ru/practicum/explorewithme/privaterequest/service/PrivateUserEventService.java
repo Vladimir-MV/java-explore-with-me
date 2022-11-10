@@ -12,6 +12,7 @@
     import java.util.List;
 
     public interface PrivateUserEventService {
+
         EventFullDto getUserEventById(Long catId, Long eventId)
                 throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
 

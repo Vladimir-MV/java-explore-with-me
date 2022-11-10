@@ -8,7 +8,8 @@
 
     public interface PublicCategoryService {
 
-        List<CategoryDto> getCategories(Integer from, Integer size) throws ObjectNotFoundException;
+        List<CategoryDto> getCategories(Integer from, Integer size)
+                throws ObjectNotFoundException;
 
         CategoryDto getCategoryById(Long catId)
                 throws RequestErrorException, ObjectNotFoundException;

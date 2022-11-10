@@ -12,6 +12,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewLocationGroupDto {
+
         @NotNull
         private String name;
         @NotNull

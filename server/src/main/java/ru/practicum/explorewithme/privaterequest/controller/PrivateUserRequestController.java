@@ -41,5 +41,4 @@
                 userId, requestId);
             return privateUserRequestService.cancelUserRequestById(userId, requestId);
         }
-
     }

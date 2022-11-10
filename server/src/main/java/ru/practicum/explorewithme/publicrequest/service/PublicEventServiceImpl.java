@@ -15,6 +15,7 @@
     import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.EventRepository;
     import ru.practicum.explorewithme.repository.FromSizeRequest;
+    import ru.practicum.explorewithme.repository.LocationGroupRepository;
 
     import javax.servlet.http.HttpServletRequest;
     import java.time.LocalDateTime;
@@ -25,10 +26,13 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
-    public class PublicEventServiceImpl implements PublicEventService{
+    public class PublicEventServiceImpl implements PublicEventService {
+
         final private RestTemplateClientStat restTemplateClientStat;
         final private EventRepository eventRepository;
+        final private LocationGroupRepository locationGroupRepository;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         @Transactional(readOnly = true)
         @Override
         public List<EventShortDto> getEventsByTextAndCategory(
@@ -132,6 +136,4 @@
             log.info("Найден список событий в локации(группе) id={}", id);
             return EventMapper.toListEventShortLocationDto(eventList);
         }
-
-
     }

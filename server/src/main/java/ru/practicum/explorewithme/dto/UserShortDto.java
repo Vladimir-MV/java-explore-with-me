@@ -10,6 +10,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class UserShortDto {
+
         @NotNull
         private Long id;
         @NotBlank

@@ -14,6 +14,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class UpdateEventRequest {
+
         private String annotation;
         private Long category;
         private String description;

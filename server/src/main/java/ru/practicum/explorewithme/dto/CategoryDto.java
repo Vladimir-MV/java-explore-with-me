@@ -13,6 +13,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class CategoryDto {
+
         @NotNull
         private Long id;
         @NotBlank

@@ -29,8 +29,10 @@
 
         @GetMapping
         public List<EventShortDto> getUserEvents(@PathVariable Long userId,
-                                                 @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                                 @Positive @RequestParam(name = "size", defaultValue = "10") Integer size)
+                                                 @PositiveOrZero @RequestParam(name = "from",
+                                                         defaultValue = "0") Integer from,
+                                                 @Positive @RequestParam(name = "size",
+                                                         defaultValue = "10") Integer size)
                     throws ObjectNotFoundException, RequestErrorException {
             log.info("privateUserEvents, get categories with userId={}, from={}, size={}",
                     userId, from, size);
@@ -97,5 +99,4 @@
                 userId, eventId, reqId);
             return privateUserEventService.patchUserRequestReject(userId, eventId, reqId);
         }
-
     }

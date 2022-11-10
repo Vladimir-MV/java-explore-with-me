@@ -10,6 +10,7 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewCategoryDto {
+
         @NotBlank
         private String name;
     }
