@@ -10,7 +10,6 @@
 
     @RestController
     @RequestMapping(path = "/locations")
-    @Slf4j
     @RequiredArgsConstructor
     public class PublicLocationGroupController {
         final private PublicLocationGroupService publicLocationGroupService;
@@ -18,14 +17,12 @@
         @GetMapping
         public List<LocationGroupDto> publicGetLocationGroups()
                 throws ObjectNotFoundException {
-            log.info("publicGetLocationGroups, get all locationGroups");
             return publicLocationGroupService.getLocationGroups();
         }
 
         @GetMapping("/{id}")
         public LocationGroupDto publicGetLocationGroupById(@PathVariable Long id)
                 throws ObjectNotFoundException {
-            log.info("publicGetLocationGroupById get locationGroup by id={}", id);
             return publicLocationGroupService.getLocationGroupById(id);
         }
     }

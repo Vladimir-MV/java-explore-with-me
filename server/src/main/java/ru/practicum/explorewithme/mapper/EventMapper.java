@@ -18,23 +18,28 @@
 
     public class EventMapper {
         public static EventFullDto toEventFullDto(Event event) {
-            return new EventFullDto(
-                    event.getAnnotation(),
-                    CategoryMapper.toCategoryDto(event.getCategory()),
-                    event.getConfirmedRequests(),
-                    event.getCreatedOn(),
-                    event.getDescription(),
-                    event.getEventDate(),
-                    event.getId(),
-                    UserMapper.toUserShortDto(event.getInitiator()),
-                    EventMapper.toLocationDto(event.getLocation()),
-                    event.isPaid(),
-                    event.getParticipantLimit(),
-                    event.getPublishedOn(),
-                    event.getRequestModeration(),
-                    event.getState(),
-                    event.getTitle(),
-                    event.getViews());
+            EventFullDto eventFullDto = new EventFullDto();
+                eventFullDto.setAnnotation(event.getAnnotation());
+                eventFullDto.setCategory(CategoryMapper.toCategoryDto(event.getCategory()));
+                eventFullDto.setConfirmedRequests(event.getConfirmedRequests());
+                eventFullDto.setCreatedOn(event.getCreatedOn());
+                eventFullDto.setDescription(event.getDescription());
+                eventFullDto.setEventDate(event.getEventDate());
+                eventFullDto.setId(event.getId());
+                eventFullDto.setInitiator(UserMapper.toUserShortDto(event.getInitiator()));
+                eventFullDto.setLocation(EventMapper.toLocationDto(event.getLocation()));
+                eventFullDto.setPaid(event.isPaid());
+                eventFullDto.setParticipantLimit(event.getParticipantLimit());
+                eventFullDto.setPublishedOn(event.getPublishedOn());
+                eventFullDto.setRequestModeration(event.getRequestModeration());
+                eventFullDto.setState(event.getState());
+                eventFullDto.setTitle(event.getTitle());
+                eventFullDto.setViews(event.getViews());
+                if (event.getLocationGroup() != null) {
+                    eventFullDto.setLocationGroupDtos(LocationGroupMapper
+                            .toSetLocationGroupDto(event.getLocationGroup()));
+                }
+            return eventFullDto;
         }
         public static LocationDto toLocationDto (Location locat) {
             return new LocationDto(
@@ -60,29 +65,27 @@
 
 
         public static EventShortDto toEventShortDto (Event event) {
-            return new EventShortDto (
-                    event.getAnnotation(),
-                    CategoryMapper.toCategoryDto(event.getCategory()),
-                    event.getConfirmedRequests(),
-                    event.getEventDate(),
-                    event.getId(),
-                    UserMapper.toUserShortDto(event.getInitiator()),
-                    event.isPaid(),
-                    event.getTitle(),
-                    event.getViews());
+            return new EventShortDto (event.getAnnotation(),
+                                      CategoryMapper.toCategoryDto(event.getCategory()),
+                                      event.getConfirmedRequests(),
+                                      event.getEventDate(),
+                                      event.getId(),
+                                      UserMapper.toUserShortDto(event.getInitiator()),
+                                      event.isPaid(),
+                                      event.getTitle(),
+                                      event.getViews());
         }
         public static EventShortLocationDto toEventShortLocationDto (Event event) {
-            return new EventShortLocationDto (
-                    event.getAnnotation(),
-                    CategoryMapper.toCategoryDto(event.getCategory()),
-                    event.getConfirmedRequests(),
-                    event.getEventDate(),
-                    event.getId(),
-                    UserMapper.toUserShortDto(event.getInitiator()),
-                    event.isPaid(),
-                    event.getTitle(),
-                    event.getViews(),
-                    LocationGroupMapper.toSetLocationGroupDto(event.getLocationGroup()));
+            return new EventShortLocationDto (event.getAnnotation(),
+                                            CategoryMapper.toCategoryDto(event.getCategory()),
+                                            event.getConfirmedRequests(),
+                                            event.getEventDate(),
+                                            event.getId(),
+                                            UserMapper.toUserShortDto(event.getInitiator()),
+                                            event.isPaid(),
+                                            event.getTitle(),
+                                            event.getViews(),
+                                            LocationGroupMapper.toSetLocationGroupDto(event.getLocationGroup()));
         }
 
 

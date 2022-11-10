@@ -2,13 +2,12 @@
 
     import org.springframework.data.jpa.repository.JpaRepository;
     import org.springframework.data.jpa.repository.Query;
-    import org.springframework.data.repository.query.Param;
     import ru.practicum.explorewithme.model.LocationGroup;
 
     public interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
 
         // Фича: ссылка на хранимую функцию анотацией @Query
-        @Query(value = "distance(:lat1, :lon1, :lat2, :lon2);", nativeQuery = true)
-        float distanceBetweenLocations (
-            @Param("lat1") float lat1, @Param("lon1") float lon1, @Param("lat2") float lat2, @Param("lon2") float lon2);
+        @Query(value = "select * from distance(?1, ?2, ?3, ?4)", nativeQuery = true)
+        float distanceBetweenLocations (float lat1, float lon1, float lat2, float lon2);
+
     }

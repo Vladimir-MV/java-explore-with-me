@@ -7,6 +7,7 @@
     import lombok.Setter;
     import ru.practicum.explorewithme.model.State;
     import java.time.LocalDateTime;
+    import java.util.Set;
 
     @Getter
     @Setter
@@ -32,5 +33,8 @@
         private State state;
         private String title;
         private Long views;
+        private Set<LocationGroupDto> locationGroupDtos;
 
+        public EventFullDto(String annotation, CategoryDto toCategoryDto, Long confirmedRequests, LocalDateTime createdOn, String description, LocalDateTime eventDate, Long id, UserShortDto toUserShortDto, LocationDto toLocationDto, boolean paid, Long participantLimit, LocalDateTime publishedOn, Boolean requestModeration, State state, String title, Long views) {
+        }
     }

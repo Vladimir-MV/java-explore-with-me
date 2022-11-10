@@ -35,7 +35,6 @@
             LocationGroup locationGroup = locationGroupRepository
                     .findById(id).orElseThrow( () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroup with id={} was not found.", id)));
-            log.info("Найдена локация(группа) name={}", locationGroup.getName());
             return LocationGroupMapper.toLocationGroupDto(locationGroup);
         }
     }

@@ -143,6 +143,7 @@
                 if (locationGroupSet.isEmpty()) {
                     throw new RequestErrorException("Запрос составлен с ошибкой. ", "locationGroup");
                 }
+            event.setLocationGroup(locationGroupSet);
             }
             //
             event.setCategory(category);

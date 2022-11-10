@@ -12,7 +12,6 @@
     @NoArgsConstructor
     @AllArgsConstructor
     public class NewLocationGroupDto {
-        private Long id;
         @NotNull
         private String name;
         @NotNull

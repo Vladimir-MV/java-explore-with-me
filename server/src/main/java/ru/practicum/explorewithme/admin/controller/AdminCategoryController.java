@@ -24,7 +24,7 @@
         }
 
         @PostMapping
-        public CategoryDto addPostCategory(@Valid @RequestBody NewCategoryDto newCategoryDto)
+        public CategoryDto addCategory(@Valid @RequestBody NewCategoryDto newCategoryDto)
                 throws RequestErrorException {
             log.info("adminPostCategory, create category newCategoryDto {}", newCategoryDto);
             return adminCategoryService.createCategory(newCategoryDto);
@@ -36,5 +36,4 @@
             log.info("adminDeleteCategory, delete category catId={}", catId);
             return adminCategoryService.deleteCategoryById(catId);
         }
-
     }
