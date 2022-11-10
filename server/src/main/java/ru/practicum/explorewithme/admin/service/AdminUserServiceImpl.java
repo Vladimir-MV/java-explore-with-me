@@ -21,6 +21,7 @@
 
         private final UserRepository userRepository;
 
+
         @Transactional(readOnly = true)
         @Override
         public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size)
@@ -35,6 +36,7 @@
             log.info("Найден список пользователей ids {}", ids);
             return UserMapper.toListUserDto(listUsers);
         }
+
 
         @Transactional
         @Override
