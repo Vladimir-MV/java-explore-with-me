@@ -73,7 +73,9 @@
         NETWORK_AUTHENTICATION_REQUIRED(511);
 
         private final int index;
+
          StatusError(int index) {
+
              this.index = index;
         }
         public static StatusError withIndex(int index) {
