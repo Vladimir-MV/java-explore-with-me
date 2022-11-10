@@ -16,6 +16,7 @@
                     user.getEmail(),
                     user.getName());
         }
+
         public static UserShortDto toUserShortDto (User user) {
             return new UserShortDto(
                     user.getId(),
@@ -27,6 +28,7 @@
                     userRequest.getEmail(),
                     userRequest.getName());
         }
+
         public static List<UserDto> toListUserDto(List<User> list) {
             List<UserDto> listDto = new ArrayList<>();
             for (User user : list) {

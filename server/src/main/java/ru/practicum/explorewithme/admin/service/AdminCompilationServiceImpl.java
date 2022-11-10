@@ -35,12 +35,14 @@
                 log.info("Добавлена новая подборка id={}", compilation.getId());
                 return CompilationMapper.toCompilationDto(compilation);
         }
+
         @Transactional
         @Override
         public void deleteCompilationById(Long compId) {
             compilationRepository.deleteById(compId);
             log.info("Удалена подборка compilationId={}", compId);
         }
+
         @Transactional
         @Override
         public void deleteEventByIdFromCompilation(Long compId, Long eventId)
@@ -53,6 +55,7 @@
             compilationRepository.saveAndFlush(compilation);
             log.info("Удалено событие eventId={} из подборки compilationId={}",eventId, compId);
         }
+
         @Transactional
         @Override
         public void patchEventInCompilationById(Long compId, Long eventId)
@@ -68,6 +71,7 @@
             compilationRepository.saveAndFlush(compilation);
             log.info("Добавлено событие eventId={} в подборку compilationId={}",eventId, compId);
         }
+
         @Transactional
         @Override
         public void unpinCompilationById(Long compId) throws ObjectNotFoundException {

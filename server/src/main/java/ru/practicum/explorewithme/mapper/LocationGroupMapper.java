@@ -28,6 +28,7 @@
                     locationGroup.getRadius(),
                     locationGroup.getDescription());
         }
+
         public static Set<LocationGroupDto> toSetLocationGroupDto(Set<LocationGroup> set) {
             Set<LocationGroupDto> setDto = new HashSet<>();
             for (LocationGroup locationGroup : set) {
@@ -35,6 +36,7 @@
             }
             return setDto;
         }
+
         public static List<LocationGroupDto> toListLocationGroupDto(List<LocationGroup> list) {
             List<LocationGroupDto> setDto = new ArrayList<>();
             for (LocationGroup locationGroup : list) {

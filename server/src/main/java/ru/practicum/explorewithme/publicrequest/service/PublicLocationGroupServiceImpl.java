@@ -30,6 +30,7 @@
             log.info("Найден список локация(группа) locationGroupList {}", locationGroupList);
             return LocationGroupMapper.toListLocationGroupDto(locationGroupList);
         }
+
         @Transactional(readOnly = true)
         @Override
         public LocationGroupDto getLocationGroupById(Long id) throws ObjectNotFoundException {

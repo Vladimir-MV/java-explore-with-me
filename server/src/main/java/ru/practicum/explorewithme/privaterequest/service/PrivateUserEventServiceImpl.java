@@ -43,7 +43,6 @@
                 }
                 log.info("Получение событий добавленным текущим пользователем userId={}", userId);
                 return EventMapper.toListEventShortDto(listEvent);
-
         }
 
         @Transactional

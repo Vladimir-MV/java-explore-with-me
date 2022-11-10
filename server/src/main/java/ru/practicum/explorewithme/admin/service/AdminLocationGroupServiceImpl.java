@@ -39,6 +39,7 @@ package ru.practicum.explorewithme.admin.service;
             log.info("Удалена локация(группа) name={}", locationGroup.getName());
             locationGroupRepository.deleteById(id);
         }
+
         @Transactional
         @Override
         public LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto)

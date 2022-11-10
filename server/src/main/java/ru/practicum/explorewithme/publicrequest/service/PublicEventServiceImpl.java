@@ -126,6 +126,7 @@
                 restTemplateClientStat.createEndpointHitStatistics(endpointHit);
                 return EventMapper.toEventFullDto(event);
         }
+
         @Transactional(readOnly = true)
         @Override
         public List<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException {

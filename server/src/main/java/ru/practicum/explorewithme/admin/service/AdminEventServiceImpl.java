@@ -28,6 +28,7 @@
         private final UserRepository userRepository;
         private final CategoryRepository categoryRepository;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         @Transactional(readOnly = true)
         @Override
         public List<EventFullDto> getEventsByUsersStatesCategories(
@@ -80,6 +81,7 @@
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
+
         @Transactional
         @Override
         public EventFullDto putEventById(Long eventId,
@@ -118,6 +120,7 @@
             log.info("Поиск события eventId={}", event.getId());
             return EventMapper.toEventFullDto(event);
         }
+
         @Transactional
         @Override
         public EventFullDto patchPublishEventById(Long eventId)
@@ -137,6 +140,7 @@
             log.info("Публикация события eventId={}", event.getId());
             return EventMapper.toEventFullDto(event);
         }
+
         @Transactional
         @Override
         public EventFullDto patchRejectEventById(Long eventId)

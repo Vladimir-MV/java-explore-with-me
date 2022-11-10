@@ -33,6 +33,7 @@
             log.info("Найден список пользователей ids {}", ids);
             return UserMapper.toListUserDto(listUsers);
         }
+
         @Transactional
         @Override
         public UserDto createUser(NewUserRequest userRequest) {
@@ -41,6 +42,7 @@
             log.info("Добавлен новый пользователь name {}", user.getName());
             return UserMapper.toUserDto(user);
         }
+
         @Transactional
         @Override
         public void deleteUserById(Long userId) {

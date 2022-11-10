@@ -49,6 +49,7 @@
             return publicEventService.getEventById(id, request);
         }
         //Фича: поиск всех событий в конкретной локации.
+
         @GetMapping("/locations/{id}")
         public List<EventShortLocationDto> getEventsLocation(@PathVariable Long id)
                 throws ObjectNotFoundException {

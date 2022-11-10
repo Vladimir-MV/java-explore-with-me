@@ -42,11 +42,13 @@
                 }
             return eventFullDto;
         }
+
         public static LocationDto toLocationDto (Location locat) {
             return new LocationDto(
                     locat.getLat(),
                     locat.getLon());
         }
+
         public static Event toEvent(NewEventDto eventDto) {
             Event event = new Event();
             event.setAnnotation(eventDto.getAnnotation());
@@ -64,7 +66,6 @@
             return event;
         }
 
-
         public static EventShortDto toEventShortDto (Event event) {
             return new EventShortDto (event.getAnnotation(),
                                       CategoryMapper.toCategoryDto(event.getCategory()),
@@ -76,6 +77,7 @@
                                       event.getTitle(),
                                       event.getViews());
         }
+
         public static EventShortLocationDto toEventShortLocationDto (Event event) {
             return new EventShortLocationDto (event.getAnnotation(),
                                             CategoryMapper.toCategoryDto(event.getCategory()),
@@ -89,7 +91,6 @@
                                             LocationGroupMapper.toSetLocationGroupDto(event.getLocationGroup()));
         }
 
-
         public static Set<EventShortDto> toSetEventShortDto(Set<Event> set) {
             Set<EventShortDto> setDto = new HashSet<>();
             for (Event event : set) {
@@ -97,6 +98,7 @@
             }
             return setDto;
         }
+
         public static List<EventShortDto> toListEventShortDto(List<Event> list) {
             List<EventShortDto> listDto = new ArrayList<>();
             for (Event event : list) {
@@ -104,6 +106,7 @@
             }
             return listDto;
         }
+
         public static List<EventShortLocationDto> toListEventShortLocationDto(List<Event> list) {
             List<EventShortLocationDto> listDto = new ArrayList<>();
             for (Event event : list) {
@@ -111,7 +114,6 @@
             }
             return listDto;
         }
-
 
         public static List<EventFullDto> toListEventFullDto(List<Event> list) {
             List<EventFullDto> listDto = new ArrayList<>();

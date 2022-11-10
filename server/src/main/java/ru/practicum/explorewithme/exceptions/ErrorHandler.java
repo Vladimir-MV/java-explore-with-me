@@ -32,6 +32,7 @@
                     StatusError.withIndex(400),
                     LocalDateTime.now());
         }
+
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ExceptionHandler
         public ApiError requestConversionFailedResponse(ConversionFailedException e) {
@@ -41,6 +42,7 @@
                     StatusError.withIndex(400),
                     LocalDateTime.now());
         }
+
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ExceptionHandler
         public ApiError requestErrorResponse(ConstraintViolationException e) {

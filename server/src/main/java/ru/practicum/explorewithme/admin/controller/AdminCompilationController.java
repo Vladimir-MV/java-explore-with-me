@@ -32,6 +32,7 @@
             log.info("adminDeleteCompilation, delete compilation compId={}", compId);
             adminCompilationService.deleteCompilationById(compId);
         }
+
         @DeleteMapping("/{compId}/events/{eventId}")
         public void deleteEventInCompilation(@PathVariable Long compId,
                                              @PathVariable Long eventId)
@@ -47,6 +48,7 @@
             log.info("adminPatchEventInCompilation, patch event in compilation compId={}, eventId={}", compId, eventId);
             adminCompilationService.patchEventInCompilationById(compId, eventId);
         }
+
         @DeleteMapping("/{compId}/pin")
         public void unpinCompilation(@PathVariable Long compId)
                 throws ObjectNotFoundException, RequestErrorException {
