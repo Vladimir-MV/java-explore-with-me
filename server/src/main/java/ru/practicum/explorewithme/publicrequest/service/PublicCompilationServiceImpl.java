@@ -17,7 +17,7 @@
     @RequiredArgsConstructor
     public class PublicCompilationServiceImpl implements PublicCompilationService {
 
-        final private CompilationRepository compilationRepository;
+        private final CompilationRepository compilationRepository;
 
         @Override
         public List<CompilationDto> getCompilation(boolean pinned, Integer from, Integer size)

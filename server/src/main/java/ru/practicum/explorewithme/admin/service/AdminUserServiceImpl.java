@@ -18,7 +18,7 @@
     @Service
     @RequiredArgsConstructor
     public class AdminUserServiceImpl implements AdminUserService {
-        final private UserRepository userRepository;
+        private final UserRepository userRepository;
         @Transactional(readOnly = true)
         @Override
         public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size)

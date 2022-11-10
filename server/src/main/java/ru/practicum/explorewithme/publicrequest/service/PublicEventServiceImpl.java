@@ -28,9 +28,8 @@
     @RequiredArgsConstructor
     public class PublicEventServiceImpl implements PublicEventService {
 
-        final private RestTemplateClientStat restTemplateClientStat;
-        final private EventRepository eventRepository;
-        final private LocationGroupRepository locationGroupRepository;
+        private final RestTemplateClientStat restTemplateClientStat;
+        private final EventRepository eventRepository;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         @Transactional(readOnly = true)

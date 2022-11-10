@@ -15,7 +15,7 @@
     @RequiredArgsConstructor
     public class AdminCategoryController {
 
-        final private AdminCategoryService adminCategoryService;
+        private final AdminCategoryService adminCategoryService;
 
         @PatchMapping
         public CategoryDto updateCategory(@Valid @RequestBody CategoryDto categoryDto)

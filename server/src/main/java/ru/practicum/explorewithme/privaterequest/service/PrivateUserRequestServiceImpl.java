@@ -21,9 +21,9 @@
     @RequiredArgsConstructor
     public class PrivateUserRequestServiceImpl implements PrivateUserRequestService {
 
-        final private UserRepository userRepository;
-        final private EventRepository eventRepository;
-        final private RequestRepository requestRepository;
+        private final UserRepository userRepository;
+        private final EventRepository eventRepository;
+        private final RequestRepository requestRepository;
         private Event eventValidation (Long eventId) throws ObjectNotFoundException {
             return eventRepository.findById(eventId).orElseThrow(
                     () -> new ObjectNotFoundException("Объект не найден. ",

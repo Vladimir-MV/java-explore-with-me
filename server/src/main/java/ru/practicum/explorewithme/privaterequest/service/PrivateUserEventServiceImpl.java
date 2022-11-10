@@ -23,12 +23,12 @@
     @RequiredArgsConstructor
     public class PrivateUserEventServiceImpl implements PrivateUserEventService {
 
-        final private UserRepository userRepository;
-        final private CategoryRepository categoryRepository;
-        final private EventRepository eventRepository;
-        final private RequestRepository requestRepository;
-        final private LocationGroupRepository locationGroupRepository;
-        final private LocationRepository locationRepository;
+        private final UserRepository userRepository;
+        private final CategoryRepository categoryRepository;
+        private final EventRepository eventRepository;
+        private final RequestRepository requestRepository;
+        private final LocationGroupRepository locationGroupRepository;
+        private final LocationRepository locationRepository;
 
         @Transactional(readOnly = true)
         @Override
@@ -45,6 +45,7 @@
                 return EventMapper.toListEventShortDto(listEvent);
 
         }
+
         @Transactional
         @Override
         public EventFullDto patchUserIdEvent(Long userId, UpdateEventRequest updateEventRequest)
@@ -109,6 +110,7 @@
                     () -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("User with id={} was not found.", userId)));
         }
+
         @Transactional
         @Override
         public EventFullDto createUserEvent(Long userId, NewEventDto newEventDto)
@@ -153,6 +155,7 @@
             log.info("Добавление нового события eventId={}", event.getId());
             return EventMapper.toEventFullDto(event);
         }
+
         @Transactional(readOnly = true)
         @Override
         public EventFullDto getUserEventById(Long userId, Long eventId)
@@ -166,6 +169,7 @@
             log.info("Получение полной информации о событии полученной текущим пользователем userId={}", userId);
             return EventMapper.toEventFullDto(event);
         }
+
         @Transactional
         @Override
         public EventFullDto patchCancelUserIdEvent(Long userId, Long eventId)
@@ -187,6 +191,7 @@
             eventRepository.save(event);
             return EventMapper.toEventFullDto(event);
         }
+
         @Transactional(readOnly = true)
         @Override
         public List<ParticipationRequestDto> getUserEventRequestsById(Long userId, Long eventId)
@@ -198,8 +203,8 @@
                                userId, eventId)));
             log.info("Получение информации о запросах на участие в событии текущего пользователя userId={}", userId);
             return ParticipationRequestMapper.toListParticipationRequestDto(participationRequest);
-
         }
+
         @Transactional
         @Override
         public ParticipationRequestDto patchUserRequestConfirm(Long userId, Long eventId, Long reqId)
@@ -229,6 +234,7 @@
             log.info("Подтверждение чужой заявки на участие в событии текущего пользователя userId={}", userId);
             return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
         }
+
         @Transactional
         @Override
         public ParticipationRequestDto patchUserRequestReject(Long userId, Long eventId, Long reqId)

@@ -16,7 +16,7 @@
     @Service
     @RequiredArgsConstructor
     public class AdminCategoryServiceImpl implements AdminCategoryService {
-        final private CategoryRepository categoryRepository;
+        private final CategoryRepository categoryRepository;
 
         @Transactional
         @Override

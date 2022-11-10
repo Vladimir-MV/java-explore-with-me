@@ -25,7 +25,7 @@
     @Validated
     @RequiredArgsConstructor
     public class PrivateUserEventController {
-        final private PrivateUserEventService privateUserEventService;
+        private final PrivateUserEventService privateUserEventService;
 
         @GetMapping
         public List<EventShortDto> getUserEvents(@PathVariable Long userId,
@@ -80,6 +80,7 @@
                  userId, eventId);
             return privateUserEventService.getUserEventRequestsById(userId, eventId);
         }
+
         @PatchMapping("/{eventId}/requests/{reqId}/confirm")
         public ParticipationRequestDto updateRequestConfirm(@PathVariable Long userId,
                                                             @PathVariable Long eventId,

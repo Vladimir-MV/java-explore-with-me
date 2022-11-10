@@ -22,7 +22,7 @@
     @RequiredArgsConstructor
     public class AdminEventController {
 
-        final private AdminEventService adminEventService;
+        private final AdminEventService adminEventService;
 
         @GetMapping
         public List<EventFullDto> getEvents(@RequestParam(name = "users", required = false) List<Long> users,

@@ -15,7 +15,7 @@
     @RequiredArgsConstructor
     public class AdminLocationGroupController {
 
-        final private AdminLocationGroupService adminLocationGroupService;
+        private final AdminLocationGroupService adminLocationGroupService;
 
         @PostMapping
         public LocationGroupDto addLocationGroup(@Valid @RequestBody NewLocationGroupDto locationGroupDto) {

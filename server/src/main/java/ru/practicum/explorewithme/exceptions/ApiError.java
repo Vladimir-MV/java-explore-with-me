@@ -8,6 +8,7 @@
 
     import java.time.LocalDateTime;
     import java.util.List;
+
     @Getter
     @Setter
     @NoArgsConstructor
@@ -20,5 +21,4 @@
         private StatusError status;
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime timestamp;
-
     }

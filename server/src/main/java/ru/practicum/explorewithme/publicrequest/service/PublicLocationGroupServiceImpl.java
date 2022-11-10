@@ -16,7 +16,7 @@
     @RequiredArgsConstructor
     public class PublicLocationGroupServiceImpl implements PublicLocationGroupService {
 
-        final private LocationGroupRepository locationGroupRepository;
+        private final LocationGroupRepository locationGroupRepository;
 
         @Transactional(readOnly = true)
         @Override

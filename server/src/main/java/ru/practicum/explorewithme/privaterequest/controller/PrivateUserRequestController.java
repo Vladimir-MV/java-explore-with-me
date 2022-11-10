@@ -16,7 +16,7 @@
     @RequiredArgsConstructor
     public class PrivateUserRequestController {
 
-        final private PrivateUserRequestService privateUserRequestService;
+        private final PrivateUserRequestService privateUserRequestService;
 
         @GetMapping
         public List<ParticipationRequestDto> getUserRequests(@PathVariable Long userId)

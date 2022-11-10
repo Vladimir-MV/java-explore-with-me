@@ -23,7 +23,7 @@
     @RequiredArgsConstructor
     public class AdminUserController {
 
-        final private AdminUserService adminUserService;
+        private final AdminUserService adminUserService;
 
         @GetMapping
         public List<UserDto> getUsers(@RequestParam(name = "ids", required = false) List<Long> ids,

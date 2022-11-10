@@ -19,8 +19,8 @@
     @Service
     @RequiredArgsConstructor
     public class AdminCompilationServiceImpl implements AdminCompilationService{
-        final private EventRepository eventRepository;
-        final private CompilationRepository compilationRepository;
+        private final EventRepository eventRepository;
+        private final CompilationRepository compilationRepository;
 
         @Transactional
         @Override

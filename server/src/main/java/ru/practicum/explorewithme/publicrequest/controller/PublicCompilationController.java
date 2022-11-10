@@ -19,7 +19,7 @@
     @RequiredArgsConstructor
     public class PublicCompilationController {
 
-        final private PublicCompilationService publicCompilationService;
+        private final PublicCompilationService publicCompilationService;
 
         @GetMapping
         public List<CompilationDto> getCompilations(@RequestParam(name = "pinned", required = false) boolean pinned,

@@ -15,7 +15,7 @@ package ru.practicum.explorewithme.admin.service;
     @Service
     @RequiredArgsConstructor
     public class AdminLocationGroupServiceImpl implements AdminLocationGroupService {
-        final private LocationGroupRepository locationGroupRepository;
+        private final LocationGroupRepository locationGroupRepository;
 
 //Фича: Создание, удаление, изменение локации(группы).
         @Transactional

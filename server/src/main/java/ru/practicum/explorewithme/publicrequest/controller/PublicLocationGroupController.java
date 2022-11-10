@@ -13,7 +13,7 @@
     @RequiredArgsConstructor
     public class PublicLocationGroupController {
 
-        final private PublicLocationGroupService publicLocationGroupService;
+        private final PublicLocationGroupService publicLocationGroupService;
 
         @GetMapping
         public List<LocationGroupDto> publicGetLocationGroups()

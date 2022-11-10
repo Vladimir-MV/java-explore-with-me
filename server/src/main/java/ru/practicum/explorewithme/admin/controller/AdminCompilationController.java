@@ -17,7 +17,7 @@
     @RequiredArgsConstructor
     public class AdminCompilationController {
 
-        final private AdminCompilationService adminCompilationService;
+        private final AdminCompilationService adminCompilationService;
 
         @PostMapping
         public CompilationDto addCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto)

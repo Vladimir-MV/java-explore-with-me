@@ -18,7 +18,7 @@
     @RequiredArgsConstructor
     public class PublicCategoryServiceImpl implements PublicCategoryService {
 
-        final private CategoryRepository categoryRepository;
+        private final CategoryRepository categoryRepository;
 
         @Transactional(readOnly = true)
         @Override

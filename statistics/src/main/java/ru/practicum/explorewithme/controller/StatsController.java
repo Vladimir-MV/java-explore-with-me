@@ -15,13 +15,14 @@
     @RequiredArgsConstructor
     public class StatsController {
 
-        final private StatsService statsService;
+        private final StatsService statsService;
 
         @PostMapping("/hit")
         public void addEndpointHit(@RequestBody EndpointHit endpointHit) {
             log.info("createEndpointHit, create endpoint hit endpointHit={}", endpointHit);
             statsService.createNewEndpointHit(endpointHit);
         }
+
         @GetMapping("/stats")
         public List<ViewStats> getViewStats(@RequestParam(name = "start") Optional<String> start,
                                             @RequestParam(name = "end") Optional<String> end,
@@ -32,5 +33,4 @@
                     start, end, uris, unique);
             return statsService.getListViewStats(start, end, uris, unique);
         }
-
     }

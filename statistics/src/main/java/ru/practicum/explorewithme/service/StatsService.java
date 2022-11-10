@@ -8,6 +8,7 @@
     import java.util.Optional;
 
     public interface StatsService {
+
         void createNewEndpointHit(EndpointHit endpointHit);
 
         List<ViewStats> getListViewStats(Optional<String> start, Optional<String> end,

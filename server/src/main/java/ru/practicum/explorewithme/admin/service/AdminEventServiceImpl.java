@@ -24,9 +24,9 @@
     @Service
     @RequiredArgsConstructor
     public class AdminEventServiceImpl implements AdminEventService {
-        final private EventRepository eventRepository;
-        final private UserRepository userRepository;
-        final private CategoryRepository categoryRepository;
+        private final EventRepository eventRepository;
+        private final UserRepository userRepository;
+        private final CategoryRepository categoryRepository;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         @Transactional(readOnly = true)
         @Override
