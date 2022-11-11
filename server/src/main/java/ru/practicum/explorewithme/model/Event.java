@@ -56,7 +56,7 @@
         private String title;
         @Column
         private Long views;
-        //Фича: Локация(группа) к которой относится событие.
+        //Фича: Локации(группы) к которым относится событие.
         @ManyToMany
         @JoinTable(name = "location_groups_events",
                 joinColumns = @JoinColumn(name = "event_id"),

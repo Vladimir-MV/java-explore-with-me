@@ -15,11 +15,14 @@
     import ru.practicum.explorewithme.model.*;
     import ru.practicum.explorewithme.repository.EventRepository;
     import ru.practicum.explorewithme.repository.FromSizeRequest;
+    import ru.practicum.explorewithme.repository.LocationGroupRepository;
+
     import javax.servlet.http.HttpServletRequest;
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
     import java.util.List;
+    import java.util.Set;
 
     @Slf4j
     @Service
@@ -28,6 +31,7 @@
 
         private final RestTemplateClientStat restTemplateClientStat;
         private final EventRepository eventRepository;
+        private final LocationGroupRepository locationGroupRepository;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         @Transactional(readOnly = true)
@@ -127,11 +131,11 @@
 
         @Transactional(readOnly = true)
         @Override
-        public List<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException {
-            List<Event> eventList = eventRepository.findEventsByLocationId(id).orElseThrow(
-                    () -> new ObjectNotFoundException("Объект не найден. ",
+        public Set<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException {
+            Set<Event> eventSet = locationGroupRepository.findEventsByLocationId(id).orElseThrow(() ->
+                    new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroupList locationGroupList {} was not found.")));
             log.info("Найден список событий в локации(группе) id={}", id);
-            return EventMapper.toListEventShortLocationDto(eventList);
+            return EventMapper.toSetEventShortLocationDto(eventSet);
         }
     }

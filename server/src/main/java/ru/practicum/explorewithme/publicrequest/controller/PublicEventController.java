@@ -14,6 +14,7 @@
     import javax.validation.constraints.Positive;
     import javax.validation.constraints.PositiveOrZero;
     import java.util.List;
+    import java.util.Set;
 
     @RestController
     @RequestMapping(path = "/events")
@@ -51,7 +52,7 @@
         //Фича: поиск всех событий в конкретной локации.
 
         @GetMapping("/locations/{id}")
-        public List<EventShortLocationDto> getEventsLocation(@PathVariable Long id)
+        public Set<EventShortLocationDto> getEventsLocation(@PathVariable Long id)
                 throws ObjectNotFoundException {
             log.info("publicGetEventsLocationId get events by location id={}", id);
             return publicEventService.getEventByLocationId(id);

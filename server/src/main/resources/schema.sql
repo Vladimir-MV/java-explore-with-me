@@ -6,6 +6,7 @@
     DROP TABLE IF EXISTS categories CASCADE;
     DROP TABLE IF EXISTS compilations_events CASCADE;
     DROP TABLE IF EXISTS location_groups CASCADE;
+    DROP TABLE IF EXISTS location_groups_events CASCADE;
 
 
     CREATE TABLE IF NOT EXISTS users (
@@ -62,6 +63,7 @@
     CONSTRAINT UQ_COMPILATIONS_TITLE UNIQUE (title)
     );
 
+
     CREATE TABLE IF NOT EXISTS compilations_events (
     compilation_id BIGINT NOT NULL,
     event_id BIGINT NOT NULL,
@@ -97,6 +99,7 @@
     FOREIGN KEY (location_group_id) REFERENCES location_groups (id),
     FOREIGN KEY (event_id) REFERENCES events (id)
     );
+
 
     CREATE OR REPLACE FUNCTION distance(lat1 float, lon1 float, lat2 float, lon2 float)
         RETURNS float

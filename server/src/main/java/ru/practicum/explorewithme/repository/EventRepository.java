@@ -93,7 +93,4 @@
         @Query("select e from Event e where e.initiator.id = ?1 and e.id = ?2 ")
         Optional<Event> findUserEventById(Long userId, Long eventId);
 
-        @Query("select e from Event e where e.locationGroup = ?1 ")
-        Optional<List<Event>> findEventsByLocationId(Long id);
-
     }

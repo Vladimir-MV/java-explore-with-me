@@ -35,8 +35,8 @@
 
         @Override
         public CompilationDto getCompilationById(Long compId) throws ObjectNotFoundException {
-                Compilation compilation = compilationRepository.findById(compId).orElseThrow(
-                        () -> new ObjectNotFoundException("Объект не найден. ",
+                Compilation compilation = compilationRepository.findById(compId).orElseThrow(() ->
+                        new ObjectNotFoundException("Объект не найден. ",
                                 String.format("Compilation with id={} was not found.", compId)));
                 return CompilationMapper.toCompilationDto(compilation);
         }

@@ -7,7 +7,6 @@
 
     public interface PublicLocationGroupService {
 
-
         List<LocationGroupDto> getLocationGroups() throws ObjectNotFoundException;
 
         LocationGroupDto getLocationGroupById(Long id) throws ObjectNotFoundException;

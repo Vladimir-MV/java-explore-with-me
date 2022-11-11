@@ -36,8 +36,8 @@
         @Transactional(readOnly = true)
         @Override
         public CategoryDto getCategoryById(Long catId) throws ObjectNotFoundException {
-                Category category = categoryRepository.findById(catId).orElseThrow(
-                        () -> new ObjectNotFoundException("Объект не найден. ",
+                Category category = categoryRepository.findById(catId).orElseThrow(() ->
+                        new ObjectNotFoundException("Объект не найден. ",
                                 String.format("Compilation with id={} was not found.", catId)));
                 return CategoryMapper.toCategoryDto(category);
         }

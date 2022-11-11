@@ -7,6 +7,7 @@
     import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import javax.servlet.http.HttpServletRequest;
     import java.util.List;
+    import java.util.Set;
 
     public interface PublicEventService {
 
@@ -18,5 +19,5 @@
         EventFullDto getEventById(Long id, HttpServletRequest request)
                 throws ObjectNotFoundException, RequestErrorException;
 
-        List<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException;
+        Set<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException;
     }

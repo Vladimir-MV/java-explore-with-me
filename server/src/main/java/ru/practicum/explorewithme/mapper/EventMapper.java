@@ -100,12 +100,12 @@
             return listDto;
         }
 
-        public static List<EventShortLocationDto> toListEventShortLocationDto(List<Event> list) {
-            List<EventShortLocationDto> listDto = new ArrayList<>();
-            for (Event event : list) {
-                listDto.add(toEventShortLocationDto(event));
+        public static Set<EventShortLocationDto> toSetEventShortLocationDto(Set<Event> set) {
+            Set<EventShortLocationDto> setDto = new HashSet<>();
+            for (Event event : set) {
+                setDto.add(toEventShortLocationDto(event));
             }
-            return listDto;
+            return setDto;
         }
 
         public static List<EventFullDto> toListEventFullDto(List<Event> list) {
