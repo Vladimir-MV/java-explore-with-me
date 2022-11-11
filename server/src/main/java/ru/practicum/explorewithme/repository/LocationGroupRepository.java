@@ -4,9 +4,6 @@
     import org.springframework.data.jpa.repository.Query;
     import ru.practicum.explorewithme.model.Event;
     import ru.practicum.explorewithme.model.LocationGroup;
-    import ru.practicum.explorewithme.model.State;
-
-    import java.util.List;
     import java.util.Optional;
     import java.util.Set;
 
