@@ -14,12 +14,11 @@
     @Slf4j
     @Service
     @RequiredArgsConstructor
+    @Transactional(readOnly = true)
     public class PublicLocationGroupServiceImpl implements PublicLocationGroupService {
-
 
         private final LocationGroupRepository locationGroupRepository;
 
-        @Transactional(readOnly = true)
         @Override
         public List<LocationGroupDto> getLocationGroups() {
             List<LocationGroup> locationGroupList = locationGroupRepository.findAll();
@@ -32,12 +31,12 @@
             return LocationGroupMapper.toListLocationGroupDto(locationGroupList);
         }
 
-        @Transactional(readOnly = true)
         @Override
         public LocationGroupDto getLocationGroupById(Long id) {
             LocationGroup locationGroup = locationGroupRepository
                     .findById(id).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroup with id={} was not found.", id)));
+            log.info("publicGetLocationGroupById get locationGroup by id={}", id);
             return LocationGroupMapper.toLocationGroupDto(locationGroup);
         }
     }
