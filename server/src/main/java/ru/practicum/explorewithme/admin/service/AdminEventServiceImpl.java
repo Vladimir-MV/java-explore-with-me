@@ -34,7 +34,7 @@
         @Override
         public List<EventFullDto> getEventsByUsersStatesCategories(
             List<Long> users, List<String> states, List<Long> categories,
-            String rangeStart, String rangeEnd, Integer from, Integer size) throws ObjectNotFoundException {
+            String rangeStart, String rangeEnd, Integer from, Integer size) {
             List<State> listState = new ArrayList<>();
             List<Event> listEvents;
             if (states != null) {
@@ -43,23 +43,24 @@
                 }
             }
 
-            for (Long userId: users) {
-                if (!userRepository.existsById(userId))
-                    throw new ObjectNotFoundException("Объект не найден. ",
-                            String.format("User with userId={} was not found.", userId));
-            }
-
-            for (Long catId: categories) {
-                if (!categoryRepository.existsById(catId))
-                    throw new ObjectNotFoundException("Объект не найден. ",
-                            String.format("Category with categoryId={} was not found.", catId));
-            }
-
             final Pageable pageable = FromSizeRequest.of(from, size);
 
             if (states == null && rangeStart == null && rangeEnd == null) {
                 listEvents = eventRepository
                         .searchEventsByAdminWithOutStatesAndRange(users, categories, pageable).getContent();
+            } else if (users == null) {
+                listEvents = eventRepository
+                        .searchEventsNotUsersGetConditions(
+                                listState, categories,
+                                LocalDateTime.parse(rangeStart, formatter),
+                                LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
+
+            } else if (categories == null) {
+                listEvents = eventRepository
+                        .searchEventsNotCategoriesGetConditions(
+                                users, listState,
+                                LocalDateTime.parse(rangeStart, formatter),
+                                LocalDateTime.parse(rangeEnd, formatter), pageable).getContent();
             } else {
                 listEvents = eventRepository
                         .searchEventsByAdminGetConditions(
@@ -69,21 +70,20 @@
             }
 
            if (listEvents.isEmpty()) {
-               throw new ObjectNotFoundException("Объект не найден. ",
+               new ObjectNotFoundException("Объект не найден. ",
                        String.format("Event list with was not found."));
            }
             return EventMapper.toListEventFullDto(listEvents);
         }
 
-        private Event eventValidation(Long eventId) throws ObjectNotFoundException {
+        private Event eventValidation(Long eventId) {
             return eventRepository.findById(eventId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Event with id={} was not found.", eventId)));
         }
 
         @Transactional
         @Override
-        public EventFullDto putEventById(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest)
-                                throws ObjectNotFoundException {
+        public EventFullDto putEventById(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest) {
             Event event = eventValidation(eventId);
             if (adminUpdateEventRequest.getAnnotation() != null) {
                 event.setAnnotation(adminUpdateEventRequest.getAnnotation());
@@ -121,16 +121,15 @@
 
         @Transactional
         @Override
-        public EventFullDto patchPublishEventById(Long eventId)
-                throws ObjectNotFoundException, ConditionsOperationNotMetException {
+        public EventFullDto patchPublishEventById(Long eventId) {
             Event event = eventValidation(eventId);
             if (event.getState() != State.PENDING) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
+                new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "State");
             }
             event.setPublishedOn(LocalDateTime.now());
             if (event.getEventDate().isBefore(event.getPublishedOn().plusHours(1))) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
+                new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "EventDate");
             }
             event.setState(State.PUBLISHED);
@@ -141,11 +140,10 @@
 
         @Transactional
         @Override
-        public EventFullDto patchRejectEventById(Long eventId)
-                throws ObjectNotFoundException, ConditionsOperationNotMetException {
+        public EventFullDto patchRejectEventById(Long eventId) {
             Event event = eventValidation(eventId);
             if (event.getState() != State.PENDING) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "State");
+                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "State");
             }
             event.setState(State.CANCELED);
             eventRepository.saveAndFlush(event);

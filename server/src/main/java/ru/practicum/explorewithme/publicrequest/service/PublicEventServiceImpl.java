@@ -21,6 +21,7 @@
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
+    import java.util.HashSet;
     import java.util.List;
     import java.util.Set;
 
@@ -41,7 +42,7 @@
                 Boolean paid, String rangeStart,
                 String rangeEnd, boolean onlyAvailable,
                 String sort, Integer from, Integer size,
-                HttpServletRequest request) throws ObjectNotFoundException {
+                HttpServletRequest request) {
 
             List<Event> listEvent = new ArrayList<>();
             final Pageable pageable = FromSizeRequest.of(from, size);
@@ -101,7 +102,7 @@
             }
 
           if (listEvent.isEmpty()) {
-              throw new ObjectNotFoundException("Объект не найден. ",
+              new ObjectNotFoundException("Объект не найден. ",
                       String.format("Events with text = {} was not found.", text));
           }
             EndpointHitDto endpointHit = new EndpointHitDto();
@@ -114,8 +115,7 @@
 
         @Transactional
         @Override
-        public EventFullDto getEventById(Long id, HttpServletRequest request)
-                throws ObjectNotFoundException {
+        public EventFullDto getEventById(Long id, HttpServletRequest request) {
             Event event = eventRepository.findByIdAndState(id, State.PUBLISHED)
                     .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Events with id={} was not found.", id)));
@@ -131,10 +131,23 @@
 
         @Transactional(readOnly = true)
         @Override
-        public Set<EventShortLocationDto> getEventByLocationId(Long id) throws ObjectNotFoundException {
+        public Set<EventShortLocationDto> getEventByLocationId(Long id) {
             Set<Event> eventSet = locationGroupRepository.findEventsByLocationId(id).orElseThrow(() ->
                     new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroupList locationGroupList {} was not found.")));
+            List<LocationGroup> locationGroupList = locationGroupRepository.findAll();
+            Set<LocationGroup> locationGroupSet = new HashSet<>();
+            for (Event event: eventSet) {
+                   for (LocationGroup locationGroup : locationGroupList) {
+                       if (locationGroup.getRadius() >= locationGroupRepository
+                               .distanceBetweenLocations(locationGroup.getLat(), locationGroup.getLon(),
+                                       event.getLocation().getLat(), event.getLocation().getLon())) {
+                           locationGroupSet.add(locationGroup);
+                       }
+                   }
+            event.setLocationGroup(locationGroupSet);
+            eventRepository.save(event);
+            }
             log.info("Найден список событий в локации(группе) id={}", id);
             return EventMapper.toSetEventShortLocationDto(eventSet);
         }

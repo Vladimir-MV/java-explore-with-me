@@ -22,5 +22,4 @@
 
         @Query("select r from ParticipationRequest r where r.requester.id = ?1 and r.id = ?2 and r.status <> 'CONFIRMED'")
         Optional<ParticipationRequest> findRequestById(Long userId, Long id);
-
     }

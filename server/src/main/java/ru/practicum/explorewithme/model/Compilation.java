@@ -18,7 +18,7 @@
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "id", nullable = false)
+        @Column(nullable = false)
         private Long id;
         @ManyToMany
         @JoinTable(name = "compilations_events",
@@ -27,6 +27,6 @@
         private Set<Event> events = new HashSet<>();
         @Column(name = "is_pinned", nullable = false)
         private boolean pinned;
-        @Column(name = "title", nullable = false)
+        @Column(nullable = false)
         private String title;
     }

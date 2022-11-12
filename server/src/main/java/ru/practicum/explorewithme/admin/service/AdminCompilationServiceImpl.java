@@ -44,8 +44,7 @@
 
         @Transactional
         @Override
-        public void deleteEventByIdFromCompilation(Long compId, Long eventId)
-                throws ObjectNotFoundException {
+        public void deleteEventByIdFromCompilation(Long compId, Long eventId) {
             Compilation compilation = compilationRepository
                     .findById(compId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
@@ -56,8 +55,7 @@
 
         @Transactional
         @Override
-        public void patchEventInCompilationById(Long compId, Long eventId)
-                                                throws ObjectNotFoundException {
+        public void patchEventInCompilationById(Long compId, Long eventId) {
             Compilation compilation = compilationRepository
                     .findById(compId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
@@ -71,7 +69,7 @@
 
         @Transactional
         @Override
-        public void unpinCompilationById(Long compId) throws ObjectNotFoundException {
+        public void unpinCompilationById(Long compId) {
             Compilation compilation = compilationRepository.findById(compId)
                     .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));
@@ -82,7 +80,7 @@
 
         @Transactional
         @Override
-        public void pinCompilationById(Long compId) throws ObjectNotFoundException {
+        public void pinCompilationById(Long compId) {
             Compilation compilation = compilationRepository.findById(compId)
                     .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("Compilation with id={} was not found.", compId)));

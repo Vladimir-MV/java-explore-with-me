@@ -4,36 +4,25 @@
     import ru.practicum.explorewithme.dto.EventShortDto;
     import ru.practicum.explorewithme.dto.NewEventDto;
     import ru.practicum.explorewithme.dto.ParticipationRequestDto;
-    import ru.practicum.explorewithme.exceptions.ConditionsOperationNotMetException;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.dto.UpdateEventRequest;
 
     import java.util.List;
 
     public interface PrivateUserEventService {
 
-        EventFullDto getUserEventById(Long catId, Long eventId)
-                throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
+        EventFullDto getUserEventById(Long catId, Long eventId);
 
-        List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size)
-                throws ObjectNotFoundException, RequestErrorException;
+        List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size);
 
-        EventFullDto patchUserIdEvent(Long userId, UpdateEventRequest updateEventRequest)
-                throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
+        EventFullDto patchUserIdEvent(Long userId, UpdateEventRequest updateEventRequest);
 
-        EventFullDto createUserEvent(Long userId, NewEventDto newEventDto)
-                throws ObjectNotFoundException, RequestErrorException;
+        EventFullDto createUserEvent(Long userId, NewEventDto newEventDto);
 
-        List<ParticipationRequestDto> getUserEventRequestsById(Long userId, Long eventId)
-                throws ObjectNotFoundException, RequestErrorException;
+        List<ParticipationRequestDto> getUserEventRequestsById(Long userId, Long eventId);
 
-        ParticipationRequestDto patchUserRequestConfirm(Long userId, Long eventId, Long reqId)
-                throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
+        ParticipationRequestDto patchUserRequestConfirm(Long userId, Long eventId, Long reqId);
 
-        ParticipationRequestDto patchUserRequestReject(Long userId, Long eventId, Long reqId)
-                throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
+        ParticipationRequestDto patchUserRequestReject(Long userId, Long eventId, Long reqId);
 
-        EventFullDto patchCancelUserIdEvent(Long userId, Long eventId)
-                throws ObjectNotFoundException, RequestErrorException, ConditionsOperationNotMetException;
+        EventFullDto patchCancelUserIdEvent(Long userId, Long eventId);
     }

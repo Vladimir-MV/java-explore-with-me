@@ -2,14 +2,12 @@
 
     import ru.practicum.explorewithme.dto.LocationGroupDto;
     import ru.practicum.explorewithme.dto.NewLocationGroupDto;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
 
     public interface AdminLocationGroupService {
 
         LocationGroupDto createLocationGroup(NewLocationGroupDto locationGroupDto);
 
-        void deleteLocationGroupById(Long id) throws ObjectNotFoundException;
+        void deleteLocationGroupById(Long id);
 
-        LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto)
-                throws ObjectNotFoundException;
+        LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto);
     }

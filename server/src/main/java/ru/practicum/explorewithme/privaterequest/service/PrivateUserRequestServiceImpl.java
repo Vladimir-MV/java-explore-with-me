@@ -25,13 +25,13 @@
         private final EventRepository eventRepository;
         private final RequestRepository requestRepository;
 
-        private Event eventValidation(Long eventId) throws ObjectNotFoundException {
+        private Event eventValidation(Long eventId) {
             return eventRepository.findById(eventId).orElseThrow(() ->
                     new ObjectNotFoundException("Объект не найден. ",
                         String.format("Event with id={} was not found.", eventId)));
         }
 
-        private User userValidation(Long userId) throws ObjectNotFoundException {
+        private User userValidation(Long userId) {
             return userRepository.findById(userId).orElseThrow(() ->
                     new ObjectNotFoundException("Объект не найден. ",
                         String.format("User with id={} was not found.", userId)));
@@ -39,7 +39,7 @@
 
         @Transactional(readOnly = true)
         @Override
-        public List<ParticipationRequestDto> getUserRequests(Long userId) throws ObjectNotFoundException {
+        public List<ParticipationRequestDto> getUserRequests(Long userId) {
             List<ParticipationRequest> listRequest = requestRepository
                     .findAllRequestUserById(userId).orElseThrow(() ->
                             new ObjectNotFoundException("Объект не найден. ",
@@ -50,24 +50,23 @@
 
         @Transactional
         @Override
-        public ParticipationRequestDto createUserRequest(Long userId, Long eventId)
-                throws ConditionsOperationNotMetException, ObjectNotFoundException {
+        public ParticipationRequestDto createUserRequest(Long userId, Long eventId) {
             if (requestRepository.findRequestByUserIdAndEventId(userId, eventId).isPresent()) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "requestRepository");
+                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "requestRepository");
             }
             User user = userValidation(userId);
             Event event = eventValidation(eventId);
             if (event.getInitiator().getId().equals(userId)) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
+                new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "Initiator");
             }
             if (event.getState() != State.PUBLISHED) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
+                new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "State");
             }
             if (event.getParticipantLimit() != 0
                     && (event.getParticipantLimit() - event.getConfirmedRequests() <= 0)) {
-                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
+                new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "ParticipantLimit");
             }
             ParticipationRequest participationRequest = new ParticipationRequest();
@@ -78,7 +77,6 @@
             } else {
                 participationRequest.setStatus(Status.PENDING);
             }
-
             participationRequest.setRequester(user);
             participationRequest.setCreated(LocalDateTime.now());
             participationRequest.setEvent(event);
@@ -89,8 +87,7 @@
 
         @Transactional
         @Override
-        public ParticipationRequestDto cancelUserRequestById(Long userId, Long requestId)
-                throws ObjectNotFoundException {
+        public ParticipationRequestDto cancelUserRequestById(Long userId, Long requestId) {
             ParticipationRequest participationRequest = requestRepository
                     .findRequestById(userId, requestId).orElseThrow(() ->
                             new ObjectNotFoundException("Объект не найден. ",

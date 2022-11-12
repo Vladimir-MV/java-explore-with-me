@@ -20,10 +20,10 @@
 
         @Transactional(readOnly = true)
         @Override
-        public List<LocationGroupDto> getLocationGroups() throws ObjectNotFoundException {
+        public List<LocationGroupDto> getLocationGroups() {
             List<LocationGroup> locationGroupList = locationGroupRepository.findAll();
             if (locationGroupList.isEmpty()) {
-                throw new ObjectNotFoundException("Объект не найден. ",
+                new ObjectNotFoundException("Объект не найден. ",
                         String.format("LocationGroupList locationGroupList {} was not found.",
                         locationGroupList));
             }
@@ -33,7 +33,7 @@
 
         @Transactional(readOnly = true)
         @Override
-        public LocationGroupDto getLocationGroupById(Long id) throws ObjectNotFoundException {
+        public LocationGroupDto getLocationGroupById(Long id) {
             LocationGroup locationGroup = locationGroupRepository
                     .findById(id).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroup with id={} was not found.", id)));

@@ -1,9 +1,7 @@
     package ru.practicum.explorewithme.model;
 
-    import lombok.AllArgsConstructor;
-    import lombok.Getter;
-    import lombok.NoArgsConstructor;
-    import lombok.Setter;
+    import lombok.*;
+
     import javax.persistence.*;
     import java.time.LocalDateTime;
 
@@ -11,13 +9,14 @@
     @Table(name = "requests")
     @Getter
     @Setter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public class ParticipationRequest {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "id", nullable = false)
+        @Column(nullable = false)
         private Long id;
         private LocalDateTime created;
         @ManyToOne
@@ -26,7 +25,8 @@
         @ManyToOne
         @JoinColumn(name = "requester_id", nullable = false)
         private User requester;
-        @JoinColumn(name = "status", nullable = false)
+        @JoinColumn(nullable = false)
         @Enumerated(EnumType.STRING)
-        private Status status;
+        @Builder.Default
+        private Status status = Status.PENDING;
     }

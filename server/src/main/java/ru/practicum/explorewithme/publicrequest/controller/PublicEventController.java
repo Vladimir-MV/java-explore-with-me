@@ -7,8 +7,6 @@
     import ru.practicum.explorewithme.dto.EventFullDto;
     import ru.practicum.explorewithme.dto.EventShortDto;
     import ru.practicum.explorewithme.dto.EventShortLocationDto;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.publicrequest.service.PublicEventService;
     import javax.servlet.http.HttpServletRequest;
     import javax.validation.constraints.Positive;
@@ -35,8 +33,7 @@
                                              @RequestParam(name = "sort", defaultValue = "VIEWS") String sort,
                                              @PositiveOrZero  @RequestParam(name = "from", defaultValue = "0") Integer from,
                                              @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
-                                             HttpServletRequest request)
-                throws ObjectNotFoundException {
+                                             HttpServletRequest request) {
             log.info("publicGetEvents, get events with text={}, rangeStart={}, rangeEnd={}, from={}, size={}",
                    text, rangeStart, rangeEnd, from, size);
            return publicEventService.getEventsByTextAndCategory(text, categories, paid, rangeStart,
@@ -44,16 +41,14 @@
         }
 
         @GetMapping("/{id}")
-        public EventFullDto getEvent(@PathVariable Long id, HttpServletRequest request)
-                throws ObjectNotFoundException, RequestErrorException {
+        public EventFullDto getEvent(@PathVariable Long id, HttpServletRequest request) {
             log.info("publicGetEventsWithId get event by id={}", id);
             return publicEventService.getEventById(id, request);
         }
         //Фича: поиск всех событий в конкретной локации.
 
         @GetMapping("/locations/{id}")
-        public Set<EventShortLocationDto> getEventsLocation(@PathVariable Long id)
-                throws ObjectNotFoundException {
+        public Set<EventShortLocationDto> getEventsLocation(@PathVariable Long id) {
             log.info("publicGetEventsLocationId get events by location id={}", id);
             return publicEventService.getEventByLocationId(id);
         }

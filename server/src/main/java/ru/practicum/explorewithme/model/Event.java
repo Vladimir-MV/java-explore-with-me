@@ -1,9 +1,6 @@
     package ru.practicum.explorewithme.model;
 
-    import lombok.AllArgsConstructor;
-    import lombok.Getter;
-    import lombok.NoArgsConstructor;
-    import lombok.Setter;
+    import lombok.*;
 
     import javax.persistence.*;
     import java.time.LocalDateTime;
@@ -14,15 +11,16 @@
     @Table(name = "events")
     @Getter
     @Setter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public class Event {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "id", nullable = false)
+        @Column(nullable = false)
         private Long id;
-        @Column(name = "annotation", nullable = false)
+        @Column(nullable = false)
         private String annotation;
         @ManyToOne
         @JoinColumn(name = "category_id")
@@ -31,7 +29,7 @@
         private Long confirmedRequests;
         @Column(name = "created_on")
         private LocalDateTime createdOn;
-        @Column(name = "description", nullable = false)
+        @Column(nullable = false)
         private String description;
         @Column(name = "event_date", nullable = false)
         private LocalDateTime eventDate;
@@ -50,11 +48,10 @@
         @Column(name = "is_request_moderation", nullable = false)
         private Boolean requestModeration;
         @Enumerated(EnumType.STRING)
-        @Column(name = "state")
-        private State state;
-        @Column(name = "title", nullable = false)
+        @Builder.Default
+        private State state = State.PENDING;
+        @Column(nullable = false)
         private String title;
-        @Column
         private Long views;
         //Фича: Локации(группы) к которым относится событие.
         @ManyToMany

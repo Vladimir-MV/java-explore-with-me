@@ -10,6 +10,8 @@
     import ru.practicum.explorewithme.mapper.CategoryMapper;
     import ru.practicum.explorewithme.model.Category;
     import ru.practicum.explorewithme.repository.CategoryRepository;
+    import ru.practicum.explorewithme.repository.EventRepository;
+
     import java.util.Optional;
 
     @Slf4j
@@ -17,11 +19,12 @@
     @RequiredArgsConstructor
     public class AdminCategoryServiceImpl implements AdminCategoryService {
         private final CategoryRepository categoryRepository;
+        private final EventRepository eventRepository;
 
         @Transactional
         @Override
         public CategoryDto patchCategoryByIdAndName(
-                CategoryDto categoryDto) throws RequestErrorException {
+                CategoryDto categoryDto) {
             Category category = categoryRepository
                     .findById(categoryDto.getId())
                     .orElseThrow(
@@ -35,9 +38,6 @@
         @Transactional
         @Override
         public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
-            if (newCategoryDto.getName() == null) {
-                throw new RequestErrorException("Запрос составлен с ошибкой", "нет name");
-            }
             Category category = CategoryMapper.toCategory(newCategoryDto);
             categoryRepository.save(category);
             log.info("Добавление новой категории category={}", category.getName());
@@ -46,10 +46,13 @@
 
         @Transactional
         @Override
-        public CategoryDto deleteCategoryById(Long catId) throws RequestErrorException {
+        public CategoryDto deleteCategoryById(Long catId) {
             Optional<Category> category = categoryRepository.findById(catId);
             if (category.isEmpty()) {
-                throw new RequestErrorException("Запрос составлен с ошибкой", "categoryRepository");
+                new RequestErrorException("Запрос составлен с ошибкой", "такой категории нет.");
+            }
+            if (eventRepository.findCategoryByIdInEvent(catId).isPresent()) {
+                new RequestErrorException("Запрос составлен с ошибкой", " у категории есть events.");
             }
             categoryRepository.deleteById(category.get().getId());
             log.info("Удалена категория category={}", category.get().getName());

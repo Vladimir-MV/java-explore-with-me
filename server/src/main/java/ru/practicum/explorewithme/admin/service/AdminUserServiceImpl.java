@@ -6,7 +6,6 @@
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
     import ru.practicum.explorewithme.dto.UserDto;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.mapper.UserMapper;
     import ru.practicum.explorewithme.dto.NewUserRequest;
     import ru.practicum.explorewithme.model.User;
@@ -24,8 +23,7 @@
 
         @Transactional(readOnly = true)
         @Override
-        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size)
-                throws ObjectNotFoundException {
+        public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) {
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<User> listUsers;
             if (ids.isEmpty()) {

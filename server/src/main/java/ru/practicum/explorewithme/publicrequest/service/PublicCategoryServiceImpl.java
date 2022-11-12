@@ -15,27 +15,28 @@
 
     @Slf4j
     @Service
+    @Transactional(readOnly = true)
     @RequiredArgsConstructor
     public class PublicCategoryServiceImpl implements PublicCategoryService {
 
         private final CategoryRepository categoryRepository;
 
-        @Transactional(readOnly = true)
         @Override
         public List<CategoryDto> getCategories(Integer from, Integer size)
                 throws ObjectNotFoundException {
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<Category> listCategory = categoryRepository.findAll(pageable).getContent();
-            if (listCategory.size() > 0) {
-                return CategoryMapper.toListCategoryDto(listCategory);
+            if (listCategory.size() == 0) {
+                new ObjectNotFoundException("Объект не найден. ",
+                        String.format("Compilation was not found."));
             }
-            throw new ObjectNotFoundException("Объект не найден. ",
-                    String.format("Compilation was not found."));
+
+            return CategoryMapper.toListCategoryDto(listCategory);
         }
 
-        @Transactional(readOnly = true)
+
         @Override
-        public CategoryDto getCategoryById(Long catId) throws ObjectNotFoundException {
+        public CategoryDto getCategoryById(Long catId) {
                 Category category = categoryRepository.findById(catId).orElseThrow(() ->
                         new ObjectNotFoundException("Объект не найден. ",
                                 String.format("Compilation with id={} was not found.", catId)));

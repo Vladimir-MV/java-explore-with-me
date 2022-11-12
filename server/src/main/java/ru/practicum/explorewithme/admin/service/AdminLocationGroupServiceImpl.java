@@ -7,6 +7,7 @@ package ru.practicum.explorewithme.admin.service;
     import ru.practicum.explorewithme.dto.LocationGroupDto;
     import ru.practicum.explorewithme.dto.NewLocationGroupDto;
     import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
+    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.mapper.LocationGroupMapper;
     import ru.practicum.explorewithme.model.LocationGroup;
     import ru.practicum.explorewithme.repository.LocationGroupRepository;
@@ -23,6 +24,9 @@ package ru.practicum.explorewithme.admin.service;
         @Override
         public LocationGroupDto createLocationGroup(NewLocationGroupDto newLocationGroupDto) {
             LocationGroup locationGroup = LocationGroupMapper.toLocationGroup(newLocationGroupDto);
+            if (locationGroupRepository.findByLatAndLon(locationGroup.getLat(),
+                    locationGroup.getLon()).isPresent())
+                new RequestErrorException("Запрос составлен с ошибкой. ", "неверные координаты локации");
             if (newLocationGroupDto.getDescription() != null) {
                     locationGroup.setDescription(newLocationGroupDto.getDescription());
             }
@@ -33,7 +37,7 @@ package ru.practicum.explorewithme.admin.service;
 
         @Transactional
         @Override
-        public void deleteLocationGroupById(Long id) throws ObjectNotFoundException {
+        public void deleteLocationGroupById(Long id) {
             LocationGroup locationGroup = locationGroupRepository.findById(id)
                     .orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("LocationGroup with id={} was not found.", id)));
@@ -43,8 +47,7 @@ package ru.practicum.explorewithme.admin.service;
 
         @Transactional
         @Override
-        public LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto)
-                throws ObjectNotFoundException {
+        public LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto) {
             LocationGroup locationGroup = locationGroupRepository
                     .findById(locationGroupDto.getId()).orElseThrow(() ->
                             new ObjectNotFoundException("Объект не найден. ",

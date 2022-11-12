@@ -5,7 +5,6 @@
     import org.springframework.validation.annotation.Validated;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.CompilationDto;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import ru.practicum.explorewithme.publicrequest.service.PublicCompilationService;
 
     import javax.validation.constraints.Positive;
@@ -26,16 +25,14 @@
                                                     @PositiveOrZero @RequestParam(name = "from",
                                                             defaultValue = "0") Integer from,
                                                     @Positive @RequestParam(name = "size",
-                                                            defaultValue = "10") Integer size)
-                                                       throws ObjectNotFoundException {
+                                                            defaultValue = "10") Integer size) {
             log.info("publicGetCompilation, get events with pinned={}, from={}, size={}",
                     pinned, from, size);
             return publicCompilationService.getCompilation(pinned, from, size);
         }
 
         @GetMapping("/{compId}")
-        public CompilationDto getCompilation(@PathVariable Long compId)
-                                                throws ObjectNotFoundException {
+        public CompilationDto getCompilation(@PathVariable Long compId) {
             log.info("publicGetCompilationById get compilation by compId={}", compId);
             return publicCompilationService.getCompilationById(compId);
         }

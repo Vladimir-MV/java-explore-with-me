@@ -52,6 +52,16 @@
         Page<Event> searchEventsByAdminGetConditions(List<Long> usersId, List<State> states, List<Long> categoriesId,
                                                      LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
 
+        @Query("select e from Event e where e.state = ?1 " +
+                "and e.category.id = ?2 and e.eventDate between ?3 and ?4 ")
+        Page<Event> searchEventsNotUsersGetConditions(List<State> states, List<Long> categoriesId,
+                                                     LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+
+        @Query("select e from Event e where e.initiator.id = ?1 and e.state = ?2 " +
+                "and e.eventDate between ?3 and ?4 ")
+        Page<Event> searchEventsNotCategoriesGetConditions(List<Long> usersId, List<State> states,
+                                                     LocalDateTime rangeStart, LocalDateTime rangeEnd, Pageable pageable);
+
         @Query("select e from Event e where e.initiator.id = ?1 and e.category.id = ?2 ")
         Page<Event> searchEventsByAdminWithOutStatesAndRange(List<Long> usersId, List<Long> categoriesId, Pageable pageable);
 
@@ -92,5 +102,8 @@
 
         @Query("select e from Event e where e.initiator.id = ?1 and e.id = ?2 ")
         Optional<Event> findUserEventById(Long userId, Long eventId);
+
+        @Query("select e from Event e where e.category.id = ?1 ")
+        Optional<List<Event>> findCategoryByIdInEvent(Long catId);
 
     }

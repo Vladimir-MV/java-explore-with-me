@@ -19,15 +19,15 @@
         //Фича: Локация(группа) в радиусе которой происходит событие.
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "id", nullable = false)
+        @Column(nullable = false)
         private Long id;
-        @Column(name = "name", nullable = false)
+        @Column(nullable = false)
         private String name;
-        @Column(name = "lat", nullable = false)
+        @Column(nullable = false)
         private float lat;
-        @Column(name = "lon", nullable = false)
+        @Column(nullable = false)
         private float lon;
-        @Column(name = "radius", nullable = false)
+        @Column(nullable = false)
         private float radius;
         @Column
         private String description;

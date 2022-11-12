@@ -53,7 +53,6 @@
             event.setPaid(eventDto.isPaid());
             event.setParticipantLimit(eventDto.getParticipantLimit());
             event.setRequestModeration(eventDto.getRequestModeration());
-            event.setState(State.PENDING);
             event.setCreatedOn(LocalDateTime.now());
             event.setViews(0L);
             return event;

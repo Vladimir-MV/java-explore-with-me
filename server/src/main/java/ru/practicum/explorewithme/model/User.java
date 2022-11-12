@@ -22,10 +22,10 @@
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "id", nullable = false)
+        @Column(nullable = false)
         private Long id;
-        @Column(name = "email", nullable = false)
+        @Column(nullable = false)
         private String email;
-        @Column(name = "name", nullable = false)
+        @Column(nullable = false)
         private String name;
     }

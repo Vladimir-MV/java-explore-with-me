@@ -5,8 +5,6 @@
     import org.springframework.validation.annotation.Validated;
     import org.springframework.web.bind.annotation.*;
     import ru.practicum.explorewithme.dto.CategoryDto;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
-    import ru.practicum.explorewithme.exceptions.RequestErrorException;
     import ru.practicum.explorewithme.publicrequest.service.PublicCategoryService;
 
     import javax.validation.constraints.Positive;
@@ -26,15 +24,13 @@
         public List<CategoryDto> getAllCategories(@PositiveOrZero  @RequestParam(name = "from",
                                                     defaultValue = "0") Integer from,
                                                   @Positive @RequestParam(name = "size",
-                                                    defaultValue = "10") Integer size)
-                throws ObjectNotFoundException {
+                                                    defaultValue = "10") Integer size) {
             log.info("publicGetCompilation, get categories with from={}, size={}", from, size);
             return publicCategoryService.getCategories(from, size);
         }
 
         @GetMapping("/{catId}")
-        public CategoryDto getCategoryById(@PathVariable Long catId)
-                throws ObjectNotFoundException, RequestErrorException {
+        public CategoryDto getCategoryById(@PathVariable Long catId) {
             log.info("publicGetCategoryById get category by catId={}", catId);
             return publicCategoryService.getCategoryById(catId);
         }

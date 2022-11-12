@@ -6,7 +6,6 @@
     import ru.practicum.explorewithme.admin.service.AdminLocationGroupService;
     import ru.practicum.explorewithme.dto.LocationGroupDto;
     import ru.practicum.explorewithme.dto.NewLocationGroupDto;
-    import ru.practicum.explorewithme.exceptions.ObjectNotFoundException;
     import javax.validation.Valid;
 
     @RestController
@@ -24,15 +23,14 @@
         }
 
         @DeleteMapping("/{id}")
-        public void deleteLocationGroup(@PathVariable Long id) throws ObjectNotFoundException {
+        public void deleteLocationGroup(@PathVariable Long id) {
             log.info("adminDeleteLocationGroup, delete LocationGroup id={}", id);
             adminLocationGroupService.deleteLocationGroupById(id);
         }
 
 
         @PatchMapping
-        public LocationGroupDto updateLocationGroup(@Valid @RequestBody LocationGroupDto locationGroupDto)
-                throws ObjectNotFoundException {
+        public LocationGroupDto updateLocationGroup(@Valid @RequestBody LocationGroupDto locationGroupDto) {
             log.info("adminPatchLocationGroup, patch locationGroupDto {}", locationGroupDto);
             return adminLocationGroupService.patchLocationGroup(locationGroupDto);
         }
