@@ -21,6 +21,7 @@
     @RequiredArgsConstructor
     public class PublicEventController {
 
+
         private final PublicEventService publicEventService;
 
         @GetMapping

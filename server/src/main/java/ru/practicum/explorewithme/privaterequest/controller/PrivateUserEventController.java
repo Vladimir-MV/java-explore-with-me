@@ -35,6 +35,7 @@
             return privateUserEventService.getUserEvents(userId, from, size);
         }
 
+
         @PatchMapping
         public EventFullDto updateUserEvent(@PathVariable Long userId,
                                             @Valid @RequestBody UpdateEventRequest updateEventRequest) {

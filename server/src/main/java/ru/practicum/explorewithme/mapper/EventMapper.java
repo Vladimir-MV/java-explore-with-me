@@ -11,6 +11,7 @@
 
     public class EventMapper {
 
+
         public static EventFullDto toEventFullDto(Event event) {
             EventFullDto eventFullDto = new EventFullDto();
                 eventFullDto.setAnnotation(event.getAnnotation());

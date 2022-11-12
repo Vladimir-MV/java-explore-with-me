@@ -9,6 +9,7 @@
 
     public interface LocationGroupRepository extends JpaRepository<LocationGroup, Long> {
 
+
         // Фича: ссылка на хранимую функцию анотацией @Query
         @Query(value = "select * from distance(?1, ?2, ?3, ?4)", nativeQuery = true)
         float distanceBetweenLocations(float lat1, float lon1, float lat2, float lon2);

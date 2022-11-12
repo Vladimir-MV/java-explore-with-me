@@ -18,6 +18,7 @@
                     "The required object was not found.",
                     StatusError.withIndex(404),
                     LocalDateTime.now());
+
         }
 
     }

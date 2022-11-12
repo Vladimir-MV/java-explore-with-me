@@ -8,6 +8,7 @@
 
     public class CompilationMapper {
 
+
         public static CompilationDto toCompilationDto(Compilation compilation) {
             return new CompilationDto(compilation.getId(),
                                     EventMapper.toSetEventShortDto(compilation.getEvents()),

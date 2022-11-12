@@ -23,6 +23,7 @@
     @RequiredArgsConstructor
     public class PrivateUserEventServiceImpl implements PrivateUserEventService {
 
+
         private final UserRepository userRepository;
         private final CategoryRepository categoryRepository;
         private final EventRepository eventRepository;

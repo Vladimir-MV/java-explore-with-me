@@ -9,5 +9,6 @@
 
         void deleteLocationGroupById(Long id);
 
+
         LocationGroupDto patchLocationGroup(LocationGroupDto locationGroupDto);
     }

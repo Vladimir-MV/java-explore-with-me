@@ -6,4 +6,5 @@
 
             super("The required object was not found." + message + " " + errorObject);
         }
+
     }

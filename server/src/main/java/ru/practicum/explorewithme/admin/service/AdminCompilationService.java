@@ -9,6 +9,7 @@
 
         void deleteCompilationById(Long compId);
 
+
         void deleteEventByIdFromCompilation(Long compId, Long eventId);
 
         void patchEventInCompilationById(Long compId, Long eventId);

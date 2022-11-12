@@ -6,6 +6,7 @@
 
     public interface AdminUserService {
 
+
         List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size);
 
         UserDto createUser(NewUserRequest userDto);

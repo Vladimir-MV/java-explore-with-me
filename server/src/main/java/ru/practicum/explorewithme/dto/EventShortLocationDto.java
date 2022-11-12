@@ -14,6 +14,7 @@
     @AllArgsConstructor
     public class EventShortLocationDto {
 
+
            private String annotation;
            private CategoryDto category;
            private Long confirmedRequests;

@@ -3,6 +3,7 @@
 https://github.com/Vladimir-MV/java-explore-with-me/pull/1
 
 
+
 ---
 В рамках дипломного проекта разработано приложение ExploreWithMe.<br>
 <br>

@@ -16,6 +16,7 @@
     @AllArgsConstructor
     public class LocationGroup {
 
+
         //Фича: Локация(группа) в радиусе которой происходит событие.
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,6 +10,7 @@
 
     public interface PrivateUserEventService {
 
+
         EventFullDto getUserEventById(Long catId, Long eventId);
 
         List<EventShortDto> getUserEvents(Long userId, Integer from, Integer size);

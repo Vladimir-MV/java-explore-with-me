@@ -6,6 +6,7 @@
 
     public interface LocationRepository extends JpaRepository<Location, Long> {
 
+
         Optional<Location> findByLatAndLon(float lat, float lon);
 
     }

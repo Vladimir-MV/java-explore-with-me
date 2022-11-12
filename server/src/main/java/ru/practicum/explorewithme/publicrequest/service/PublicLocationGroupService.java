@@ -9,4 +9,5 @@
         List<LocationGroupDto> getLocationGroups();
 
         LocationGroupDto getLocationGroupById(Long id);
+
     }

@@ -18,6 +18,7 @@
     @RequiredArgsConstructor
     public class PublicCompilationController {
 
+
         private final PublicCompilationService publicCompilationService;
 
         @GetMapping

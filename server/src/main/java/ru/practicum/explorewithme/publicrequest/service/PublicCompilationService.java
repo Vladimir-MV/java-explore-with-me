@@ -8,5 +8,6 @@
 
         List<CompilationDto> getCompilation(boolean pinned, Integer from, Integer size);
 
+
         CompilationDto getCompilationById(Long compId);
     }

@@ -16,6 +16,7 @@
 
     public class RestTemplateClient {
 
+
         protected final RestTemplate rest;
 
         public RestTemplateClient(String serverUrl) {

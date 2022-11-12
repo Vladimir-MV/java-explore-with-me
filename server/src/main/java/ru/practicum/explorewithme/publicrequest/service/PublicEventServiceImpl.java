@@ -30,6 +30,7 @@
     @RequiredArgsConstructor
     public class PublicEventServiceImpl implements PublicEventService {
 
+
         private final RestTemplateClientStat restTemplateClientStat;
         private final EventRepository eventRepository;
         private final LocationGroupRepository locationGroupRepository;
