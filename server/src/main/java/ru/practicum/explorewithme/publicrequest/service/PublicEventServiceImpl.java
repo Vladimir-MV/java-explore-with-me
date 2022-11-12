@@ -102,7 +102,7 @@
             }
 
           if (listEvent.isEmpty()) {
-              new ObjectNotFoundException("Объект не найден. ",
+              throw new ObjectNotFoundException("Объект не найден. ",
                       String.format("Events with text = {} was not found.", text));
           }
             EndpointHitDto endpointHit = new EndpointHitDto();

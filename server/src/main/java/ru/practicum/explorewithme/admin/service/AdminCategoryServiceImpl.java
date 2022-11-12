@@ -27,8 +27,8 @@
                 CategoryDto categoryDto) {
             Category category = categoryRepository
                     .findById(categoryDto.getId())
-                    .orElseThrow(
-                        () -> new RequestErrorException("Запрос составлен с ошибкой", "categoryRepository"));
+                    .orElseThrow(() ->
+                            new RequestErrorException("Запрос составлен с ошибкой", "categoryRepository"));
             category.setName(categoryDto.getName());
             categoryRepository.saveAndFlush(category);
             log.info("Изменение категории на категорию categoryDto={}", category.getName());
@@ -49,10 +49,11 @@
         public CategoryDto deleteCategoryById(Long catId) {
             Optional<Category> category = categoryRepository.findById(catId);
             if (category.isEmpty()) {
-                new RequestErrorException("Запрос составлен с ошибкой", "такой категории нет.");
+                throw new RequestErrorException("Запрос составлен с ошибкой", "такой категории нет.");
             }
-            if (eventRepository.findCategoryByIdInEvent(catId).isPresent()) {
-                new RequestErrorException("Запрос составлен с ошибкой", " у категории есть events.");
+
+            if (!eventRepository.findCategoryByIdInEvent(catId).get().isEmpty()) {
+                throw new RequestErrorException("Запрос составлен с ошибкой", " у категории есть events.");
             }
             categoryRepository.deleteById(category.get().getId());
             log.info("Удалена категория category={}", category.get().getName());

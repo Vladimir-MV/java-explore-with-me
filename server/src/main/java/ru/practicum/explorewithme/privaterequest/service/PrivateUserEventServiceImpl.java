@@ -36,7 +36,7 @@
                 final Pageable pageable = FromSizeRequest.of(from, size);
                 List<Event> listEvent = eventRepository.findEventsByUserId(userId, pageable).getContent();
                 if (listEvent.isEmpty()) {
-                    new ObjectNotFoundException("Объект не найден. ",
+                    throw new ObjectNotFoundException("Объект не найден. ",
                             String.format("ListEvents with userId={} was not found.", userId));
                 }
                 log.info("Получение событий добавленным текущим пользователем userId={}", userId);
@@ -53,16 +53,16 @@
                         String.format("Event with id={} userId={} was not found.",
                         updateEventRequest.getEventId(), userId)));
             if (!event.getInitiator().getId().equals(userId)) {
-                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "Initiator");
+                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "Initiator");
             }
             if (event.getState().equals(State.PUBLISHED)) {
-                new RequestErrorException("Запрос составлен с ошибкой. ", "State");
+                throw new RequestErrorException("Запрос составлен с ошибкой. ", "State");
             }
             if (event.getState().equals(State.CANCELED)) {
                 event.setRequestModeration(true);
             }
            if (updateEventRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-               new RequestErrorException("Запрос составлен с ошибкой. ", "EventRequest");
+               throw new RequestErrorException("Запрос составлен с ошибкой. ", "EventRequest");
            }
                 event.setEventDate(updateEventRequest.getEventDate());
            if (updateEventRequest.getAnnotation() != null) {
@@ -111,10 +111,10 @@
             User user = userValidation(userId);
             if (locationRepository.findByLatAndLon(newEventDto.getLocation().getLat(),
                                                    newEventDto.getLocation().getLon()).isPresent()) {
-                new RequestErrorException("Запрос составлен с ошибкой. ", "locationRepository");
+                throw new RequestErrorException("Запрос составлен с ошибкой. ", "locationRepository");
             }
             if (!newEventDto.getEventDate().minusHours(2).isAfter(LocalDateTime.now())) {
-                new RequestErrorException("Запрос составлен с ошибкой. ", "EventDate");
+                throw new RequestErrorException("Запрос составлен с ошибкой. ", "EventDate");
             }
             Category category = categoryRepository
                     .findById(newEventDto.getCategory()).orElseThrow(() ->
@@ -134,7 +134,7 @@
                     }
                 }
                 if (locationGroupSet.isEmpty()) {
-                    new RequestErrorException("Запрос составлен с ошибкой. ", "locationGroup");
+                    throw new RequestErrorException("Запрос составлен с ошибкой. ", "locationGroup");
                 }
             event.setLocationGroup(locationGroupSet);
             }
@@ -170,10 +170,10 @@
                                  String.format("Event with eventId={} and userId={} was not found.",
                                  eventId, userId)));
             if (!event.getInitiator().getId().equals(userId)) {
-                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "Initiator");
+                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "Initiator");
             }
             if (!event.getState().equals(State.PENDING)) {
-                new RequestErrorException("Запрос составлен с ошибкой. ", "State");
+                throw new RequestErrorException("Запрос составлен с ошибкой. ", "State");
             }
             log.info("Отмена события eventId={} добавленного текущим пользователем userId={}", eventId, userId);
             event.setState(State.CANCELED);
@@ -199,19 +199,19 @@
             userValidation(userId);
             Event event = eventValidation(eventId);
             if (!event.getInitiator().getId().equals(userId)) {
-                new RequestErrorException("Запрос составлен с ошибкой", "неверно задан userId");
+                throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан userId");
             }
             ParticipationRequest participationRequest = requestRepository
                     .findById(reqId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("ParticipationRequest with reqId={} was not found.", reqId)));
             if (!participationRequest.getEvent().getId().equals(eventId)) {
-                new RequestErrorException("Запрос составлен с ошибкой", "неверно задан eventId");
+                throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан eventId");
             }
             if (event.getParticipantLimit() == 0 || !event.getRequestModeration()) {
                 return ParticipationRequestMapper.toParticipationRequestDto(participationRequest);
             }
             if (event.getParticipantLimit().equals(event.getConfirmedRequests())) {
-                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "ParticipantLimit");
+                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "ParticipantLimit");
             }
 
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
@@ -227,13 +227,13 @@
         public ParticipationRequestDto patchUserRequestReject(Long userId, Long eventId, Long reqId) {
             userValidation(userId);
             if (!eventValidation(eventId).getInitiator().getId().equals(userId)) {
-                new RequestErrorException("Запрос составлен с ошибкой", "неверно задан userId");
+                throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан userId");
             }
             ParticipationRequest participationRequest = requestRepository
                     .findById(reqId).orElseThrow(() -> new ObjectNotFoundException("Объект не найден. ",
                             String.format("ParticipationRequest with reqId={} was not found.", reqId)));
             if (!participationRequest.getEvent().getId().equals(eventId)) {
-                new RequestErrorException("Запрос составлен с ошибкой", "неверно задан eventId");
+                throw new RequestErrorException("Запрос составлен с ошибкой", "неверно задан eventId");
             }
 
             participationRequest.setStatus(Status.REJECTED);

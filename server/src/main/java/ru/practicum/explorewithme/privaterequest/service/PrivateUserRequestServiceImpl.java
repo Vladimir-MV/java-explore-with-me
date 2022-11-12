@@ -52,25 +52,25 @@
         @Override
         public ParticipationRequestDto createUserRequest(Long userId, Long eventId) {
             if (requestRepository.findRequestByUserIdAndEventId(userId, eventId).isPresent()) {
-                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "requestRepository");
+                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "requestRepository");
             }
             User user = userValidation(userId);
             Event event = eventValidation(eventId);
             if (event.getInitiator().getId().equals(userId)) {
-                new ConditionsOperationNotMetException("Не выполнены условия для" +
+                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "Initiator");
             }
             if (event.getState() != State.PUBLISHED) {
-                new ConditionsOperationNotMetException("Не выполнены условия для" +
+                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "State");
             }
             if (event.getParticipantLimit() != 0
                     && (event.getParticipantLimit() - event.getConfirmedRequests() <= 0)) {
-                new ConditionsOperationNotMetException("Не выполнены условия для" +
+                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "ParticipantLimit");
             }
             ParticipationRequest participationRequest = new ParticipationRequest();
-            if (event.getRequestModeration() == false) {
+            if (!event.getRequestModeration()) {
                 participationRequest.setStatus(Status.CONFIRMED);
                 event.setConfirmedRequests(event.getConfirmedRequests() + 1);
                 eventRepository.save(event);

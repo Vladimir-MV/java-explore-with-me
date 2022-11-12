@@ -22,12 +22,11 @@
         private final CategoryRepository categoryRepository;
 
         @Override
-        public List<CategoryDto> getCategories(Integer from, Integer size)
-                throws ObjectNotFoundException {
+        public List<CategoryDto> getCategories(Integer from, Integer size) {
             final Pageable pageable = FromSizeRequest.of(from, size);
             List<Category> listCategory = categoryRepository.findAll(pageable).getContent();
             if (listCategory.size() == 0) {
-                new ObjectNotFoundException("Объект не найден. ",
+                throw new ObjectNotFoundException("Объект не найден. ",
                         String.format("Compilation was not found."));
             }
 

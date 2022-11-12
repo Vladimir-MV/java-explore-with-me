@@ -70,7 +70,7 @@
             }
 
            if (listEvents.isEmpty()) {
-               new ObjectNotFoundException("Объект не найден. ",
+               throw new ObjectNotFoundException("Объект не найден. ",
                        String.format("Event list with was not found."));
            }
             return EventMapper.toListEventFullDto(listEvents);
@@ -124,12 +124,12 @@
         public EventFullDto patchPublishEventById(Long eventId) {
             Event event = eventValidation(eventId);
             if (event.getState() != State.PENDING) {
-                new ConditionsOperationNotMetException("Не выполнены условия для" +
+                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "State");
             }
             event.setPublishedOn(LocalDateTime.now());
             if (event.getEventDate().isBefore(event.getPublishedOn().plusHours(1))) {
-                new ConditionsOperationNotMetException("Не выполнены условия для" +
+                throw new ConditionsOperationNotMetException("Не выполнены условия для" +
                         " совершения операции", "EventDate");
             }
             event.setState(State.PUBLISHED);
@@ -143,7 +143,7 @@
         public EventFullDto patchRejectEventById(Long eventId) {
             Event event = eventValidation(eventId);
             if (event.getState() != State.PENDING) {
-                new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "State");
+                throw new ConditionsOperationNotMetException("Не выполнены условия для совершения операции", "State");
             }
             event.setState(State.CANCELED);
             eventRepository.saveAndFlush(event);

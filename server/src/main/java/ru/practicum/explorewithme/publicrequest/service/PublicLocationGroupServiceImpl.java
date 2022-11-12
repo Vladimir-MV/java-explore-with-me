@@ -23,7 +23,7 @@
         public List<LocationGroupDto> getLocationGroups() {
             List<LocationGroup> locationGroupList = locationGroupRepository.findAll();
             if (locationGroupList.isEmpty()) {
-                new ObjectNotFoundException("Объект не найден. ",
+                throw new ObjectNotFoundException("Объект не найден. ",
                         String.format("LocationGroupList locationGroupList {} was not found.",
                         locationGroupList));
             }

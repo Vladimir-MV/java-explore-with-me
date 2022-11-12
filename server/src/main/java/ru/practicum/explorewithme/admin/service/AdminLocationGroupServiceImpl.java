@@ -26,7 +26,7 @@ package ru.practicum.explorewithme.admin.service;
             LocationGroup locationGroup = LocationGroupMapper.toLocationGroup(newLocationGroupDto);
             if (locationGroupRepository.findByLatAndLon(locationGroup.getLat(),
                     locationGroup.getLon()).isPresent())
-                new RequestErrorException("Запрос составлен с ошибкой. ", "неверные координаты локации");
+                throw new RequestErrorException("Запрос составлен с ошибкой. ", "неверные координаты локации");
             if (newLocationGroupDto.getDescription() != null) {
                     locationGroup.setDescription(newLocationGroupDto.getDescription());
             }
