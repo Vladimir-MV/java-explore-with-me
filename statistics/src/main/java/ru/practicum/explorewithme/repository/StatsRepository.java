@@ -9,6 +9,7 @@
 
     public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
 
+
         @Query("select e from EndpointHit e where e.uri = ?1 and e.timestamp between ?2 and ?3 ")
         Optional<List<EndpointHit>> findEndpointHitByUriUniqueFalse(List<String> uri, LocalDateTime start, LocalDateTime end);
 

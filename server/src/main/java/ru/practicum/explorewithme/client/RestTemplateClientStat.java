@@ -10,6 +10,7 @@
     @Service
     public class RestTemplateClientStat extends RestTemplateClient {
 
+
         @Autowired
         public RestTemplateClientStat(@Value("${stats-server.url}") String serverUrl) {
 

@@ -6,6 +6,7 @@
 
     public interface PublicCategoryService {
 
+
         List<CategoryDto> getCategories(Integer from, Integer size);
 
         CategoryDto getCategoryById(Long catId);

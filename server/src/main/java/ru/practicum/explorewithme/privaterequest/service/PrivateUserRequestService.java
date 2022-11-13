@@ -6,6 +6,7 @@
 
     public interface PrivateUserRequestService {
 
+
         List<ParticipationRequestDto> getUserRequests(Long userId);
 
         ParticipationRequestDto createUserRequest(Long userId, Long eventId);

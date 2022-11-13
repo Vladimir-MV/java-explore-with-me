@@ -19,6 +19,7 @@
     @RequiredArgsConstructor
     public class PublicCompilationServiceImpl implements PublicCompilationService {
 
+
         private final CompilationRepository compilationRepository;
 
         @Override

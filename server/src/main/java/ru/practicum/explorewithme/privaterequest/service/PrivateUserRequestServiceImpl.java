@@ -21,6 +21,7 @@
     @RequiredArgsConstructor
     public class PrivateUserRequestServiceImpl implements PrivateUserRequestService {
 
+
         private final UserRepository userRepository;
         private final EventRepository eventRepository;
         private final RequestRepository requestRepository;

@@ -150,4 +150,5 @@
             log.info("Отклонение события userId={}", eventId);
             return EventMapper.toEventFullDto(event);
         }
+
     }

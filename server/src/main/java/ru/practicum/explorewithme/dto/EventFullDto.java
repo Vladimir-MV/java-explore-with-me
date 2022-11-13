@@ -15,6 +15,7 @@
     @AllArgsConstructor
     public class EventFullDto {
 
+
         private String annotation;
         private CategoryDto category;
         private Long confirmedRequests;

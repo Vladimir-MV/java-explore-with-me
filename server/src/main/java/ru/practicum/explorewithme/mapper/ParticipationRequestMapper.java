@@ -8,6 +8,7 @@
 
     public class ParticipationRequestMapper {
 
+
         public static ParticipationRequestDto toParticipationRequestDto(ParticipationRequest request) {
             return new ParticipationRequestDto(request.getCreated(),
                                                 request.getEvent().getId(),

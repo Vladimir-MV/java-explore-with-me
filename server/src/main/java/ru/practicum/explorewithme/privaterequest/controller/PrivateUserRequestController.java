@@ -13,6 +13,7 @@
     @RequiredArgsConstructor
     public class PrivateUserRequestController {
 
+
         private final PrivateUserRequestService privateUserRequestService;
 
         @GetMapping

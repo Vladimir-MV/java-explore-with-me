@@ -16,5 +16,6 @@
 
         EventFullDto getEventById(Long id, HttpServletRequest request);
 
+
         Set<EventShortLocationDto> getEventByLocationId(Long id);
     }

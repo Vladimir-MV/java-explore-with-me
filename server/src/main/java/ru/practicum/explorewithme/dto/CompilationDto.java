@@ -12,6 +12,7 @@
     @AllArgsConstructor
     public class CompilationDto {
 
+
         private Long id;
         private Set<EventShortDto> events;
         private boolean pinned;

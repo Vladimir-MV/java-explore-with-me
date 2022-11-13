@@ -13,6 +13,7 @@
     @AllArgsConstructor
     public class LocationDto {
 
+
         @NotNull
         private float lat;
         @NotNull

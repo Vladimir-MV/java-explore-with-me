@@ -15,6 +15,7 @@
     @RequiredArgsConstructor
     public class StatsController {
 
+
         private final StatsService statsService;
 
         @PostMapping("/hit")

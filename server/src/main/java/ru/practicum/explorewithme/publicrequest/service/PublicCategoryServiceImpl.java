@@ -19,6 +19,7 @@
     @RequiredArgsConstructor
     public class PublicCategoryServiceImpl implements PublicCategoryService {
 
+
         private final CategoryRepository categoryRepository;
 
         @Override

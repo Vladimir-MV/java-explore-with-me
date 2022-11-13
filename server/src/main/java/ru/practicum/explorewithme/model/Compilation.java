@@ -16,6 +16,7 @@
     @AllArgsConstructor
     public class Compilation {
 
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(nullable = false)

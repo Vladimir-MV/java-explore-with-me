@@ -9,6 +9,7 @@
 
     public interface RequestRepository extends JpaRepository<ParticipationRequest, Long> {
 
+
         @Query("select r from ParticipationRequest r " +
                 " JOIN Event e ON r.event.id = e.id" +
                 " where e.id = ?1 and e.initiator.id = ?2 ")

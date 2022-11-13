@@ -14,6 +14,7 @@
     @AllArgsConstructor
     public class ParticipationRequest {
 
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(nullable = false)

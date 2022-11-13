@@ -21,6 +21,7 @@
         private final UserRepository userRepository;
 
 
+
         @Transactional(readOnly = true)
         @Override
         public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) {

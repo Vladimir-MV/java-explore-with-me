@@ -11,6 +11,7 @@
     @RequiredArgsConstructor
     public class PublicLocationGroupController {
 
+
         private final PublicLocationGroupService publicLocationGroupService;
 
         @GetMapping

@@ -18,6 +18,7 @@
     @RequiredArgsConstructor
     public class PublicCategoryController {
 
+
         private final PublicCategoryService publicCategoryService;
 
         @GetMapping

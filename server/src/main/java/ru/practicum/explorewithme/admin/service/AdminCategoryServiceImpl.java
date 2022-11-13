@@ -21,6 +21,7 @@
         private final CategoryRepository categoryRepository;
         private final EventRepository eventRepository;
 
+
         @Transactional
         @Override
         public CategoryDto patchCategoryByIdAndName(

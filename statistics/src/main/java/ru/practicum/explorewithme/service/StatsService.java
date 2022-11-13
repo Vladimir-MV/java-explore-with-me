@@ -11,6 +11,7 @@
 
         void createNewEndpointHit(EndpointHit endpointHit);
 
+
         List<ViewStats> getListViewStats(Optional<String> start, Optional<String> end,
                Optional<List<String>> uris, Boolean unique) throws ObjectNotFoundException;
     }

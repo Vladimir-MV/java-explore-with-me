@@ -6,4 +6,5 @@
 
             super("Only pending or canceled events can be changed." + message + " " + errorObject);
         }
+
     }

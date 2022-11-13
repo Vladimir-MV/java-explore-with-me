@@ -10,6 +10,7 @@
 
     public class LocationGroupMapper {
 
+
         public static LocationGroup toLocationGroup(NewLocationGroupDto locationGroupDto) {
             LocationGroup locationGroup = new LocationGroup();
             locationGroup.setName(locationGroupDto.getName());

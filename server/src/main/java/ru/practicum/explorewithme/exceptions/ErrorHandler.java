@@ -14,6 +14,7 @@
     @RestControllerAdvice
     public class ErrorHandler {
 
+
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ExceptionHandler
         public ApiError requestErrorResponse(RequestErrorException e) {

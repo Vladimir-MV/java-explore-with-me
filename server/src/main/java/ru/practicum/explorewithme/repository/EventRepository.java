@@ -12,6 +12,7 @@
 
     public interface EventRepository extends JpaRepository<Event, Long> {
 
+
         Optional<Event> findByIdAndState(Long id, State state);
 
         @Query("select e from Event e " +

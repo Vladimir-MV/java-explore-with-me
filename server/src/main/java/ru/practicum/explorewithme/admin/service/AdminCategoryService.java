@@ -7,7 +7,9 @@
 
         CategoryDto patchCategoryByIdAndName(CategoryDto categoryDto);
 
+
         CategoryDto createCategory(NewCategoryDto newCategoryDto);
+
 
         CategoryDto deleteCategoryById(Long catId);
     }

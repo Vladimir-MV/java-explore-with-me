@@ -19,6 +19,7 @@ package ru.practicum.explorewithme.admin.service;
 
         private final LocationGroupRepository locationGroupRepository;
 
+
 //Фича: Создание, удаление, изменение локации(группы).
         @Transactional
         @Override
